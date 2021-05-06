@@ -17,10 +17,10 @@ public class Boat : MonoBehaviour
 
     float boatBalancementZ;
 
+    private Rigidbody rigidbody;
     float speed;
     float brakeForce;
-    float velocity;
-    float maxVelocity;
+
 
     public float comparison;
     public float rotSpeed;          
@@ -29,15 +29,15 @@ public class Boat : MonoBehaviour
         text = GameObject.Find("BoatSpeed Text").GetComponent<Text>();
         wind = GameObject.Find("Wind");
         startingPosition = transform.position;
-        maxSpeed = 110;
+
+        rigidbody = GetComponent<Rigidbody>();
         rotSpeed = 20;
         boatBalancementZ = transform.rotation.z;
 
 
-        speed = 5;
-        maxSpeed = 120;
-        velocity = 0;
-        maxVelocity = 10;
+        speed =70;
+        maxSpeed = 20;
+
 
         brakeForce =5f;
         comparison = 0;
@@ -45,14 +45,13 @@ public class Boat : MonoBehaviour
     }
     void FixedUpdate()
     {
-        speedvec = ((transform.localPosition - startingPosition) / Time.deltaTime);
-        speedDisplayed = (speedvec.magnitude) * 1.6; // 3.6 is the constant to convert a value from m/s to km/h, because i think that the speed wich is being calculated here is coming in m/s, if you want it in mph, you should use ~2,2374 instead of 3.6 (assuming that 1 mph = 1.609 kmh)
-        Debug.Log("speed = " + speedDisplayed);
+
     }
     private void Update()
     {
-        startingPosition = transform.localPosition;
+        startingPosition = transform.position;
         text.text = speedDisplayed + "km/h";  // or mph
+
 
         
         SailState sailState = Update_SailState();
@@ -62,6 +61,12 @@ public class Boat : MonoBehaviour
         Update_HorizontalMoves(sailSpeedBonus);
         Update_Acceleration(sailSpeedBonus);
 
+        speedvec = ((transform.position - startingPosition));
+        speedDisplayed = (speedvec.magnitude) * 1.6; // 3.6 is the constant to convert a value from m/s to km/h, because i think that the speed wich is being calculated here is coming in m/s, if you want it in mph, you should use ~2,2374 instead of 3.6 (assuming that 1 mph = 1.609 kmh)
+        Debug.Log("speed = " + rigidbody.velocity);
+
+        // Cap velocity:
+        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, maxSpeed);
 
         // Floating : does it actually works?
         if (gameObject.transform.position.y < 0)
@@ -75,7 +80,7 @@ public class Boat : MonoBehaviour
     }
     private void Brakes( int sailSpeedBonus)
     {
-        GetComponent<Rigidbody>().velocity = Vector3.MoveTowards(GetComponent<Rigidbody>().velocity, -GetComponent<Rigidbody>().velocity, brakeForce * Time.deltaTime *sailSpeedBonus);
+        this.rigidbody.AddForce( -rigidbody.velocity* brakeForce * Time.deltaTime * sailSpeedBonus);
     }
     public SailState Update_SailState()
     {
@@ -100,7 +105,7 @@ public class Boat : MonoBehaviour
             if (transform.rotation.z < +20)
             {
                 // this.gameObject.transform.Rotate(Vector3.right * Time.deltaTime * rotSpeed);
-                this.gameObject.GetComponent<Rigidbody>().velocity += Vector3.right * Time.deltaTime * sailSpeedBonus;
+                this.rigidbody.AddForce(Vector3.right * Time.deltaTime * sailSpeedBonus);
             }
         }
 
@@ -112,7 +117,7 @@ public class Boat : MonoBehaviour
             if (transform.rotation.z > -20)
             {
                 //this.gameObject.transform.Rotate(Vector3.left* Time.deltaTime * rotSpeed);
-                this.gameObject.GetComponent<Rigidbody>().velocity += Vector3.left * Time.deltaTime * sailSpeedBonus;
+                this.rigidbody.AddForce(Vector3.left * Time.deltaTime * sailSpeedBonus);
             }
         }
     }
@@ -123,13 +128,13 @@ public class Boat : MonoBehaviour
         comparison = compare(transform.rotation, wind.transform.rotation);
         if (comparison < 50)
         {
-            GetComponent<Rigidbody>().velocity += transform.forward * Time.deltaTime * speed * sailSpeedBonus;
+            this.rigidbody.AddForce( transform.forward * Time.deltaTime * speed * sailSpeedBonus);
             //Debug.Log("x1 speed");
         }
 
         else if (comparison < 100)
         {
-            GetComponent<Rigidbody>().velocity += transform.forward * Time.deltaTime * speed * 0.7f * sailSpeedBonus;
+            this.rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.7f * sailSpeedBonus);
             
             //Debug.Log("x0.7 speed");
             Cloth cloth = GameObject.Find("Voile").GetComponent<Cloth>();
@@ -138,7 +143,7 @@ public class Boat : MonoBehaviour
 
         else if (comparison < 150)
         {
-            GetComponent<Rigidbody>().velocity += transform.forward * Time.deltaTime * speed * 0.8f * sailSpeedBonus;
+            this.rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.8f * sailSpeedBonus);
             //Debug.Log("x0.8 speed");
         }
         else
