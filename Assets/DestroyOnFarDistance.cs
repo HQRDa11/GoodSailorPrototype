@@ -13,11 +13,11 @@ public class DestroyOnFarDistance : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(gameObject.transform.position, Camera.main.transform.position);
+        float distance = Vector3.Distance(gameObject.transform.localPosition, Camera.main.transform.localPosition);
         Debug.Log(distance);
-        if ( distance > 200)
+        if ( distance > 512)
         {
-            GameObject.Destroy(this);
+            GameObject.Destroy(this.gameObject);
             Debug.Log("destructed");
         }
     }

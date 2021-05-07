@@ -46,6 +46,7 @@ public class Logic : MonoBehaviour
             GameObject newLongObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/LongObstacle"), this.gameObject.transform);
             newLongObstacle.transform.position = boat.transform.position + Vector3.forward * 256;
             newLongObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
+
             int randomSide = Random.Range(0, 2);
             switch (randomSide)
             {
