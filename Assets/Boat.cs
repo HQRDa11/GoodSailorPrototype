@@ -9,15 +9,16 @@ public class Boat : MonoBehaviour
 {
    // v
     public Text text;
-    private double speedDisplayed;
+    private float currentSpeed;
     private float maxSpeed;
     private Vector3 startingPosition, speedvec;
 
     GameObject wind;
 
-    float boatBalancementZ;
+    private Leak leakLeftSpeed;
+    private Leak leakRightSpeed;
 
-    private Rigidbody rigidbody;
+    private Rigidbody m_rigidbody;
     float speed;
     float brakeForce;
 
@@ -30,17 +31,19 @@ public class Boat : MonoBehaviour
         wind = GameObject.Find("Wind");
         startingPosition = transform.position;
 
-        rigidbody = GetComponent<Rigidbody>();
-        rotSpeed = 20;
-        boatBalancementZ = transform.rotation.z;
+        m_rigidbody = GetComponent<Rigidbody>();
+        rotSpeed = 30;
+
+        speed = 120 ;
+        maxSpeed = 40;
 
 
-        speed =70;
-        maxSpeed = 20;
-
-
-        brakeForce =5f;
+        brakeForce =7f;
         comparison = 0;
+
+        leakLeftSpeed = GameObject.Find("LeakLeft").GetComponent<Leak>();
+        leakRightSpeed = GameObject.Find("LeakRight").GetComponent<Leak>();
+        if (!GameObject.Find("LeakRight").GetComponent<Leak>()) { Debug.LogError("ERROR HERE"); };
 
     }
     void FixedUpdate()
@@ -50,9 +53,6 @@ public class Boat : MonoBehaviour
     private void Update()
     {
         startingPosition = transform.position;
-        text.text = speedDisplayed + "km/h";  // or mph
-
-
         
         SailState sailState = Update_SailState();
        
@@ -61,12 +61,19 @@ public class Boat : MonoBehaviour
         Update_HorizontalMoves(sailSpeedBonus);
         Update_Acceleration(sailSpeedBonus);
 
-        speedvec = ((transform.position - startingPosition));
-        speedDisplayed = (speedvec.magnitude) * 1.6; // 3.6 is the constant to convert a value from m/s to km/h, because i think that the speed wich is being calculated here is coming in m/s, if you want it in mph, you should use ~2,2374 instead of 3.6 (assuming that 1 mph = 1.609 kmh)
-        Debug.Log("speed = " + rigidbody.velocity);
+
+        currentSpeed = m_rigidbody.velocity.magnitude;
+        text.text = (int)currentSpeed + "km/h";  // or mph
+
+        leakLeftSpeed.spawnSpeed = currentSpeed;
+        leakRightSpeed.spawnSpeed = currentSpeed;
+
+        Debug.Log("speed = " + m_rigidbody.velocity);
 
         // Cap velocity:
-        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, maxSpeed);
+        float resistance = 0.5f;
+        m_rigidbody.velocity = Vector3.ClampMagnitude(m_rigidbody.velocity, maxSpeed);
+        m_rigidbody.AddForce(-Vector3.Project(m_rigidbody.velocity, transform.right) * resistance);
 
         // Floating : does it actually works?
         if (gameObject.transform.position.y < 0)
@@ -80,7 +87,7 @@ public class Boat : MonoBehaviour
     }
     private void Brakes( int sailSpeedBonus)
     {
-        this.rigidbody.AddForce( -rigidbody.velocity* brakeForce * Time.deltaTime * sailSpeedBonus);
+        this.m_rigidbody.AddForce( -m_rigidbody.velocity* brakeForce * Time.deltaTime * sailSpeedBonus);
     }
     public SailState Update_SailState()
     {
@@ -105,7 +112,7 @@ public class Boat : MonoBehaviour
             if (transform.rotation.z < +20)
             {
                 // this.gameObject.transform.Rotate(Vector3.right * Time.deltaTime * rotSpeed);
-                this.rigidbody.AddForce(Vector3.right * Time.deltaTime * sailSpeedBonus);
+                this.m_rigidbody.AddForce(Vector3.right * Time.deltaTime * sailSpeedBonus);
             }
         }
 
@@ -117,7 +124,7 @@ public class Boat : MonoBehaviour
             if (transform.rotation.z > -20)
             {
                 //this.gameObject.transform.Rotate(Vector3.left* Time.deltaTime * rotSpeed);
-                this.rigidbody.AddForce(Vector3.left * Time.deltaTime * sailSpeedBonus);
+                this.m_rigidbody.AddForce(Vector3.left * Time.deltaTime * sailSpeedBonus);
             }
         }
     }
@@ -128,13 +135,13 @@ public class Boat : MonoBehaviour
         comparison = compare(transform.rotation, wind.transform.rotation);
         if (comparison < 50)
         {
-            this.rigidbody.AddForce( transform.forward * Time.deltaTime * speed * sailSpeedBonus);
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * sailSpeedBonus);
             //Debug.Log("x1 speed");
         }
 
         else if (comparison < 100)
         {
-            this.rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.7f * sailSpeedBonus);
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.7f * sailSpeedBonus);
             
             //Debug.Log("x0.7 speed");
             Cloth cloth = GameObject.Find("Voile").GetComponent<Cloth>();
@@ -143,7 +150,7 @@ public class Boat : MonoBehaviour
 
         else if (comparison < 150)
         {
-            this.rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.8f * sailSpeedBonus);
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.8f * sailSpeedBonus);
             //Debug.Log("x0.8 speed");
         }
         else
@@ -152,4 +159,42 @@ public class Boat : MonoBehaviour
             Brakes(3);
         }
     }
+
+
+    //function OnMouseDown()
+    //{
+    //    aDefault = stickReference.transform.localEulerAngles;
+    //    aCurr = aDefault;
+    //}
+
+    //function OnMouseUp()
+    //{
+    //    //reset joystick to default Position
+    //    transform.localEulerAngles = aDefault;
+    //    aCurr = aDefault;
+    //}
+
+    //function OnMouseDrag()
+    //{
+    //    aDefault = stickReference.transform.localEulerAngles;
+    //    ray = Camera.mainCamera.ScreenPointToRay(Input.mousePosition);
+
+    //    //ray.origin -- the mouse position in world space at the near plane of the camera
+    //    //ray.direction -- the direction of the mouse in world Space
+    //    transform.LookAt(ray.origin);
+    //    aCurr = transform.localEulerAngles;
+    //}
+
+    //function FixedUpdate()
+    //{
+    //    //eulerAngles.y is related to accelleration; eulerAngles.x is related to direction
+    //    ship.rigidbody.AddRelativeForce(Vector3.forward * Mathf.Clamp(Mathf.Repeat((aCurr.x - aDefault.x) + 180, 360) - 180, -aMax, aMax) * speedScale * -1);// need to change [0,360] to [-180,180]
+    //    //stop drifting of the ship
+    //    if (ship.rigidbody.velocity.magnitude >= speedMax)
+    //    {
+    //        ship.rigidbody.velocity = ship.rigidbody.velocity.normalized * (speedMax - 0.1);
+    //    }
+    //    ship.rigidbody.AddRelativeTorque(Vector3.up * Mathf.Clamp(aCurr.y - aDefault.y, -aMax, aMax) * aScale);
+    //}
+
 }

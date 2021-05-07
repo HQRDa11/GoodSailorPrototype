@@ -38,6 +38,27 @@ public class Logic : MonoBehaviour
             GameObject newDecotatives = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Decoratives"), this.gameObject.transform);
             newDecotatives.transform.position = boat.transform.position + Vector3.forward * 256;
             newDecotatives.transform.position += Vector3.down * 6.17f;
+
+            GameObject newObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/IslandObstacle"), this.gameObject.transform);
+            newObstacle.transform.position = boat.transform.position + Vector3.forward * 256;
+            newObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
+
+            GameObject newLongObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/LongObstacle"), this.gameObject.transform);
+            newLongObstacle.transform.position = boat.transform.position + Vector3.forward * 256;
+            newLongObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
+            int randomSide = Random.Range(0, 2);
+            switch (randomSide)
+            {
+                case 0:
+                    newLongObstacle.transform.position +=  Vector3.right * 50;
+                    break;
+                case 1:
+                    newLongObstacle.transform.position += Vector3.left * 50;
+                    break;
+            }
+
+
+
             timerCurrent = 0;
         }
 
