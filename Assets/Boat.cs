@@ -68,7 +68,7 @@ public class Boat : MonoBehaviour
         leakLeftSpeed.spawnSpeed = currentSpeed;
         leakRightSpeed.spawnSpeed = currentSpeed;
 
-        Debug.Log("speed = " + m_rigidbody.velocity);
+       // Debug.Log("speed = " + m_rigidbody.velocity);
 
         // Cap velocity:
         float resistance = 0.5f;
