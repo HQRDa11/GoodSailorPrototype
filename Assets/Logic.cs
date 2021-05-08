@@ -10,7 +10,8 @@ public class Logic : MonoBehaviour
     public GameObject wind;
     public GameObject goal;
     public Text goalDistance;
-
+    public AudioSource audioSource;
+    public AudioClip audioClip;
     public float timerMax;
     public float timerCurrent;
     public Vector3 CameraOffset;
@@ -22,10 +23,16 @@ public class Logic : MonoBehaviour
         wind = GameObject.Find("Wind");
         boat = GameObject.Find("Boat");
         goal = GameObject.Find("Goal");
-        goalDistance = GameObject.Find("GoalDistance").GetComponent<Text>();
+        audioClip = Resources.Load<AudioClip>("AudioClips/Ocean");
         timerCurrent = 0;
         this.CameraOffset = Camera.main.transform.position - this.transform.position;
 
+        goalDistance = GameObject.Find("GoalDistance").GetComponent<Text>();
+
+
+        audioSource = boat.gameObject.AddComponent<AudioSource>();
+        audioSource.clip = audioClip;
+        audioSource.Play();
     }
 
     // Update is called once per frame
