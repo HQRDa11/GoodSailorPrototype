@@ -55,6 +55,20 @@ public class Logic : MonoBehaviour
             newDecotatives.transform.position = boat.transform.position + Vector3.forward * 420;
             newDecotatives.transform.position += Vector3.down * 6.17f;
 
+            GameObject newTrigger = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/TriggerMaxSpeed"), this.gameObject.transform);
+            newTrigger.transform.position = 
+                        boat.transform.position
+                        + Vector3.forward * 420
+                        + Vector3.left * Random.Range(50, -50);
+            newTrigger.transform.Rotate(Vector3.up, Random.Range(0, 180));
+
+            GameObject newTrigger2 = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/TriggerMaxSpeed"), this.gameObject.transform);
+            newTrigger2.transform.position =
+                        boat.transform.position
+                        + Vector3.forward * 420
+                        + Vector3.left * Random.Range(50, -50);
+            newTrigger2.transform.Rotate(Vector3.up, Random.Range(0, 180));
+
             // middle obstacle island and loots
             GameObject newObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/IslandObstacle"), this.gameObject.transform);
             newObstacle.transform.position = boat.transform.position + Vector3.forward * 420;
@@ -66,7 +80,20 @@ public class Logic : MonoBehaviour
             GameObject pickUp2 = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PickUp"), this.gameObject.transform);
             pickUp2.transform.position = newObstacle.transform.position + Vector3.right * Random.Range(-25, 25);
 
-
+            //Big Island Module
+            // middle obstacle island and loots
+            bool isNewModule = (Random.Range(0, 20) >= 18) ? true : false;
+            switch (isNewModule)
+            {
+                case true:
+                    GameObject newModule = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/BaseModule"), this.gameObject.transform);
+                    newModule.transform.position =
+                        boat.transform.position
+                        + Vector3.forward * 420
+                        + Vector3.left * Random.Range(80, -80);
+                    newModule.transform.Rotate(Vector3.up, Random.Range(0, 180));
+                    break;
+            }
 
             //close side Long Object
             GameObject newLongObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/LongObstacle"), this.gameObject.transform);

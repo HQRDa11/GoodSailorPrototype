@@ -9,6 +9,7 @@ public class Boat : MonoBehaviour
     public Text text;
     public float currentSpeed;
     private float maxSpeed;
+    private float maxSpeedBonus;
     private Vector3 startingPosition, speedvec;
 
     GameObject wind;
@@ -44,11 +45,11 @@ public class Boat : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         rotSpeed = 28;
 
-        speed = 140 ;
-        maxSpeed = 48;
+        speed = 130 ;
+        maxSpeed = 46;
+        maxSpeedBonus = 0;
 
-
-        brakeForce = 7f;
+        brakeForce = 8.2f;
         comparison = 0;
 
         leakLeftSpeed = GameObject.Find("LeakLeft").GetComponent<Leak>();
@@ -87,7 +88,9 @@ public class Boat : MonoBehaviour
 
         // Cap velocity:
         float resistance = 0.5f;
-        m_rigidbody.velocity = Vector3.ClampMagnitude(m_rigidbody.velocity, maxSpeed);
+        m_rigidbody.velocity = Vector3.ClampMagnitude(m_rigidbody.velocity, maxSpeed + maxSpeedBonus);
+        if (maxSpeedBonus > 0 ) { maxSpeedBonus -= 1 * Time.deltaTime; }
+
         m_rigidbody.AddForce(-Vector3.Project(m_rigidbody.velocity, transform.right) * resistance);
 
         // Floating : does it actually works?
@@ -209,6 +212,11 @@ public class Boat : MonoBehaviour
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             Debug.Log("here will come some passengers");
             passengerCargo.OnPassengerTransfer(Random.Range(1, 3));
+        }
+        if (other.transform.tag == "TriggerMaxSpeed")
+        {
+            Debug.Log("maxSpeed");
+            this.maxSpeedBonus = 6;
         }
         if (other.transform.tag == "Seagulls")
         {

@@ -8,6 +8,7 @@ TagManager:
   - PassengerPickUp
   - s
   - Seagulls
+  - TriggerMaxSpeed
   layers:
   - Default
   - TransparentFX

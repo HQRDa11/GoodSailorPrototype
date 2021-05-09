@@ -92,7 +92,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.WHITE:
-                    switch (passenger.satisfaction > 30)
+                    switch (passenger.satisfaction > 100)
                     {
                         case true:
                             Debug.Log("10");
@@ -111,7 +111,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.GREEN:
-                    switch (passenger.satisfaction < 20 )
+                    switch (passenger.satisfaction < 40 )
                     {
                         case true:
                             Debug.Log("12");
