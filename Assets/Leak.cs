@@ -12,6 +12,8 @@ public class Leak : MonoBehaviour
     private float m_spawnTimer;
     public float spawnSpeed;
 
+    public bool lateralDirection;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,15 @@ public class Leak : MonoBehaviour
         m_spawnTimerMax = 1f;
         m_spawnTimer = 0;
         spawnSpeed = 0;
+        switch(gameObject.name)
+        {
+            case "LeakLeft":
+                lateralDirection = true;
+                break;
+            case "LeakRight":
+                lateralDirection = false;
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -30,8 +41,10 @@ public class Leak : MonoBehaviour
         
         if (m_spawnTimer >=m_spawnTimerMax)
         {
-            m_leaves.Add(new Leave(2));
+            m_leaves.Add(new Leave(0.6f));
             GameObject leaveGO = Instantiate(m_leave_prefab);
+            Debug.Log(lateralDirection);
+            leaveGO.GetComponent<LeafGO>().setLateralDirection(lateralDirection);
             leaveGO.transform.position = this.transform.position;
             m_leaveInstances.Add(leaveGO);
             m_spawnTimer = 0;

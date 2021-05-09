@@ -24,7 +24,16 @@ public class Boat : MonoBehaviour
 
 
     public float comparison;
-    public float rotSpeed;          
+    public float rotSpeed;
+
+    public float navPoints;
+
+
+    public AudioSource boatSpeed_AudioSource;
+    public AudioClip speed1_Audio;
+    public AudioClip speed2_Audio;
+    public AudioClip speed3_Audio;
+
     void Start()
     {
         text = GameObject.Find("BoatSpeed Text").GetComponent<Text>();
@@ -32,18 +41,25 @@ public class Boat : MonoBehaviour
         startingPosition = transform.position;
 
         m_rigidbody = GetComponent<Rigidbody>();
+        m_rigidbody = GetComponent<Rigidbody>();
         rotSpeed = 30;
 
         speed = 120 ;
         maxSpeed = 40;
 
 
-        brakeForce =7f;
+        brakeForce = 7f;
         comparison = 0;
 
         leakLeftSpeed = GameObject.Find("LeakLeft").GetComponent<Leak>();
         leakRightSpeed = GameObject.Find("LeakRight").GetComponent<Leak>();
         if (!GameObject.Find("LeakRight").GetComponent<Leak>()) { Debug.LogError("ERROR HERE"); };
+
+
+        boatSpeed_AudioSource = gameObject.GetComponent<AudioSource>();
+        speed1_Audio = Resources.Load<AudioClip>("AudioClips/Speed1");
+        speed2_Audio = Resources.Load<AudioClip>("AudioClips/Speed2");
+        speed3_Audio = Resources.Load<AudioClip>("AudioClips/Speed3");
 
     }
     void FixedUpdate()
@@ -53,14 +69,12 @@ public class Boat : MonoBehaviour
     private void Update()
     {
         startingPosition = transform.position;
-        
         SailState sailState = Update_SailState();
-       
+
         //Debug.Log("Sails: " + sailState);
-        int sailSpeedBonus = (sailState == SailState.CLOSE) ? 0 : (sailState == SailState.FULL_OPEN) ? 2 : 1 ;
+        int sailSpeedBonus = (sailState == SailState.CLOSE) ? 0 : (sailState == SailState.FULL_OPEN) ? 2 : 1;
         Update_HorizontalMoves(sailSpeedBonus);
         Update_Acceleration(sailSpeedBonus);
-
 
         currentSpeed = m_rigidbody.velocity.magnitude;
         text.text = (int)currentSpeed + "km/h";  // or mph
@@ -68,7 +82,7 @@ public class Boat : MonoBehaviour
         leakLeftSpeed.spawnSpeed = currentSpeed;
         leakRightSpeed.spawnSpeed = currentSpeed;
 
-       // Debug.Log("speed = " + m_rigidbody.velocity);
+        // Debug.Log("speed = " + m_rigidbody.velocity);
 
         // Cap velocity:
         float resistance = 0.5f;
@@ -80,7 +94,19 @@ public class Boat : MonoBehaviour
         {
             gameObject.transform.position += Vector3.up * Time.deltaTime;
         }
+
+        //Add navPoints:
+        if (sailState == SailState.FULL_OPEN)
+        {
+            navPoints += currentSpeed / 6 * Time.deltaTime;
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                navPoints += currentSpeed / 10 * Time.deltaTime;
+            }
+
+        }
     }
+
     private float compare(Quaternion quatA, Quaternion quatB)
     {
         return Quaternion.Angle(quatA, quatB);
@@ -93,10 +119,20 @@ public class Boat : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
+            if (boatSpeed_AudioSource.clip != speed3_Audio)
+            {
+                boatSpeed_AudioSource.clip = speed3_Audio;
+                boatSpeed_AudioSource.Play();
+            }
             return SailState.FULL_OPEN;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
+            if (boatSpeed_AudioSource.clip != speed1_Audio)
+            {
+                boatSpeed_AudioSource.clip = speed1_Audio;
+                boatSpeed_AudioSource.Play();
+            }
             return SailState.CLOSE;
         }
         return SailState.MID_OPEN;
@@ -155,11 +191,24 @@ public class Boat : MonoBehaviour
         }
         else
         {
+            if (boatSpeed_AudioSource.clip != speed2_Audio)
+            {
+                boatSpeed_AudioSource.clip = speed2_Audio;
+                boatSpeed_AudioSource.Play();
+            }
             //Braking
             Brakes(3);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "PickUp")
+        {
+            other.gameObject.GetComponent<Pickup>().OnPickUp();
+            Debug.Log("here i need to put a timed bonus");
 
+        }
+    }
 
     //function OnMouseDown()
     //{
