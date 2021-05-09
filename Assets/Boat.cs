@@ -105,6 +105,8 @@ public class Boat : MonoBehaviour
                 navPoints += currentSpeed / 10 * Time.deltaTime;
             }
 
+           passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /6);
+
         }
 
         UpdateSound();
@@ -199,16 +201,14 @@ public class Boat : MonoBehaviour
             other.gameObject.GetComponent<Pickup>().OnPickUp();
             Debug.Log("here i need to put a timed bonus");
 
+            int diceRescue = Random.Range(0, 3);
+            switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   
         }
         if (other.transform.tag == "PassengerPickUp")
         {
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             Debug.Log("here will come some passengers");
-            passengerCargo.AddPassenger();
-            passengerCargo.AddPassenger();
-            passengerCargo.RemovePassenger();
-
-
+            passengerCargo.OnPassengerTransfer(Random.Range(1, 3));
         }
         if (other.transform.tag == "Seagulls")
         {
@@ -227,7 +227,6 @@ public class Boat : MonoBehaviour
                 {
                     boatSpeed_AudioSource.clip = speed1_Audio;
                     boatSpeed_AudioSource.Play();
-                    Debug.Log("sound1");
                 }
                 break;
             case 2:
@@ -235,7 +234,6 @@ public class Boat : MonoBehaviour
                 {
                     boatSpeed_AudioSource.clip = speed2_Audio;
                     boatSpeed_AudioSource.Play();
-                    Debug.Log("sound2");
                 }
                 break;
             case 3:

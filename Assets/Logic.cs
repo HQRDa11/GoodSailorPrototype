@@ -73,7 +73,7 @@ public class Logic : MonoBehaviour
             newLongObstacle.transform.position = 
                 boat.transform.position 
                 + Vector3.forward * 420 
-                + Vector3.left* Random.Range(150,-150);
+                + Vector3.left* Random.Range(120,-120);
             newLongObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
 
             //GameObject newSeagullPicKUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/SeagullsPickUp"), newLongObstacle.transform);
@@ -84,7 +84,7 @@ public class Logic : MonoBehaviour
             {
                 case true:
                 GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PassengerPickUp"), this.gameObject.transform);
-                passengerPickUp.transform.position = newLongObstacle.transform.position + Vector3.right * Random.Range(-0.2f, 0.2f);
+                passengerPickUp.transform.position = newLongObstacle.transform.position + Vector3.forward * Random.Range(-0.2f, 0.2f);
                 break;
             }
 
@@ -95,10 +95,10 @@ public class Logic : MonoBehaviour
             switch (randomSide)
             {
                 case 0:
-                    newLongObstacle.transform.position +=  Vector3.right * 50;
+                    newLongObstacle.transform.position +=  Vector3.right * 40;
                     break;
                 case 1:
-                    newLongObstacle.transform.position += Vector3.left * 50;
+                    newLongObstacle.transform.position += Vector3.left * 40;
                     break;
             }
 

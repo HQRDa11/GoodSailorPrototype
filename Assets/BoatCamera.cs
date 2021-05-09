@@ -23,7 +23,7 @@ public class BoatCamera : MonoBehaviour
         //this.gameObject.transform.rotation = boat.transform.rotation * initialRot;
 
         //Update camera:
-        Camera.main.transform.position += Vector3.up * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed)*4 ;
-        Camera.main.transform.position += Vector3.back * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed)*2;
+        Camera.main.transform.position += Vector3.up * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed)*5 ;
+        Camera.main.transform.position += Vector3.back * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed)*3;
     }
 }

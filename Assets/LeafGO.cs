@@ -20,7 +20,7 @@ public class LeafGO : MonoBehaviour
         {
             case true:
                 gameObject.transform.position += Vector3.left * Time.deltaTime * 2;
-                Debug.Log("reded");
+              
                 break;
             case false:
                 gameObject.transform.position += Vector3.right * Time.deltaTime * 2;

@@ -43,7 +43,6 @@ public class Leak : MonoBehaviour
         {
             m_leaves.Add(new Leave(0.6f));
             GameObject leaveGO = Instantiate(m_leave_prefab);
-            Debug.Log(lateralDirection);
             leaveGO.GetComponent<LeafGO>().setLateralDirection(lateralDirection);
             leaveGO.transform.position = this.transform.position;
             m_leaveInstances.Add(leaveGO);
