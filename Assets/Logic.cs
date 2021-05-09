@@ -70,7 +70,10 @@ public class Logic : MonoBehaviour
 
             //close side Long Object
             GameObject newLongObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/LongObstacle"), this.gameObject.transform);
-            newLongObstacle.transform.position = boat.transform.position + Vector3.forward * 420;
+            newLongObstacle.transform.position = 
+                boat.transform.position 
+                + Vector3.forward * 420 
+                + Vector3.left* Random.Range(150,-150);
             newLongObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
 
             //GameObject newSeagullPicKUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/SeagullsPickUp"), newLongObstacle.transform);
@@ -81,7 +84,7 @@ public class Logic : MonoBehaviour
             {
                 case true:
                 GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PassengerPickUp"), this.gameObject.transform);
-                passengerPickUp.transform.position = newLongObstacle.transform.position + Vector3.right * Random.Range(-1, 1);
+                passengerPickUp.transform.position = newLongObstacle.transform.position + Vector3.right * Random.Range(-0.2f, 0.2f);
                 break;
             }
 

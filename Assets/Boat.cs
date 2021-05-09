@@ -42,10 +42,10 @@ public class Boat : MonoBehaviour
 
         m_rigidbody = GetComponent<Rigidbody>();
         m_rigidbody = GetComponent<Rigidbody>();
-        rotSpeed = 26;
+        rotSpeed = 28;
 
-        speed = 130 ;
-        maxSpeed = 44;
+        speed = 140 ;
+        maxSpeed = 48;
 
 
         brakeForce = 7f;
