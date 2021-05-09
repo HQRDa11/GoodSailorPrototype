@@ -27,6 +27,7 @@ public class PassengerPickUp : MonoBehaviour
                 {
                     gameObject.transform.localScale -= Vector3.one * Time.deltaTime * 3f;
                     lifeLeft -= Time.deltaTime;
+                    gameObject.GetComponent<Collider>().enabled = false;
                 }
                 else { GameObject.Destroy(this.gameObject); }
                 break;

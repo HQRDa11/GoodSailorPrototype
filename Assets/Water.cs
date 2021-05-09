@@ -13,9 +13,10 @@ public class Water : MonoBehaviour
         lowerPos = transform.position += Vector3.down ;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // ici il faudrait faire bouger l ocean entre les deux valeurs
-    }
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    // ici il faudrait faire bouger l ocean entre les deux valeurs
+    //    this.gameObject.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", Vector3.left) ;
+    //}
 }

@@ -7,7 +7,7 @@ public class Boat : MonoBehaviour
 {
    // v
     public Text text;
-    private float currentSpeed;
+    public float currentSpeed;
     private float maxSpeed;
     private Vector3 startingPosition, speedvec;
 
@@ -32,6 +32,7 @@ public class Boat : MonoBehaviour
     public AudioClip speed2_Audio;
     public AudioClip speed3_Audio;
 
+    public PassengerCargo passengerCargo;
 
     void Start()
     {
@@ -41,10 +42,10 @@ public class Boat : MonoBehaviour
 
         m_rigidbody = GetComponent<Rigidbody>();
         m_rigidbody = GetComponent<Rigidbody>();
-        rotSpeed = 30;
+        rotSpeed = 26;
 
-        speed = 120 ;
-        maxSpeed = 40;
+        speed = 130 ;
+        maxSpeed = 44;
 
 
         brakeForce = 7f;
@@ -60,6 +61,7 @@ public class Boat : MonoBehaviour
         speed2_Audio = Resources.Load<AudioClip>("AudioClips/Speed2");
         speed3_Audio = Resources.Load<AudioClip>("AudioClips/Speed3");
 
+        passengerCargo = gameObject.GetComponentInChildren<PassengerCargo>();
     }
     void FixedUpdate()
     {
@@ -104,6 +106,9 @@ public class Boat : MonoBehaviour
             }
 
         }
+
+        UpdateSound();
+
     }
 
     private float compare(Quaternion quatA, Quaternion quatB)
@@ -115,20 +120,10 @@ public class Boat : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            if (boatSpeed_AudioSource.clip != speed3_Audio)
-            {
-                boatSpeed_AudioSource.clip = speed3_Audio;
-                boatSpeed_AudioSource.Play();
-            }
             return SailState.FULL_OPEN;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (boatSpeed_AudioSource.clip != speed1_Audio)
-            {
-                boatSpeed_AudioSource.clip = speed1_Audio;
-                boatSpeed_AudioSource.Play();
-            }
             return SailState.CLOSE;
         }
         return SailState.MID_OPEN;
@@ -188,13 +183,6 @@ public class Boat : MonoBehaviour
         }
         else
         {
-
-
-            if (boatSpeed_AudioSource.clip != speed2_Audio)
-            {
-                boatSpeed_AudioSource.clip = speed2_Audio;
-                boatSpeed_AudioSource.Play();
-            }
             //Braking
             Brakes(3);
         }
@@ -216,6 +204,10 @@ public class Boat : MonoBehaviour
         {
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             Debug.Log("here will come some passengers");
+            passengerCargo.AddPassenger();
+            passengerCargo.AddPassenger();
+            passengerCargo.RemovePassenger();
+
 
         }
         if (other.transform.tag == "Seagulls")
@@ -225,7 +217,37 @@ public class Boat : MonoBehaviour
 
         }
     }
-
+    private void UpdateSound()
+    {
+        int speed = (currentSpeed < 16) ? 1 : (currentSpeed < 34) ? 2 : 3;
+        switch (speed)
+        {
+            case 1:
+                if (boatSpeed_AudioSource.clip != speed1_Audio)
+                {
+                    boatSpeed_AudioSource.clip = speed1_Audio;
+                    boatSpeed_AudioSource.Play();
+                    Debug.Log("sound1");
+                }
+                break;
+            case 2:
+                if (boatSpeed_AudioSource.clip != speed2_Audio)
+                {
+                    boatSpeed_AudioSource.clip = speed2_Audio;
+                    boatSpeed_AudioSource.Play();
+                    Debug.Log("sound2");
+                }
+                break;
+            case 3:
+                if (boatSpeed_AudioSource.clip != speed3_Audio)
+                {
+                    boatSpeed_AudioSource.clip = speed3_Audio;
+                    boatSpeed_AudioSource.Play();
+                }
+                break;
+          
+        }
+    }
     //function OnMouseDown()
     //{
     //    aDefault = stickReference.transform.localEulerAngles;

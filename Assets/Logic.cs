@@ -73,8 +73,8 @@ public class Logic : MonoBehaviour
             newLongObstacle.transform.position = boat.transform.position + Vector3.forward * 420;
             newLongObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
 
-            GameObject newSeagullPicKUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/SeagullsPickUp"), newLongObstacle.transform);
-            newSeagullPicKUp.transform.position += Vector3.left*2 + Vector3.down* 0.1f;
+            //GameObject newSeagullPicKUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/SeagullsPickUp"), newLongObstacle.transform);
+            //newSeagullPicKUp.transform.position += Vector3.left*2 + Vector3.down* 0.1f;
 
             bool isNewPassengers = (Random.Range(0, 10) >= 7) ? true : false;
             switch(isNewPassengers)
