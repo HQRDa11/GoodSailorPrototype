@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -111,10 +109,7 @@ public class Boat : MonoBehaviour
     {
         return Quaternion.Angle(quatA, quatB);
     }
-    private void Brakes( int sailSpeedBonus)
-    {
-        this.m_rigidbody.AddForce( -m_rigidbody.velocity* brakeForce * Time.deltaTime * sailSpeedBonus);
-    }
+
     public SailState Update_SailState()
     {
         if (Input.GetKey(KeyCode.UpArrow))
@@ -191,6 +186,8 @@ public class Boat : MonoBehaviour
         }
         else
         {
+
+
             if (boatSpeed_AudioSource.clip != speed2_Audio)
             {
                 boatSpeed_AudioSource.clip = speed2_Audio;
@@ -199,6 +196,11 @@ public class Boat : MonoBehaviour
             //Braking
             Brakes(3);
         }
+        if (sailSpeedBonus == 0 ) Brakes(3); // if player is braking
+    }
+    private void Brakes(int additionalBrakeForce)
+    {
+        this.m_rigidbody.AddForce(-m_rigidbody.velocity * this.brakeForce * Time.deltaTime * additionalBrakeForce);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -206,6 +208,12 @@ public class Boat : MonoBehaviour
         {
             other.gameObject.GetComponent<Pickup>().OnPickUp();
             Debug.Log("here i need to put a timed bonus");
+
+        }
+        if (other.transform.tag == "PassengerPickUp")
+        {
+            other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
+            Debug.Log("here will come some passengers");
 
         }
     }

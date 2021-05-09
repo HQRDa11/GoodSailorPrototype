@@ -52,23 +52,36 @@ public class Logic : MonoBehaviour
         {
             // Underwaters;
             GameObject newDecotatives = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Decoratives"), this.gameObject.transform);
-            newDecotatives.transform.position = boat.transform.position + Vector3.forward * 256;
+            newDecotatives.transform.position = boat.transform.position + Vector3.forward * 420;
             newDecotatives.transform.position += Vector3.down * 6.17f;
 
             // middle obstacle island and loots
             GameObject newObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/IslandObstacle"), this.gameObject.transform);
-            newObstacle.transform.position = boat.transform.position + Vector3.forward * 256;
+            newObstacle.transform.position = boat.transform.position + Vector3.forward * 420;
             newObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
 
 
             GameObject pickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PickUp"), this.gameObject.transform);
             pickUp.transform.position = newObstacle.transform.position + Vector3.right * Random.Range(-20, 20);
+            GameObject pickUp2 = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PickUp"), this.gameObject.transform);
+            pickUp2.transform.position = newObstacle.transform.position + Vector3.right * Random.Range(-25, 25);
+
+
 
             //close side Long Object
             GameObject newLongObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/LongObstacle"), this.gameObject.transform);
-            newLongObstacle.transform.position = boat.transform.position + Vector3.forward * 256;
+            newLongObstacle.transform.position = boat.transform.position + Vector3.forward * 420;
             newLongObstacle.transform.Rotate(Vector3.up, Random.Range(0, 180));
-            
+
+            bool isNewPassengers = (Random.Range(0, 10) >= 7) ? true : false;
+            switch(isNewPassengers)
+            {
+                case true:
+                GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PassengerPickUp"), this.gameObject.transform);
+                passengerPickUp.transform.position = newLongObstacle.transform.position + Vector3.right * Random.Range(-1, 1);
+                break;
+            }
+
             //far side giant Object
             // to limit player with semi boundaries;
 

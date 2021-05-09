@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickup : MonoBehaviour
+public class PassengerPickUp : MonoBehaviour
 {
     public AudioSource audioSource;
     public AudioClip pickup_Sound;
@@ -12,21 +12,20 @@ public class Pickup : MonoBehaviour
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
-        pickup_Sound = Resources.Load<AudioClip>("AudioClips/Bounce");
+        pickup_Sound = Resources.Load<AudioClip>("AudioClips/Bells");
         picked = false;
-        lifeLeft =0.6f;
+        lifeLeft = 1.2f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch(picked)
+        switch (picked)
         {
             case true:
                 if (lifeLeft > 0)
                 {
-                    gameObject.transform.position += Vector3.up * Time.deltaTime * 80;
-                    gameObject.transform.localScale += Vector3.one * Time.deltaTime * 12f;
+                    gameObject.transform.localScale -= Vector3.one * Time.deltaTime * 3f;
                     lifeLeft -= Time.deltaTime;
                 }
                 else { GameObject.Destroy(this.gameObject); }
