@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PickUp
   - PassengerPickUp
+  - s
+  - Seagulls
   layers:
   - Default
   - TransparentFX

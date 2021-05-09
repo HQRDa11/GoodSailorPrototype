@@ -32,6 +32,7 @@ public class Boat : MonoBehaviour
     public AudioClip speed2_Audio;
     public AudioClip speed3_Audio;
 
+
     void Start()
     {
         text = GameObject.Find("BoatSpeed Text").GetComponent<Text>();
@@ -145,6 +146,7 @@ public class Boat : MonoBehaviour
                 // this.gameObject.transform.Rotate(Vector3.right * Time.deltaTime * rotSpeed);
                 this.m_rigidbody.AddForce(Vector3.right * Time.deltaTime * sailSpeedBonus);
             }
+
         }
 
         else if (Input.GetKey(KeyCode.LeftArrow))
@@ -214,6 +216,12 @@ public class Boat : MonoBehaviour
         {
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             Debug.Log("here will come some passengers");
+
+        }
+        if (other.transform.tag == "Seagulls")
+        {
+            other.gameObject.GetComponent<SeagullPickUp>().OnPickUp();
+            Debug.Log("Bonus happyness fot passengers");
 
         }
     }

@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 3204282987244722973}
   - component: {fileID: 4801667663906641947}
   m_Layer: 0
-  m_Name: ContinentObstacle
+  m_Name: LongObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
