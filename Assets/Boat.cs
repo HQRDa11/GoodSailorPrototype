@@ -184,7 +184,7 @@ public class Boat : MonoBehaviour
             cloth.externalAcceleration = Vector3.forward * wind.transform.rotation.y;
         }
 
-        else if (comparison < 150)
+        else if (comparison < 167)
         {
             this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.8f * sailSpeedBonus);
             //Debug.Log("x0.8 speed");
