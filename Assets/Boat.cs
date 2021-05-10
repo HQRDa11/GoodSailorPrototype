@@ -102,7 +102,7 @@ public class Boat : MonoBehaviour
             }
         }
         //Add satisfaction to passengers
-        passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /8);
+        passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /6);
 
         UpdateSound();
 
