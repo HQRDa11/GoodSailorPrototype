@@ -36,7 +36,7 @@ public class PassengerCargo : MonoBehaviour
         GameObject newPassenger = GameObject.Instantiate(passengerGo);
         newPassenger.transform.parent = this.transform;
         Debug.Log("2");
-        newPassenger.transform.position = this.transform.position + Vector3.right * Random.Range(-2.3f,2.3f);
+        newPassenger.transform.position = this.transform.position + Vector3.right * Random.Range(-1.8f,1.8f);
         passengers.Add(newPassenger.GetComponent<Passenger>());
         Debug.Log("1");
     }
@@ -92,7 +92,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.WHITE:
-                    switch (passenger.satisfaction > 100)
+                    switch (passenger.satisfaction > 80)
                     {
                         case true:
                             Debug.Log("10");

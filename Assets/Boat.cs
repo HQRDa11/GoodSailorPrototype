@@ -35,6 +35,7 @@ public class Boat : MonoBehaviour
 
     public PassengerCargo passengerCargo;
 
+    public TrailRenderer satisfactionTrail;
     void Start()
     {
         text = GameObject.Find("BoatSpeed Text").GetComponent<Text>();
@@ -63,6 +64,8 @@ public class Boat : MonoBehaviour
         speed3_Audio = Resources.Load<AudioClip>("AudioClips/Speed3");
 
         passengerCargo = gameObject.GetComponentInChildren<PassengerCargo>();
+
+        satisfactionTrail = GameObject.Find("SatisfactionTrail").GetComponent<TrailRenderer>();
     }
     void FixedUpdate()
     {
@@ -102,17 +105,25 @@ public class Boat : MonoBehaviour
         //Add navPoints:
         if (sailState == SailState.FULL_OPEN)
         {
-            navPoints += currentSpeed / 6 * Time.deltaTime;
+            navPoints += currentSpeed / 7 * Time.deltaTime;
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
             {
-                navPoints += currentSpeed / 10 * Time.deltaTime;
+                navPoints += currentSpeed / 12 * Time.deltaTime;
             }
-
-           passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /6);
-
         }
+        //Add satisfaction to passengers
+        passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /8);
 
         UpdateSound();
+
+        if (currentSpeed >= 36)
+        {
+            satisfactionTrail.startWidth = (currentSpeed-36)/4;
+            satisfactionTrail.endWidth = 0.01f;
+            satisfactionTrail.emitting = true;
+
+        }
+        else satisfactionTrail.emitting = false;
 
     }
 
@@ -168,13 +179,13 @@ public class Boat : MonoBehaviour
         comparison = compare(transform.rotation, wind.transform.rotation);
         if (comparison < 50)
         {
-            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * sailSpeedBonus);
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.82f * sailSpeedBonus);
             //Debug.Log("x1 speed");
         }
 
         else if (comparison < 100)
         {
-            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.7f * sailSpeedBonus);
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.52f * sailSpeedBonus);
             
             //Debug.Log("x0.7 speed");
             Cloth cloth = GameObject.Find("Voile").GetComponent<Cloth>();
@@ -183,7 +194,7 @@ public class Boat : MonoBehaviour
 
         else if (comparison < 167)
         {
-            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.8f * sailSpeedBonus);
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.68f * sailSpeedBonus);
             //Debug.Log("x0.8 speed");
         }
         else
@@ -216,7 +227,7 @@ public class Boat : MonoBehaviour
         if (other.transform.tag == "TriggerMaxSpeed")
         {
             Debug.Log("maxSpeed");
-            this.maxSpeedBonus = 6;
+            this.maxSpeedBonus = 7;
         }
         if (other.transform.tag == "Seagulls")
         {

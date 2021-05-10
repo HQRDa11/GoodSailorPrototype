@@ -110,7 +110,7 @@ public class Logic : MonoBehaviour
             switch(isNewPassengers)
             {
                 case true:
-                GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PassengerPickUp"), this.gameObject.transform);
+                GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PassengerTransfert") , this.gameObject.transform);
                 passengerPickUp.transform.position = newLongObstacle.transform.position + Vector3.forward * Random.Range(-0.2f, 0.2f);
                 break;
             }
