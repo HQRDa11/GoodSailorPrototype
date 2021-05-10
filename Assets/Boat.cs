@@ -14,9 +14,6 @@ public class Boat : MonoBehaviour
 
     GameObject wind;
 
-    private Leak leakLeftSpeed;
-    private Leak leakRightSpeed;
-
     private Rigidbody m_rigidbody;
     float speed;
     float brakeForce;
@@ -53,10 +50,6 @@ public class Boat : MonoBehaviour
         brakeForce = 8.2f;
         comparison = 0;
 
-        leakLeftSpeed = GameObject.Find("LeakLeft").GetComponent<Leak>();
-        leakRightSpeed = GameObject.Find("LeakRight").GetComponent<Leak>();
-        if (!GameObject.Find("LeakRight").GetComponent<Leak>()) { Debug.LogError("ERROR HERE"); };
-
 
         boatSpeed_AudioSource = gameObject.GetComponent<AudioSource>();
         speed1_Audio = Resources.Load<AudioClip>("AudioClips/Speed1");
@@ -83,9 +76,6 @@ public class Boat : MonoBehaviour
 
         currentSpeed = m_rigidbody.velocity.magnitude;
         text.text = (int)currentSpeed + "km/h";  // or mph
-
-        leakLeftSpeed.spawnSpeed = currentSpeed;
-        leakRightSpeed.spawnSpeed = currentSpeed;
 
         // Debug.Log("speed = " + m_rigidbody.velocity);
 
