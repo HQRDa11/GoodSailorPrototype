@@ -42,7 +42,7 @@ public class Logic : MonoBehaviour
     void Update()
     {
         navPoints = boat.navPoints;
-        goalDistance.text = "Goal: infinite";
+        goalDistance.text = "Goal: undefined yet";
     }
 
 }

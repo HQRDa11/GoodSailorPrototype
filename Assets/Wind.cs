@@ -17,7 +17,7 @@ public class Wind : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timerMax = 12;
+        timerMax = 16;
         timerCurrent = 0;
         this.boat = GameObject.Find("Boat");
         boatOffset = this.transform.position - boat.transform.position;

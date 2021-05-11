@@ -33,19 +33,19 @@ public class WorldDecorator : MonoBehaviour
             newDecotatives.transform.position = boat.transform.position + Vector3.forward * 420;
             newDecotatives.transform.position += Vector3.down * 6.17f;
 
-            GameObject newTrigger = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/TriggerMaxSpeed"), this.gameObject.transform);
-            newTrigger.transform.position =
-                        boat.transform.position
-                        + Vector3.forward * 420
-                        + Vector3.left * Random.Range(50, -50);
-            newTrigger.transform.Rotate(Vector3.up, Random.Range(0, 180));
+            //GameObject newTrigger = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/TriggerMaxSpeed"), this.gameObject.transform);
+            //newTrigger.transform.position =
+            //            boat.transform.position  // VOIR EN DESSOUS
+            //            + Vector3.forward * 420
+            //            + Vector3.left * Random.Range(50, -50);
+            //newTrigger.transform.Rotate(Vector3.up, Random.Range(0, 180));
 
-            GameObject newTrigger2 = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/TriggerMaxSpeed"), this.gameObject.transform);
-            newTrigger2.transform.position =
-                        boat.transform.position
-                        + Vector3.forward * 420
-                        + Vector3.left * Random.Range(50, -50);
-            newTrigger2.transform.Rotate(Vector3.up, Random.Range(0, 180));
+            //GameObject newTrigger2 = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/TriggerMaxSpeed"), this.gameObject.transform);
+            //newTrigger2.transform.position =
+            //            boat.transform.position   // TESTER D EN LAISSER QU UNE
+            //            + Vector3.forward * 420
+            //            + Vector3.left * Random.Range(50, -50);
+            //newTrigger2.transform.Rotate(Vector3.up, Random.Range(0, 180));
 
             // middle obstacle island and loots
             GameObject newObstacle = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/IslandObstacle"), this.gameObject.transform);

@@ -51,11 +51,11 @@ public class Boat : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         rotSpeed = 28;
 
-        speed = 130 ;
-        maxSpeed = 46;
+        speed = 140 ;
+        maxSpeed = 50;
         maxSpeedBonus = 0;
 
-        brakeForce = 8.2f;
+        brakeForce = 10.2f;
         comparison = 0;
 
 
@@ -90,15 +90,15 @@ public class Boat : MonoBehaviour
         Update_Acceleration(sailSpeedBonus);
 
         currentSpeed = m_rigidbody.velocity.magnitude;
-        text.text = (int)currentSpeed + "km/h";  // or mph
+        text.text = (int)currentSpeed/2 + " mph.";  // or mph
 
         // Debug.Log("speed = " + m_rigidbody.velocity);
 
         // Cap velocity:
-        float resistance = 0.5f;
         m_rigidbody.velocity = Vector3.ClampMagnitude(m_rigidbody.velocity, maxSpeed + maxSpeedBonus);
         if (maxSpeedBonus > 0 ) { maxSpeedBonus -= 1 * Time.deltaTime; }
 
+        float resistance = 0.6f;
         m_rigidbody.AddForce(-Vector3.Project(m_rigidbody.velocity, transform.right) * resistance);
 
         // Floating : does it actually works?
@@ -113,7 +113,7 @@ public class Boat : MonoBehaviour
             navPoints += currentSpeed / 10 * Time.deltaTime;
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
             {
-                navPoints += currentSpeed / 12 * Time.deltaTime;
+                navPoints += currentSpeed / 30 * Time.deltaTime;
             }
         }
         //Add satisfaction to passengers
@@ -187,15 +187,15 @@ public class Boat : MonoBehaviour
         comparison = compare(transform.rotation, wind.transform.rotation);
         if (comparison < 50)
         {
-            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.82f * sailSpeedBonus);
-            wind.GetComponent<Wind>().Scale = 0.82f;
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.90f * sailSpeedBonus);
+            wind.GetComponent<Wind>().Scale = 0.90f;
             //Debug.Log("x1 speed");
         }
 
         else if (comparison < 100)
         {
-            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.52f * sailSpeedBonus);
-            wind.GetComponent<Wind>().Scale = 0.52f;
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.65f * sailSpeedBonus);
+            wind.GetComponent<Wind>().Scale = 0.60f;
             //Debug.Log("x0.7 speed");
             Cloth cloth = GameObject.Find("Voile").GetComponent<Cloth>();
             cloth.externalAcceleration = Vector3.forward * wind.transform.rotation.y;
@@ -203,13 +203,13 @@ public class Boat : MonoBehaviour
 
         else if (comparison < 167)
         {
-            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.68f * sailSpeedBonus);
-            wind.GetComponent<Wind>().Scale = 0.68f;
+            this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.80f * sailSpeedBonus);
+            wind.GetComponent<Wind>().Scale = 0.80f;
             //Debug.Log("x0.8 speed");
         }
         else
         {
-            wind.GetComponent<Wind>().Scale = 0.3f;
+            wind.GetComponent<Wind>().Scale = 0.5f;
             //Braking
             Brakes(3);
         }

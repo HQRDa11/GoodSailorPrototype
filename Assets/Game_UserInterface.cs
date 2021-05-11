@@ -22,8 +22,8 @@ public class Game_UserInterface : MonoBehaviour
     void Update()
     {
         int nps = (int)logic.navPoints;
-        navigationPoints.text = "NPs.:" + nps.ToString();
+        navigationPoints.text = nps.ToString() + "NP";
         int money = (int)logic.PlayerMoney;
-        playerMoney.text =  money.ToString();
+        playerMoney.text =  money.ToString()+"€";
     }
 }
