@@ -226,7 +226,7 @@ public class Boat : MonoBehaviour
             int diceRescue = Random.Range(0, 3);
             switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   
         }
-        if (other.transform.tag == "PassengerPickUp" && currentSpeed < 12 && sailState != SailsState.FULL_OPEN)
+        if (other.transform.tag == "PassengerPickUp" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
         {
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             Debug.Log("here will come some passengers");
@@ -242,6 +242,11 @@ public class Boat : MonoBehaviour
             other.gameObject.GetComponent<SeagullPickUp>().OnPickUp();
             Debug.Log("Bonus happyness fot passengers");
 
+        }
+        if (other.transform.tag == "Obstacle")
+        {
+            Debug.Log("Passengers loses satisfaction");
+            passengerCargo.OnPassengerBonus(-30);
         }
     }
     private void UpdateSound()
