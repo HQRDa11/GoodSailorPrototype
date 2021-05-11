@@ -469,6 +469,9 @@ MonoBehaviour:
   colorRed: {fileID: 0}
   colorWhite: {fileID: 0}
   colorGreen: {fileID: 0}
+  transfertFlow_Timer: 0
+  transfertFlow_TimerCurrent: 0
+  passengerIncoming: 0
 --- !u!1 &1963440816298337803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,6 +1593,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 0}
   currentSpeed: 0
+  playerMoney: 0
+  sailState: 0
   comparison: 0
   rotSpeed: 0
   navPoints: 0
@@ -1599,6 +1604,7 @@ MonoBehaviour:
   speed3_Audio: {fileID: 0}
   passengerCargo: {fileID: 0}
   satisfactionTrail: {fileID: 0}
+  navigationState: 0
 --- !u!54 &6184465171852958178
 Rigidbody:
   m_ObjectHideFlags: 0
