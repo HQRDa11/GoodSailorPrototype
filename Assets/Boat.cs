@@ -188,13 +188,14 @@ public class Boat : MonoBehaviour
         if (comparison < 50)
         {
             this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.82f * sailSpeedBonus);
+            wind.GetComponent<Wind>().Scale = 0.82f;
             //Debug.Log("x1 speed");
         }
 
         else if (comparison < 100)
         {
             this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.52f * sailSpeedBonus);
-            
+            wind.GetComponent<Wind>().Scale = 0.52f;
             //Debug.Log("x0.7 speed");
             Cloth cloth = GameObject.Find("Voile").GetComponent<Cloth>();
             cloth.externalAcceleration = Vector3.forward * wind.transform.rotation.y;
@@ -203,10 +204,12 @@ public class Boat : MonoBehaviour
         else if (comparison < 167)
         {
             this.m_rigidbody.AddForce( transform.forward * Time.deltaTime * speed * 0.68f * sailSpeedBonus);
+            wind.GetComponent<Wind>().Scale = 0.68f;
             //Debug.Log("x0.8 speed");
         }
         else
         {
+            wind.GetComponent<Wind>().Scale = 0.3f;
             //Braking
             Brakes(3);
         }
