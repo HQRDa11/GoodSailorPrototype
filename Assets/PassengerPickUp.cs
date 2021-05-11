@@ -34,6 +34,12 @@ public class PassengerPickUp : MonoBehaviour
         }
     }
 
+
+    public Vector3 getEmbarkPoint()
+    {
+        return new Vector3(-0.1f, -0.6f, -3.6f);
+    }
+
     public void OnPickUp()
     {
         if (audioSource.clip != pickup_Sound)

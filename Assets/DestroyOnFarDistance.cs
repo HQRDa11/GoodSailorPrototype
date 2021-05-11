@@ -21,4 +21,5 @@ public class DestroyOnFarDistance : MonoBehaviour
             Debug.Log("destructed");
         }
     }
+
 }

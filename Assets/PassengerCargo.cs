@@ -13,6 +13,13 @@ public class PassengerCargo : MonoBehaviour
     public Material colorWhite;
     public Material colorGreen;
 
+    //Transfert
+    public float transfertFlow_Timer;
+    public float transfertFlow_TimerCurrent;
+    public int   passengerIncoming;
+    Vector3      embarkTarget;
+    bool transfertState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +29,64 @@ public class PassengerCargo : MonoBehaviour
         colorRed   = Resources.Load<Material>("Materials/Status/RedStatus");
         colorWhite = Resources.Load<Material>("Materials/Status/WhiteStatus");
         colorGreen = Resources.Load<Material>("Materials/Status/GreenStatus");
+
+        transfertFlow_Timer = 0.6f;
+        transfertFlow_TimerCurrent = 0;
+        passengerIncoming = 0;
+        embarkTarget = Vector3.zero;
+        transfertState = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        switch (transfertState)
+        {
+            case true:
+                switch (passengerIncoming > 0)
+                {
+                    case true:
+                        transfertFlow_TimerCurrent += Time.deltaTime;
+                        if (transfertFlow_TimerCurrent > transfertFlow_Timer)
+                        {
+                            // exchanger
+                            ProceedTransfertStep();
+                            transfertFlow_TimerCurrent = 0;
+                        }
+                        return;
+                    case false:
+                        transfertState = false;
+                        break;
+                }
+                break;
+        }
+    }
+
+
+    public void ProceedTransfertStep()
+    {
+        // REMOVAL
+        switch ( getIsGreenLeft() != null )
+        {
+            case true:
+                Passenger removed = getIsGreenLeft();
+                GetComponentInParent<Boat>().playerMoney += (int)removed.satisfaction / 20 ;
+                passengers.Remove(removed);
+                GameObject.Destroy(removed.gameObject);
+                return;
+        }
         
+        switch (passengerIncoming > 0)
+        {
+            case true:
+                AddPassenger();
+                passengerIncoming--;
+                break;
+            case false:
+                transfertState = false;
+                return;
+        }
     }
 
     public void AddPassenger()
@@ -48,29 +107,12 @@ public class PassengerCargo : MonoBehaviour
         passengers.Remove(removed);
     }
 
-    public void OnPassengerTransfer(int newPassengers)
+    public void OnPassengerTransfer(Vector3 embarkPoint)
     {
-        Debug.Log("5");
-        List<Passenger> removePool = new List<Passenger>();
-        for (int i=0; i<newPassengers; i++)
-        {
-            Debug.Log("6");
-            AddPassenger();
-        }
-        foreach (Passenger passenger in passengers)
-        {
-            switch (passenger.status == PassengerStatus.GREEN)
-            {
-
-                case true: removePool.Add(passenger); break;
-            }
-            Debug.Log("7");
-        }
-        //while (removePool.Count != 0) { Debug.Log("ERROR"); RemovePassenger(removePool[0]); }
-        for (int i =0; i < removePool.Count ;i++)
-        {
-            RemovePassenger(removePool[i]);
-        }
+        Debug.Log("Transfert Starts");
+        passengerIncoming = Random.Range(0,4);
+        embarkTarget = embarkPoint;
+        transfertState = true;
     }
     public void OnPassengerBonus(float bonus)
     {
@@ -92,7 +134,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.WHITE:
-                    switch (passenger.satisfaction > 80)
+                    switch (passenger.satisfaction > 50)
                     {
                         case true:
                             Debug.Log("10");
@@ -111,7 +153,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.GREEN:
-                    switch (passenger.satisfaction < 40 )
+                    switch (passenger.satisfaction < 30 )
                     {
                         case true:
                             Debug.Log("12");
@@ -125,4 +167,17 @@ public class PassengerCargo : MonoBehaviour
         }
     }
 
+    public Passenger getIsGreenLeft()
+    {
+        foreach (Passenger passenger in passengers)
+        {
+            switch (passenger.status == PassengerStatus.GREEN)
+            {
+                case true:
+                    return passenger;
+
+            }
+        }
+        return null;
+    }
 }

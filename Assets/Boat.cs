@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum SailState {  CLOSE = 0, MID_OPEN, FULL_OPEN}
+public enum NavigationState { SAILING = 0, DOCKED } // The player journey state
+public enum SailsState {  CLOSE = 0, MID_OPEN, FULL_OPEN} // The boat's sails state
+
 public class Boat : MonoBehaviour
 {
    // v
@@ -12,12 +14,15 @@ public class Boat : MonoBehaviour
     private float maxSpeedBonus;
     private Vector3 startingPosition, speedvec;
 
+    public int playerMoney;
+
     GameObject wind;
 
     private Rigidbody m_rigidbody;
     float speed;
     float brakeForce;
 
+    public SailsState sailState;
 
     public float comparison;
     public float rotSpeed;
@@ -33,6 +38,9 @@ public class Boat : MonoBehaviour
     public PassengerCargo passengerCargo;
 
     public TrailRenderer satisfactionTrail;
+
+    public NavigationState navigationState;
+
     void Start()
     {
         text = GameObject.Find("BoatSpeed Text").GetComponent<Text>();
@@ -59,7 +67,14 @@ public class Boat : MonoBehaviour
         passengerCargo = gameObject.GetComponentInChildren<PassengerCargo>();
 
         satisfactionTrail = GameObject.Find("SatisfactionTrail").GetComponent<TrailRenderer>();
+
+        sailState = SailsState.CLOSE;
+
+        navigationState =  NavigationState.SAILING;
+
+        playerMoney = 0;
     }
+
     void FixedUpdate()
     {
 
@@ -67,10 +82,10 @@ public class Boat : MonoBehaviour
     private void Update()
     {
         startingPosition = transform.position;
-        SailState sailState = Update_SailState();
+        SailsState sailState = Update_SailState();
 
         //Debug.Log("Sails: " + sailState);
-        int sailSpeedBonus = (sailState == SailState.CLOSE) ? 0 : (sailState == SailState.FULL_OPEN) ? 2 : 1;
+        int sailSpeedBonus = (sailState == SailsState.CLOSE) ? 0 : (sailState == SailsState.FULL_OPEN) ? 2 : 1;
         Update_HorizontalMoves(sailSpeedBonus);
         Update_Acceleration(sailSpeedBonus);
 
@@ -93,16 +108,16 @@ public class Boat : MonoBehaviour
         }
 
         //Add navPoints:
-        if (sailState == SailState.FULL_OPEN)
+        if (sailState == SailsState.FULL_OPEN)
         {
-            navPoints += currentSpeed / 7 * Time.deltaTime;
+            navPoints += currentSpeed / 10 * Time.deltaTime;
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))
             {
                 navPoints += currentSpeed / 12 * Time.deltaTime;
             }
         }
         //Add satisfaction to passengers
-        passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /6);
+        passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /5);
 
         UpdateSound();
 
@@ -122,17 +137,20 @@ public class Boat : MonoBehaviour
         return Quaternion.Angle(quatA, quatB);
     }
 
-    public SailState Update_SailState()
+    public SailsState Update_SailState()
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            return SailState.FULL_OPEN;
+            sailState = SailsState.FULL_OPEN;
+            return sailState;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            return SailState.CLOSE;
+            sailState = SailsState.CLOSE;
+            return sailState;
         }
-        return SailState.MID_OPEN;
+        sailState = SailsState.MID_OPEN;
+        return sailState;
     }
     public void Update_HorizontalMoves( int sailSpeedBonus)
     {
@@ -200,7 +218,7 @@ public class Boat : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "PickUp")
+        if (other.transform.tag == "PickUp" )
         {
             other.gameObject.GetComponent<Pickup>().OnPickUp();
             Debug.Log("here i need to put a timed bonus");
@@ -208,16 +226,16 @@ public class Boat : MonoBehaviour
             int diceRescue = Random.Range(0, 3);
             switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   
         }
-        if (other.transform.tag == "PassengerPickUp")
+        if (other.transform.tag == "PassengerPickUp" && currentSpeed < 12 && sailState != SailsState.FULL_OPEN)
         {
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             Debug.Log("here will come some passengers");
-            passengerCargo.OnPassengerTransfer(Random.Range(1, 3));
+            passengerCargo.OnPassengerTransfer(other.gameObject.GetComponent<PassengerPickUp>().getEmbarkPoint());
         }
         if (other.transform.tag == "TriggerMaxSpeed")
         {
             Debug.Log("maxSpeed");
-            this.maxSpeedBonus = 7;
+            this.maxSpeedBonus = 8;
         }
         if (other.transform.tag == "Seagulls")
         {
@@ -228,7 +246,7 @@ public class Boat : MonoBehaviour
     }
     private void UpdateSound()
     {
-        int speed = (currentSpeed < 16) ? 1 : (currentSpeed < 34) ? 2 : 3;
+        int speed = (currentSpeed < 16) ? 1 : (currentSpeed < 32) ? 2 : 3;
         switch (speed)
         {
             case 1:

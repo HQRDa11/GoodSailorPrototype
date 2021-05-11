@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Logic : MonoBehaviour
 {
 
-    public GameObject boat;
+    public Boat boat;
     public GameObject wind;
     public GameObject goal;
     public Text goalDistance;
@@ -18,12 +18,14 @@ public class Logic : MonoBehaviour
 
     public float navPoints;
 
+    public int PlayerMoney { get { return boat.playerMoney; } }
+
     // Start is called before the first frame update
     void Start()
     {
         timerMax = 4;
+        boat = GameObject.Find("Boat").GetComponent<Boat>();
         wind = GameObject.Find("Wind");
-        boat = GameObject.Find("Boat");
         goal = GameObject.Find("Goal");
 
         audioClip = Resources.Load<AudioClip>("AudioClips/Ocean");
@@ -43,7 +45,7 @@ public class Logic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        navPoints = boat.GetComponent<Boat>().navPoints;
+        navPoints = boat.navPoints;
 
 
         //instantiate decoratives

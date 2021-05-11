@@ -7,19 +7,23 @@ public class Game_UserInterface : MonoBehaviour
 {
     public Logic logic;
 
-    public Text navPoints_Display;
+    public Text navigationPoints;
+    public Text playerMoney;
     
     // Start is called before the first frame update
     void Start()
     {
         logic = GameObject.Find("Logic").GetComponent<Logic>();
-        navPoints_Display = GameObject.Find("NavPoints Display").GetComponent<Text>();
+        navigationPoints = GameObject.Find("NavPoints Display").GetComponent<Text>();
+        playerMoney = GameObject.Find("PlayerMoney Display").GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
         int nps = (int)logic.navPoints;
-        navPoints_Display.text = "NPs.:" + nps.ToString();
+        navigationPoints.text = "NPs.:" + nps.ToString();
+        int money = (int)logic.PlayerMoney;
+        playerMoney.text =  money.ToString();
     }
 }
