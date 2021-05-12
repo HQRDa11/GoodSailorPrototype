@@ -117,13 +117,13 @@ public class Boat : MonoBehaviour
             }
         }
         //Add satisfaction to passengers
-        passengerCargo.OnPassengerBonus(currentSpeed * Time.deltaTime /5);
+        passengerCargo.OnPassengerBonus((currentSpeed - 12) * Time.deltaTime /10);
 
         UpdateSound();
 
-        if (currentSpeed >= 36)
+        if (currentSpeed >= 38)
         {
-            satisfactionTrail.startWidth = (currentSpeed-36)/4;
+            satisfactionTrail.startWidth = (currentSpeed-38)/4;
             satisfactionTrail.endWidth = 0.01f;
             satisfactionTrail.emitting = true;
 
@@ -226,7 +226,7 @@ public class Boat : MonoBehaviour
             other.gameObject.GetComponent<Pickup>().OnPickUp();
             Debug.Log("here i need to put a timed bonus");
 
-            int diceRescue = Random.Range(0, 3);
+            int diceRescue = Random.Range(0, 5);
             switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   
         }
         if (other.transform.tag == "PassengerPickUp" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
@@ -246,10 +246,16 @@ public class Boat : MonoBehaviour
             Debug.Log("Bonus happyness fot passengers");
 
         }
-        if (other.transform.tag == "Obstacle")
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Obstacle")
         {
-            Debug.Log("Passengers loses satisfaction");
-            passengerCargo.OnPassengerBonus(-30);
+            float loss = -currentSpeed ;
+            Debug.Log("Passengers loses satisfaction: " + loss.ToString());
+            passengerCargo.OnPassengerBonus(loss);
         }
     }
     private void UpdateSound()

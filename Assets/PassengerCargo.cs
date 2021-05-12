@@ -63,6 +63,43 @@ public class PassengerCargo : MonoBehaviour
         }
     }
 
+    public void SortPassenger()
+    {
+        List<Passenger> listToSort = new List<Passenger>();
+        foreach(Passenger p in passengers)
+        {
+            if(p.status == PassengerStatus.GREEN)
+            {
+                listToSort.Add(p);
+            }
+        }
+        foreach (Passenger p in passengers)
+        {
+            if (p.status == PassengerStatus.WHITE)
+            {
+                listToSort.Add(p);
+            }
+        }
+        foreach (Passenger p in passengers)
+        {
+            if (p.status == PassengerStatus.RED)
+            {
+                listToSort.Add(p);
+            }
+        }
+        float margin = 1f;
+        int nbOfRanks = Mathf.CeilToInt(Mathf.Sqrt(listToSort.Count));
+        Vector3 origin = this.transform.position + Vector3.left*(margin*nbOfRanks-1)/2 + Vector3.forward * (margin * nbOfRanks - 1) / 2;
+        for (int x = 0; x < nbOfRanks && listToSort.Count> 0; x++)
+        {
+            for (int y = 0; y < nbOfRanks && listToSort.Count > 0; y++)
+            {
+                listToSort[0].transform.position = origin + (Vector3.right * x * margin) + (Vector3.back * y * margin);
+                listToSort.RemoveAt(0);
+            }
+        }
+
+    }
 
     public void ProceedTransfertStep()
     {
@@ -98,6 +135,7 @@ public class PassengerCargo : MonoBehaviour
         newPassenger.transform.position = this.transform.position + Vector3.right * Random.Range(-1.8f,1.8f);
         passengers.Add(newPassenger.GetComponent<Passenger>());
         Debug.Log("1");
+        SortPassenger();
     }
     public void RemovePassenger(Passenger removed)
     {
@@ -105,6 +143,7 @@ public class PassengerCargo : MonoBehaviour
         GameObject.Destroy(removed.gameObject);
         Debug.Log("4");
         passengers.Remove(removed);
+        SortPassenger();
     }
 
     public void OnPassengerTransfer(Vector3 embarkPoint)
@@ -116,7 +155,7 @@ public class PassengerCargo : MonoBehaviour
     }
     public void OnPassengerBonus(float bonus)
     {
-        bonus /= passengers.Count +1;
+        bonus /= (passengers.Count/2)+1;
         
         foreach (Passenger passenger in passengers)
         {
@@ -127,17 +166,15 @@ public class PassengerCargo : MonoBehaviour
                     switch(passenger.satisfaction>0)
                     {
                         case true: passenger.status = PassengerStatus.WHITE;
-                            Debug.Log("7");
                             passenger.SetMaterial(colorWhite);
                             break;
                     }
                     break;
 
                 case PassengerStatus.WHITE:
-                    switch (passenger.satisfaction > 50)
+                    switch (passenger.satisfaction > 60)
                     {
                         case true:
-                            Debug.Log("10");
                             passenger.status = PassengerStatus.GREEN;
                             passenger.SetMaterial(colorGreen);
                             break;

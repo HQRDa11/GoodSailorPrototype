@@ -11,7 +11,7 @@ public class Passenger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        minHeight = this.gameObject.transform.localScale.y;
+        minHeight = 10;
         status = PassengerStatus.WHITE;
         satisfaction = 0;
         SetMaterial(Resources.Load<Material>("Materials/Status/WhiteStatus"));
@@ -22,8 +22,7 @@ public class Passenger : MonoBehaviour
         switch (gameObject.transform.localScale.y > minHeight)
         {
             case true:
-                    Debug.Log("should shrink");
-                this.transform.localScale -= Vector3.up * Time.deltaTime *18 ;
+                this.transform.localScale -= Vector3.up * Time.deltaTime *30 ;
                 break;
         }
 
@@ -35,7 +34,7 @@ public class Passenger : MonoBehaviour
         Debug.Log("passenger renderers Count:" + renderers.Length );
         foreach (Renderer r in renderers) {  r.material = material; };
 
-        this.transform.localScale += Vector3.up *30 ;
+        this.transform.localScale += Vector3.up *12 ;
         Debug.Log("Tell me more" );
     }
 
