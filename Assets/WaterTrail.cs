@@ -15,8 +15,8 @@ public class WaterTrail : MonoBehaviour
         trails = GetComponentsInChildren<TrailRenderer>();
         foreach(TrailRenderer t in trails)
         {
-            t.startWidth = 0.3f;
-            t.endWidth = 1;
+            t.startWidth = 0.05f;
+            t.endWidth = 0.8f;
             emissionFlowTimer = 0;
             emissionFlowTimer_current = 0;
 

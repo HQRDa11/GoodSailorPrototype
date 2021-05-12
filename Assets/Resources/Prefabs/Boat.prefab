@@ -90,8 +90,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0, y: 0.27345625, z: 0.0014157295}
-    m_Extent: {x: 5, y: 0.27345625, z: 5.001416}
+    m_Center: {x: 0, y: 0.00036932202, z: -0.00035429}
+    m_Extent: {x: 5, y: 0.00036932202, z: 5.000354}
   m_DirtyAABB: 0
 --- !u!183 &1534146882810284364
 Cloth:
@@ -575,18 +575,18 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.9, g: 0.94392526, b: 1, a: 1}
-      key1: {r: 0.5835246, g: 0.6612284, b: 0.76626885, a: 1}
-      key2: {r: 0.2742079, g: 0.41802597, b: 0.6132076, a: 0}
-      key3: {r: 0.18504775, g: 0.29888517, b: 0.44982147, a: 0}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 1, g: 1, b: 1, a: 0}
+      key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0.18504775, g: 0.29888517, b: 0.44982147, a: 0}
       key5: {r: 0.18751995, g: 0.30218866, b: 0.45435178, a: 0}
       key6: {r: 0.18751995, g: 0.30218866, b: 0.45435178, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 6939
-      ctime2: 29105
+      ctime1: 65535
+      ctime2: 65535
       ctime3: 65535
-      ctime4: 65342
+      ctime4: 65535
       ctime5: 65535
       ctime6: 65535
       ctime7: 0
@@ -599,7 +599,7 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 4
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
@@ -667,8 +667,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2526478297268211100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.000000028146, y: 0, z: -8.16}
+  m_LocalScale: {x: 1.087898, y: 3, z: 1}
   m_Children:
   - {fileID: 8331308963201067748}
   - {fileID: 4355051868239333933}
@@ -687,6 +687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9866d4b014c46b64a99879ba849109e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boat: {fileID: 0}
+  emissionFlowTimer: 0
+  emissionFlowTimer_current: 0
 --- !u!1 &2617791809550695435
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,8 +861,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0, y: 0.0743856, z: 0.0003376007}
-    m_Extent: {x: 5, y: 0.12901661, z: 5.0003376}
+    m_Center: {x: 0, y: 0.00006833727, z: -0.00020647049}
+    m_Extent: {x: 5, y: 0.00006833727, z: 5.0002756}
   m_DirtyAABB: 0
 --- !u!183 &5132227232034743424
 Cloth:
@@ -1259,8 +1262,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0, y: 0.15855992, z: 0.0005469322}
-    m_Extent: {x: 5, y: 0.15856344, z: -5.000547}
+    m_Center: {x: 0, y: 0.00016584902, z: -0.00026369095}
+    m_Extent: {x: 5, y: 0.00016935889, z: -5.000278}
   m_DirtyAABB: 0
 --- !u!183 &6184465171851293615
 Cloth:
@@ -2030,8 +2033,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0, y: -0.27449843, z: 0.0009832382}
-    m_Extent: {x: 5, y: 0.27450112, z: -5.000983}
+    m_Center: {x: 0, y: -0.00030110244, z: -0.00022983551}
+    m_Extent: {x: 5, y: 0.0003038244, z: -5.00023}
   m_DirtyAABB: 0
 --- !u!183 &7220324788294462114
 Cloth:
@@ -2446,18 +2449,18 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.9, g: 0.94392526, b: 1, a: 1}
-      key1: {r: 0.5835246, g: 0.6612284, b: 0.76626885, a: 1}
-      key2: {r: 0.2742079, g: 0.41802597, b: 0.6132076, a: 0}
-      key3: {r: 0.18504775, g: 0.29888517, b: 0.44982147, a: 0}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 1, g: 1, b: 1, a: 0}
+      key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 0.18504775, g: 0.29888517, b: 0.44982147, a: 0}
       key5: {r: 0.18751995, g: 0.30218866, b: 0.45435178, a: 0}
       key6: {r: 0.18751995, g: 0.30218866, b: 0.45435178, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 6939
-      ctime2: 29105
+      ctime1: 65535
+      ctime2: 65535
       ctime3: 65535
-      ctime4: 65342
+      ctime4: 65535
       ctime5: 65535
       ctime6: 65535
       ctime7: 0
@@ -2470,7 +2473,7 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 4
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
