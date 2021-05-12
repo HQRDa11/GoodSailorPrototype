@@ -20,6 +20,9 @@ public class PassengerCargo : MonoBehaviour
     Vector3      embarkTarget;
     bool transfertState;
 
+    AudioSource audioSource;
+    AudioClip passengerLevelUp_audioClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +38,10 @@ public class PassengerCargo : MonoBehaviour
         passengerIncoming = 0;
         embarkTarget = Vector3.zero;
         transfertState = false;
+
+        audioSource = gameObject.GetComponent<AudioSource>();
+        passengerLevelUp_audioClip = Resources.Load<AudioClip>("AudioClips/Droplet");
+        audioSource.clip = passengerLevelUp_audioClip;
 
     }
 
@@ -109,8 +116,7 @@ public class PassengerCargo : MonoBehaviour
             case true:
                 Passenger removed = getIsGreenLeft();
                 GetComponentInParent<Boat>().playerMoney += (int)removed.satisfaction / 20 ;
-                passengers.Remove(removed);
-                GameObject.Destroy(removed.gameObject);
+                RemovePassenger(removed);
                 return;
         }
         
@@ -135,6 +141,7 @@ public class PassengerCargo : MonoBehaviour
         newPassenger.transform.position = this.transform.position + Vector3.right * Random.Range(-1.8f,1.8f);
         passengers.Add(newPassenger.GetComponent<Passenger>());
         Debug.Log("1");
+        audioSource.Play();
         SortPassenger();
     }
     public void RemovePassenger(Passenger removed)
@@ -143,6 +150,7 @@ public class PassengerCargo : MonoBehaviour
         GameObject.Destroy(removed.gameObject);
         Debug.Log("4");
         passengers.Remove(removed);
+        audioSource.Play();
         SortPassenger();
     }
 
@@ -167,6 +175,7 @@ public class PassengerCargo : MonoBehaviour
                     {
                         case true: passenger.status = PassengerStatus.WHITE;
                             passenger.SetMaterial(colorWhite);
+                            audioSource.Play();
                             break;
                     }
                     break;
@@ -177,6 +186,7 @@ public class PassengerCargo : MonoBehaviour
                         case true:
                             passenger.status = PassengerStatus.GREEN;
                             passenger.SetMaterial(colorGreen);
+                            audioSource.Play();
                             break;
                     }
                     switch (passenger.satisfaction < -5)
