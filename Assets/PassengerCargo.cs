@@ -23,6 +23,8 @@ public class PassengerCargo : MonoBehaviour
     AudioSource audioSource;
     AudioClip passengerLevelUp_audioClip;
 
+    Game_UserInterface UI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +45,7 @@ public class PassengerCargo : MonoBehaviour
         passengerLevelUp_audioClip = Resources.Load<AudioClip>("AudioClips/Droplet");
         audioSource.clip = passengerLevelUp_audioClip;
 
+        UI = GameObject.Find("UI").GetComponent<Game_UserInterface>();
     }
 
     // Update is called once per frame
@@ -107,7 +110,6 @@ public class PassengerCargo : MonoBehaviour
         }
 
     }
-
     public void ProceedTransfertStep()
     {
         // REMOVAL
@@ -115,7 +117,9 @@ public class PassengerCargo : MonoBehaviour
         {
             case true:
                 Passenger removed = getIsGreenLeft();
-                GetComponentInParent<Boat>().playerMoney += (int)removed.satisfaction / 20 ;
+                int newIncome = (int)removed.satisfaction / 20;
+                GetComponentInParent<Boat>().playerMoney += newIncome;
+                UI.DisplayTransaction(newIncome);
                 RemovePassenger(removed);
                 return;
         }
@@ -131,7 +135,6 @@ public class PassengerCargo : MonoBehaviour
                 return;
         }
     }
-
     public void AddPassenger()
     {
         Debug.Log("1");
@@ -153,7 +156,6 @@ public class PassengerCargo : MonoBehaviour
         audioSource.Play();
         SortPassenger();
     }
-
     public void OnPassengerTransfer(Vector3 embarkPoint)
     {
         Debug.Log("Transfert Starts");
@@ -215,7 +217,6 @@ public class PassengerCargo : MonoBehaviour
 
         }
     }
-
     public Passenger getIsGreenLeft()
     {
         foreach (Passenger passenger in passengers)
@@ -229,4 +230,5 @@ public class PassengerCargo : MonoBehaviour
         }
         return null;
     }
+    
 }
