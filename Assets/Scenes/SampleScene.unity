@@ -504,8 +504,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 10
+  far clip plane: 800
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1117,6 +1117,8 @@ MonoBehaviour:
   boat: {fileID: 0}
   timerMax: 0
   timerCurrent: 0
+  decors: []
+  maxNbDecor: 0
 --- !u!4 &2036157646
 Transform:
   m_ObjectHideFlags: 0
@@ -1914,6 +1916,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2570695860488827209, guid: 79a6e99d6618bd245b3b278d221069df, type: 3}
+      propertyPath: m_Time
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6184465171852958176, guid: 79a6e99d6618bd245b3b278d221069df, type: 3}
       propertyPath: m_RootOrder
       value: 2

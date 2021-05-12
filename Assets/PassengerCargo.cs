@@ -44,7 +44,7 @@ public class PassengerCargo : MonoBehaviour
         switch (transfertState)
         {
             case true:
-                switch (passengerIncoming > 0)
+                switch (passengerIncoming > 0 || getIsGreenLeft()!=null)
                 {
                     case true:
                         transfertFlow_TimerCurrent += Time.deltaTime;
@@ -172,7 +172,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.WHITE:
-                    switch (passenger.satisfaction > 60)
+                    switch (passenger.satisfaction > 70)
                     {
                         case true:
                             passenger.status = PassengerStatus.GREEN;
