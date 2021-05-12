@@ -195,6 +195,7 @@ public class PassengerCargo : MonoBehaviour
                             Debug.Log("11");
                             passenger.status = PassengerStatus.RED;
                             passenger.SetMaterial(colorRed);
+                            audioSource.Play();
                             break;
                     }
                     break;
@@ -206,6 +207,7 @@ public class PassengerCargo : MonoBehaviour
                             Debug.Log("12");
                             passenger.status = PassengerStatus.WHITE;
                             passenger.SetMaterial(colorWhite);
+                            audioSource.Play();
                             break;
                     }
                     break;
