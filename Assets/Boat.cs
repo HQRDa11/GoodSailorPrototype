@@ -123,7 +123,7 @@ public class Boat : MonoBehaviour
 
         if (currentSpeed >= 38)
         {
-            satisfactionTrail.startWidth = (currentSpeed-38)/4;
+            satisfactionTrail.startWidth = (currentSpeed-38)/12*Mathf.Sqrt(currentSpeed/6);
             satisfactionTrail.endWidth = 0.01f;
             satisfactionTrail.emitting = true;
 
