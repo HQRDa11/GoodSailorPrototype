@@ -29,13 +29,10 @@ public class Passenger : MonoBehaviour
     }
     public void SetMaterial(Material material)
     {
-        Debug.Log(material);
         Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-        Debug.Log("passenger renderers Count:" + renderers.Length );
         foreach (Renderer r in renderers) {  r.material = material; };
 
         this.transform.localScale += Vector3.up *12 ;
-        Debug.Log("Tell me more" );
     }
 
 }

@@ -25,6 +25,8 @@ public class PassengerCargo : MonoBehaviour
 
     Game_UserInterface UI;
 
+    public int CurrentSatisfaction { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -165,8 +167,10 @@ public class PassengerCargo : MonoBehaviour
     }
     public void OnPassengerBonus(float bonus)
     {
+        Debug.Log("bonus is :" + bonus);
+        CurrentSatisfaction = (int)(bonus / Time.deltaTime) ;
+
         bonus /= (passengers.Count/2)+1;
-        
         foreach (Passenger passenger in passengers)
         {
             passenger.satisfaction += bonus;

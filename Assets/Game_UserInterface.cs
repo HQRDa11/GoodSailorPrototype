@@ -10,10 +10,15 @@ public class Game_UserInterface : MonoBehaviour
     public Text navigationPoints;
     public Text playerMoney;
 
+    public int displayTimer;
+    public float displayTimer_current;
+
+    public Text transaction_display;
     public List<int> transactions;
-    public Text transactionDisplay;
-    public int transactionDisplay_timer;
-    public float transactionDisplay_timer_current;
+
+    public PassengerCargo passengerCargo;
+    public GameObject satisfactionDisplay_prefab;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +28,13 @@ public class Game_UserInterface : MonoBehaviour
         playerMoney = GameObject.Find("PlayerMoney Display").GetComponentInChildren<Text>();
 
         transactions = new List<int>();
-        transactionDisplay_timer = 1;
-        transactionDisplay_timer_current = 0;
+        displayTimer = 1;
+        displayTimer_current = 0;
 
-        transactionDisplay = GameObject.Find("Transaction Display").GetComponent<Text>();
+        transaction_display = GameObject.Find("Transaction Display").GetComponent<Text>();
+
+        passengerCargo = GameObject.Find("Passenger Cargo").GetComponent<PassengerCargo>();
+        satisfactionDisplay_prefab = Resources.Load<GameObject>("Prefabs/UI/Satisfaction Display");
     }
 
     // Update is called once per frame
@@ -37,12 +45,13 @@ public class Game_UserInterface : MonoBehaviour
         int money = (int)logic.PlayerMoney;
         playerMoney.text =  money.ToString()+"€";
 
-        transactionDisplay_timer_current += Time.deltaTime;
-        switch (transactionDisplay_timer_current > transactionDisplay_timer)
+        displayTimer_current += Time.deltaTime;
+        switch (displayTimer_current > displayTimer)
         {
             case true:
+                displayTimer_current = 0;
                 Update_TransactionDisplay();
-                transactionDisplay_timer_current = 0;
+                Update_SatisfactionDisplay();
                 break;
         }
     }
@@ -50,7 +59,7 @@ public class Game_UserInterface : MonoBehaviour
     public void DisplayTransaction(int moneyAmount)
     {
         transactions.Add(moneyAmount);
-        transactionDisplay_timer_current = transactionDisplay_timer;
+        displayTimer_current = displayTimer;
     }
 
     private void Update_TransactionDisplay()
@@ -59,18 +68,26 @@ public class Game_UserInterface : MonoBehaviour
         {
             case true:
                 // make go active
-                if (!transactionDisplay.gameObject.activeSelf)
+                if (!transaction_display.gameObject.activeSelf)
                 {
-                    transactionDisplay.gameObject.SetActive(true);
+                    transaction_display.gameObject.SetActive(true);
                 }
-                transactionDisplay.text = transactions[0].ToString();
-                transactionDisplay.transform.position += Vector3.up;
+                transaction_display.text = transactions[0].ToString();
+                transaction_display.transform.position += Vector3.up;
                 transactions.RemoveAt(0);
                 break;
 
             case false:
-                transactionDisplay.gameObject.SetActive(false);
+                transaction_display.gameObject.SetActive(false);
                 break;
+        }
+    }
+    private void Update_SatisfactionDisplay()
+    {
+        if (passengerCargo.CurrentSatisfaction!=0)
+        {
+            GameObject display = GameObject.Instantiate(satisfactionDisplay_prefab, this.transform);
+            display.GetComponent<Text>().text = passengerCargo.CurrentSatisfaction.ToString();
         }
     }
 }
