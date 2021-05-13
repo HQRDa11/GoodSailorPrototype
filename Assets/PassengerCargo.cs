@@ -167,7 +167,6 @@ public class PassengerCargo : MonoBehaviour
     }
     public void OnPassengerBonus(float bonus)
     {
-        Debug.Log("bonus is :" + bonus);
         CurrentSatisfaction = (int)(bonus / Time.deltaTime) ;
 
         bonus /= (passengers.Count/2)+1;

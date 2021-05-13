@@ -24,6 +24,7 @@ public class WorldDecorator : MonoBehaviour
 
         List<GameObject> decors = new List<GameObject>();
         maxNbDecor = 400;
+
     }
     public void DestroyFarDistance()
     {

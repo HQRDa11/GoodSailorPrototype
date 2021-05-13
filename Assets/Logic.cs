@@ -43,6 +43,9 @@ public class Logic : MonoBehaviour
     {
         navPoints = boat.navPoints;
         goalDistance.text = "Goal: undefined yet";
+
+
+        Debug.Log("Player X position : " + (double)boat.gameObject.transform.position.x);
     }
 
 }
