@@ -232,7 +232,7 @@ public class Boat : MonoBehaviour
         if (other.transform.tag == "PassengerPickUp" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
         {
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
-            Debug.Log("here will come some passengers");
+            //Debug.Log("here will come some passengers");
             passengerCargo.OnPassengerTransfer(other.gameObject.GetComponent<PassengerPickUp>().getEmbarkPoint());
         }
         if (other.transform.tag == "TriggerMaxSpeed")

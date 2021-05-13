@@ -18,7 +18,7 @@ public class DestroyOnFarDistance : MonoBehaviour
         if ( distance > 512)
         {
             GameObject.Destroy(this.gameObject);
-            Debug.Log("destructed");
+
         }
     }
 

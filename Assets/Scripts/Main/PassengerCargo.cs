@@ -139,13 +139,10 @@ public class PassengerCargo : MonoBehaviour
     }
     public void AddPassenger()
     {
-        Debug.Log("1");
         GameObject newPassenger = GameObject.Instantiate(passengerGo);
         newPassenger.transform.parent = this.transform;
-        Debug.Log("2");
         newPassenger.transform.position = this.transform.position + Vector3.right * Random.Range(-1.8f,1.8f);
         passengers.Add(newPassenger.GetComponent<Passenger>());
-        Debug.Log("1");
         audioSource.Play();
         SortPassenger();
     }
@@ -160,7 +157,6 @@ public class PassengerCargo : MonoBehaviour
     }
     public void OnPassengerTransfer(Vector3 embarkPoint)
     {
-        Debug.Log("Transfert Starts");
         passengerIncoming = Random.Range(0,4);
         embarkTarget = embarkPoint;
         transfertState = true;

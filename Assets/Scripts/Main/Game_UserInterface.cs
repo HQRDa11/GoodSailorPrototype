@@ -90,4 +90,9 @@ public class Game_UserInterface : MonoBehaviour
             display.GetComponent<Text>().text = passengerCargo.CurrentSatisfaction.ToString();
         }
     }
+
+    public void Display_AreaName( string name )
+    {
+
+    }
 }
