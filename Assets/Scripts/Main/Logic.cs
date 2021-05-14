@@ -24,6 +24,7 @@ public class Logic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_ui = GameObject.Find("UI").GetComponent<Game_UserInterface>();
         boat = GameObject.Find("Boat").GetComponent<Boat>();
         wind = GameObject.Find("Wind");
         goal = GameObject.Find("Goal");
@@ -42,7 +43,7 @@ public class Logic : MonoBehaviour
         navPoints = 0;
 
         m_world = new World(WorldState.MIDDLE_ISLANDS);
-        m_ui = GameObject.Find("UI").GetComponent<Game_UserInterface>();
+        m_ui.Display_AreaName(m_world.GetAreaName());
     }
 
     // Update is called once per frame
@@ -82,15 +83,14 @@ public class Logic : MonoBehaviour
 
     public void NextWorld( bool isWest_notEast)
     {
-        Debug.Log("nextState");
         switch (isWest_notEast)
         {
             case true:
                 m_world.NextState_West();
-                return;
+                break;
             case false:
                 m_world.NextState_East();
-                return;
+                break;
         }
         m_ui.Display_AreaName(m_world.GetAreaName());
     }
