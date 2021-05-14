@@ -37,7 +37,7 @@ public class Continent_Factory
         baseModule.transform.Rotate(Vector2.up, Random.Range(-180, 180));
         //baseModule.transform.Translate(Vector3.up * m_depth);
 
-        GameObject module1 = CreateModule(continent, baseModule);
+        GameObject module1 = CreateModule(continent, continent);
         GameObject module2 = CreateModule(continent, module1);
         GameObject module3 = CreateModule(continent, module2);
         GameObject module4 = CreateModule(continent, module3);

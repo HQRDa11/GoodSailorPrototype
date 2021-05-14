@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WorldState { WEST_CONTINENT = -2, WEST_OCEAN, MIDDLE_ISLANDS = 0 ,EAST_OCEAN, EAST_CONTINENT};
+public enum WorldState { WEST_CONTINENTs = -2, WEST_OCEAN, MIDDLE_ISLANDS = 0 ,EAST_OCEAN, EAST_CONTINENT};
 public class World 
 {
     private WorldState      m_currentState;
@@ -27,8 +27,8 @@ public class World
         List<GameObject> listOfDecors = this.m_decorator.GetDecorList();
         switch (newState)
         {
-            case WorldState.WEST_CONTINENT:
-                m_currentState = WorldState.WEST_CONTINENT;
+            case WorldState.WEST_CONTINENTs:
+                m_currentState = WorldState.WEST_CONTINENTs;
                 this.m_decorator = new WorldDecorator_WesternContinent();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
@@ -67,7 +67,7 @@ public class World
     {
         switch (m_currentState)
         {
-            case WorldState.WEST_CONTINENT:
+            case WorldState.WEST_CONTINENTs:
                 SwitchState(WorldState.WEST_OCEAN);
                 return;
             case WorldState.WEST_OCEAN:
@@ -88,11 +88,11 @@ public class World
     {
         switch (m_currentState)
         {
-            case WorldState.WEST_CONTINENT:
+            case WorldState.WEST_CONTINENTs:
                 Debug.LogWarning("There is nothing beyond West Continent");
                 return;
             case WorldState.WEST_OCEAN:
-                SwitchState(WorldState.WEST_CONTINENT);
+                SwitchState(WorldState.WEST_CONTINENTs);
                 return;
             case WorldState.MIDDLE_ISLANDS:
                 SwitchState(WorldState.WEST_OCEAN);
@@ -110,8 +110,8 @@ public class World
     {
         switch (m_currentState)
         {
-            case WorldState.WEST_CONTINENT:
-                return "Western Continent";
+            case WorldState.WEST_CONTINENTs:
+                return "Western Continents";
             case WorldState.WEST_OCEAN:
                 return "West Ocean";
             case WorldState.MIDDLE_ISLANDS:
@@ -119,7 +119,7 @@ public class World
             case WorldState.EAST_OCEAN:
                 return "East Ocean";
             case WorldState.EAST_CONTINENT:
-                return "Eastern Continent";
+                return "Eastern Continents";
         }
         return "no name yet";
     }

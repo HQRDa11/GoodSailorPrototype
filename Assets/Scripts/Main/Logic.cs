@@ -35,14 +35,14 @@ public class Logic : MonoBehaviour
 
         goalDistance = GameObject.Find("GoalDistance").GetComponent<Text>();
 
-
         audioSource = boat.gameObject.AddComponent<AudioSource>();
         audioSource.clip = audioClip;
         audioSource.Play();
 
+
         navPoints = 0;
 
-        m_world = new World(WorldState.WEST_CONTINENT);
+        m_world = new World(WorldState.WEST_CONTINENTs);
         m_ui.Display_AreaName(m_world.GetAreaName());
     }
 
