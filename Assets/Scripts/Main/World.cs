@@ -12,8 +12,8 @@ public class World
     // Start is called before the first frame update
     public World( WorldState startZone)
     {
-        m_currentState = WorldState.MIDDLE_ISLANDS;
-        m_decorator = new WorldDecorator_MiddleIslands(); 
+        m_decorator = new WorldDecorator_Ocean();
+        SwitchState(startZone);
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class World
         {
             case WorldState.WEST_CONTINENT:
                 m_currentState = WorldState.WEST_CONTINENT;
-                this.m_decorator = new WorldDecorator_MiddleIslands(); // !!!!!!!!!!!!
+                this.m_decorator = new WorldDecorator_WesternContinent();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 

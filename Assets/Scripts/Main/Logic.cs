@@ -42,7 +42,7 @@ public class Logic : MonoBehaviour
 
         navPoints = 0;
 
-        m_world = new World(WorldState.MIDDLE_ISLANDS);
+        m_world = new World(WorldState.WEST_CONTINENT);
         m_ui.Display_AreaName(m_world.GetAreaName());
     }
 

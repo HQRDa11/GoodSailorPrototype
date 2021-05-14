@@ -13,8 +13,8 @@ public class WorldDecorator
 {
     public float waterLevelAdjustment;
     public Boat boat;
-    public float timerMax;
-    public float timerCurrent;
+    public float m_timerMax;
+    public float m_timerCurrent;
 
 
     public int maxNbDecor;
@@ -26,10 +26,10 @@ public class WorldDecorator
     {
         m_go = new GameObject("WorldDecorator");
         m_go.transform.position = Vector3.zero;
-        timerMax = 10;
+        m_timerMax = 10;
         boat = GameObject.Find("Boat").GetComponent<Boat>();
 
-        timerCurrent = 0;
+        m_timerCurrent = 0;
 
         waterLevelAdjustment = 6;
 
@@ -59,15 +59,15 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
 {
     public WorldDecorator_MiddleIslands() : base()
     {
-
+        
     }
     public void Update()
     {
         //Debug.Log("you are now in Middle");
 
         DestroyFarDistanceObjects();
-        timerCurrent += Time.deltaTime * boat.GetComponent<Boat>().currentSpeed / 10;
-        switch (timerCurrent >= timerMax)
+        m_timerCurrent += Time.deltaTime * boat.GetComponent<Boat>().currentSpeed / 10;
+        switch (m_timerCurrent >= m_timerMax)
         {
             case true:
                 switch (m_decors.Count < maxNbDecor)
@@ -80,7 +80,7 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
                         DecorWithGiantLongSideObjects();
                         break;
                 }
-                timerCurrent = 0;
+                m_timerCurrent = 0;
                 break;
         }
     }
@@ -211,8 +211,8 @@ public class WorldDecorator_Ocean : WorldDecorator, IWorldDecorator<List<GameObj
     public void Update()
     {
         DestroyFarDistanceObjects();
-        timerCurrent += Time.deltaTime * boat.GetComponent<Boat>().currentSpeed / 10;
-        switch (timerCurrent >= timerMax)
+        m_timerCurrent += Time.deltaTime * boat.GetComponent<Boat>().currentSpeed / 10;
+        switch (m_timerCurrent >= m_timerMax)
         {
             case true:
                 switch (m_decors.Count < maxNbDecor)
@@ -220,7 +220,7 @@ public class WorldDecorator_Ocean : WorldDecorator, IWorldDecorator<List<GameObj
                     case true:
                         break;
                 }
-                timerCurrent = 0;
+                m_timerCurrent = 0;
                 break;
         }
     }
