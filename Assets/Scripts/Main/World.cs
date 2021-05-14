@@ -28,35 +28,30 @@ public class World
         switch (newState)
         {
             case WorldState.WEST_CONTINENT:
-                Debug.LogWarning("WESTERN CONTINENT");
                 m_currentState = WorldState.WEST_CONTINENT;
                 this.m_decorator = new WorldDecorator_MiddleIslands(); // !!!!!!!!!!!!
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 
             case WorldState.WEST_OCEAN:
-                Debug.LogWarning("WESTERN OCEAN");
                 m_currentState = WorldState.WEST_OCEAN;
                 this.m_decorator = new WorldDecorator_Ocean();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 
             case WorldState.MIDDLE_ISLANDS:
-                Debug.LogWarning("MIDDLE ISLANDS");
                 m_currentState = WorldState.MIDDLE_ISLANDS;
                 this.m_decorator = new WorldDecorator_MiddleIslands();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 
             case WorldState.EAST_OCEAN:
-                Debug.LogWarning("EASTERN OCEAN");
                 m_currentState = WorldState.EAST_OCEAN;
                 this.m_decorator = new WorldDecorator_Ocean();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 
             case WorldState.EAST_CONTINENT:
-                Debug.LogWarning("EASTERN CONTINENT");
                 m_currentState = WorldState.EAST_CONTINENT;
                 this.m_decorator = new WorldDecorator_MiddleIslands(); // !!!!!!!!!!!!
                 m_decorator.SetDecorList(listOfDecors);

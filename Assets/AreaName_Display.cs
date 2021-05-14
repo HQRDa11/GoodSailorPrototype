@@ -42,11 +42,9 @@ public class AreaName_Display : MonoBehaviour
                 if (currentStep < toDisplay.Length)
                 {
                     NextStep();
-                    Debug.Log(currentStep);
                 }
                 else if (stepsLeft == 0)
                 {
-                    Debug.Log("destruction ok");
                     GameObject.Destroy(this.gameObject);
                 }
                 stepsLeft--;
@@ -62,7 +60,6 @@ public class AreaName_Display : MonoBehaviour
         {
             text.text += toDisplay[i];
         }
-        Debug.Log(text.text);
         currentStep++;
     }
 }
