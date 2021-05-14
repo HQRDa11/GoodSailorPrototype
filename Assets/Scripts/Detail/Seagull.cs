@@ -32,7 +32,7 @@ public class Seagull : MonoBehaviour
                         target.transform.position, 
                         Time.deltaTime * Mathf.Sqrt(distance)*3
                         );
-                    //this.transform.rotation = Quaternion.LookRotation(this.transform.position, target.transform.position);
+                    this.transform.rotation = Quaternion.LookRotation(this.transform.position, target.transform.position);
                     return;
                 }
                 else
