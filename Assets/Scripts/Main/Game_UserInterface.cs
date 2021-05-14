@@ -94,7 +94,7 @@ public class Game_UserInterface : MonoBehaviour
     public void Display_AreaName( string name )
     {
         GameObject newDisplay = Instantiate(Resources.Load<GameObject>("Prefabs/UI/AreaName Display"));
-        newDisplay.transform.parent = this.gameObject.transform;
+        newDisplay.transform.SetParent(this.transform,false) ;
         newDisplay.GetComponent<Text>().font = Resources.Load<Font>("Fonts/CraftyLover");
         newDisplay.AddComponent<AreaName_Display>().Initialise(name);
     }

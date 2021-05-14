@@ -23,7 +23,7 @@ public class AreaName_Display : MonoBehaviour
     {
         flowTimer_current = 0;
         currentStep = 0;
-        this.gameObject.transform.position += (Vector3)((Vector2.right * Screen.width / 2) + (Vector2.up * Screen.height *5/8));
+        this.gameObject.transform.position += Vector3.up * 1 / 4 * Screen.height;
         text = gameObject.GetComponent<Text>();
         isInitialised = true;
         toDisplay = name;
