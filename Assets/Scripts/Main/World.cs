@@ -122,7 +122,7 @@ public class World
             case WorldState.MIDDLE_ISLANDS:
                 return "Middle Islands";
             case WorldState.EAST_OCEAN:
-                return "West Ocean";
+                return "East Ocean";
             case WorldState.EAST_CONTINENT:
                 return "Eastern Continent";
         }
