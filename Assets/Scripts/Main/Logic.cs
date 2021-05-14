@@ -69,15 +69,15 @@ public class Logic : MonoBehaviour
         {
             m_sideMovement -= Time.deltaTime;
         }
-        if (m_sideMovement > 8)
+        if (m_sideMovement > 6)
         {
             NextWorld(false);
-            m_sideMovement = - 8;
+            m_sideMovement = - 6;
         }
-        else if (m_sideMovement < -8)
+        else if (m_sideMovement < -6)
         {
             NextWorld(true);
-            m_sideMovement = 8;
+            m_sideMovement = 6;
         }
     }
 
