@@ -5,20 +5,21 @@ using UnityEngine;
 public class Continent_Factory 
 {
 
-    private GameObject m_baseModule;
+    private GameObject m_beachModuleA;
+    private GameObject m_beachModuleB;
     private GameObject m_moduleA;
     private GameObject m_moduleB;
     private GameObject m_moduleC;
     private GameObject m_moduleD;
 
     private int id_distributor;
-    private int m_depth;
     // Start is called before the first frame update
     public Continent_Factory()
     {
         id_distributor = 0;
-        m_baseModule = Resources.Load<GameObject>("Prefabs/Continents/Continent BaseModule");
-        Debug.Log("baseModule:"+(m_baseModule));
+        m_beachModuleA = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleA");
+        m_beachModuleB = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleB");
+
         m_moduleA    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleA");
         m_moduleB    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleB");
         m_moduleC    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleC");
@@ -32,9 +33,15 @@ public class Continent_Factory
         
         GameObject continent = new GameObject("Continent" + id_distributor.ToString());
         Debug.Log("continent:"+(continent));
-        GameObject baseModule = GameObject.Instantiate(m_baseModule, continent.transform);
-        baseModule.transform.localScale += Vector3.right * Random.Range(1, 3) + Vector3.forward * Random.Range(1, 3);
-        baseModule.transform.Rotate(Vector2.up, Random.Range(-180, 180));
+        
+        GameObject beachModuleA = GameObject.Instantiate(m_beachModuleA, continent.transform);
+        beachModuleA.transform.localScale += Vector3.right * Random.Range(1, 3) + Vector3.forward * Random.Range(1, 3);
+        beachModuleA.transform.Rotate(Vector2.up, Random.Range(-180, 180));
+        
+        GameObject beachModuleB = GameObject.Instantiate(m_beachModuleB, continent.transform);
+        beachModuleB.transform.localScale += Vector3.right * Random.Range(1, 3) + Vector3.forward * Random.Range(1, 3);
+        beachModuleB.transform.Rotate(Vector2.up, Random.Range(-180, 180));
+
         //baseModule.transform.Translate(Vector3.up * m_depth);
 
         GameObject module1 = CreateModule(continent, continent);
@@ -43,6 +50,8 @@ public class Continent_Factory
         GameObject module4 = CreateModule(continent, module3);
         GameObject module5 = CreateModule(continent, module4);
         GameObject module6 = CreateModule(continent, module5);
+        GameObject module7 = CreateModule(continent, module6);
+        GameObject module8 = CreateModule(continent, module7);
 
         return continent;
     }
@@ -61,13 +70,13 @@ public class Continent_Factory
 
     public Vector3 RandomScale()
     {
-        Vector3 randomScale = new Vector3(Random.Range(0.5f, 0.8f), Random.Range(0.2f, 2.1f), Random.Range(0.5f, 0.8f))/2;
+        Vector3 randomScale = new Vector3(Random.Range(0.2f, 1f), Random.Range(0.2f, 3.1f), Random.Range(0.2f, 1f))/2;
         return randomScale;
     }
 
     public Vector3 RandomPositionAround(Vector3 origin, float diameter)
     {
-        Vector3 randomPosition = new Vector3(origin.x + Random.Range(-diameter, diameter),m_depth*Random.Range(1,5), origin.z + Random.Range(-diameter, diameter));
+        Vector3 randomPosition = new Vector3(origin.x + Random.Range(-diameter, diameter), Random.Range(0, 1), origin.z + Random.Range(-diameter, diameter));
         return randomPosition;
     }
     public GameObject RandomModule()
