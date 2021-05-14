@@ -12,25 +12,31 @@ public class Continent_Factory
     private GameObject m_moduleC;
     private GameObject m_moduleD;
 
+    private GameObject m_moduleDock;
+    private bool       m_hasDock;
+
     private int id_distributor;
     // Start is called before the first frame update
     public Continent_Factory()
     {
-        id_distributor = 0;
-        m_beachModuleA = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleA");
-        m_beachModuleB = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleB");
+        id_distributor  = 0;
+        m_beachModuleA  = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleA");
+        m_beachModuleB  = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleB");
 
-        m_moduleA    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleA");
-        m_moduleB    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleB");
-        m_moduleC    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleC");
-        m_moduleD    = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleD");
+        m_moduleA       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleA");
+        m_moduleB       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleB");
+        m_moduleC       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleC");
+        m_moduleD       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleD");
+
+        m_moduleDock    = Resources.Load<GameObject>("Prefabs/Stops/DockB");
     }   
 
     // Update is called once per frame
     public GameObject Create_Continent()
     {
         id_distributor++;
-        
+        m_hasDock = false;
+
         GameObject continent = new GameObject("Continent" + id_distributor.ToString());
         Debug.Log("continent:"+(continent));
         
@@ -64,13 +70,31 @@ public class Continent_Factory
         newModule.transform.position = RandomPositionAround(baseModule.transform.localPosition, 12 * newModule.transform.localScale.magnitude) ;
         newModule.transform.Rotate(Vector2.up, Random.Range(-180, 180));
 
+        switch (m_hasDock)
+        {
+            case false:
+                GameObject newDock = GameObject.Instantiate(m_moduleDock, newModule.transform,true);
+                //newDock.transform.localScale = Vector3.one;
+                Vector3 pickUpPoint = newDock.GetComponentInChildren<PassengerPickUp>().transform.position;
+                switch(TryNotObstruate( continent, pickUpPoint)) 
+                {
+                    case true:
+                        GameObject.Destroy(newDock);
+                        break;
+                    case false:
+                        m_hasDock = true;
+                        break;
+                }
+                break;
+        }
+
         // ROTATION ICI !!!
         return newModule;
     }
 
     public Vector3 RandomScale()
     {
-        Vector3 randomScale = new Vector3(Random.Range(0.2f, 1f), Random.Range(0.2f, 3.1f), Random.Range(0.2f, 1f))/2;
+        Vector3 randomScale = new Vector3(Random.Range(0.2f, 1f), Random.Range(0.2f, 4.4f), Random.Range(0.2f, 1f))/2;
         return randomScale;
     }
 
@@ -94,5 +118,19 @@ public class Continent_Factory
                 return m_moduleD;
         }
         return m_moduleA;
+    }
+
+    public bool TryNotObstruate(GameObject continent, Vector3 point)
+    {
+        Collider[] colliders = continent.GetComponentsInChildren<Collider>();
+        foreach (Collider c in colliders)
+        {
+            switch (c.bounds.Contains(point))
+            {
+                case true:
+                return false;
+            }
+        }
+        return true;
     }
 }

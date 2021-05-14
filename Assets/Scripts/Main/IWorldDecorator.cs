@@ -170,7 +170,7 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
         switch (isNewPassengers)
         {
             case true:
-                GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/PassengerTransfert"), this.m_go.transform);
+                GameObject passengerPickUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Stops/DockA"), this.m_go.transform);
                 passengerPickUp.transform.position = boat.transform.position
                             + Vector3.forward * 420
                             + Vector3.left * Random.Range(80, -80);

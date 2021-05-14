@@ -41,6 +41,8 @@ public class Boat : MonoBehaviour
 
     public NavigationState navigationState;
 
+    float resistance;
+
     void Start()
     {
         text = GameObject.Find("BoatSpeed Text").GetComponent<Text>();
@@ -73,6 +75,7 @@ public class Boat : MonoBehaviour
         navigationState =  NavigationState.SAILING;
 
         playerMoney = 0;
+        resistance = 10 * Time.deltaTime;
     }
 
     void FixedUpdate()
@@ -98,7 +101,7 @@ public class Boat : MonoBehaviour
         m_rigidbody.velocity = Vector3.ClampMagnitude(m_rigidbody.velocity, maxSpeed + maxSpeedBonus);
         if (maxSpeedBonus > 0 ) { maxSpeedBonus -= 1 * Time.deltaTime; }
 
-        float resistance = 0.6f;
+
         m_rigidbody.AddForce(-Vector3.Project(m_rigidbody.velocity, transform.right) * resistance);
 
         // Floating : does it actually works?
