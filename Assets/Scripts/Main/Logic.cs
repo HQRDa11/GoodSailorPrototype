@@ -33,7 +33,7 @@ public class Logic : MonoBehaviour
 
         this.CameraOffset = Camera.main.transform.position - this.transform.position;
 
-        goalDistance = GameObject.Find("GoalDistance").GetComponent<Text>();
+        // goalDistance = GameObject.Find("GoalDistance").GetComponent<Text>();
 
         audioSource = boat.gameObject.AddComponent<AudioSource>();
         audioSource.clip = audioClip;
@@ -50,7 +50,7 @@ public class Logic : MonoBehaviour
     void Update()
     {
         navPoints = boat.navPoints;
-        goalDistance.text = "Goal: undefined yet";
+        //goalDistance.text = "Goal: undefined yet";
 
         m_world.Update();
         Update_SideMovement();

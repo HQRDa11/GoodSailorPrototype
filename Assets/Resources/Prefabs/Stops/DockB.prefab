@@ -1237,7 +1237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5530399561782703978}
   m_LocalRotation: {x: -0, y: 0.46650943, z: -0, w: 0.88451624}
-  m_LocalPosition: {x: 4.73, y: 5.13, z: 0.12}
+  m_LocalPosition: {x: 4.73, y: 7.18, z: 0.12}
   m_LocalScale: {x: 0.4, y: 0.2, z: 0.4}
   m_Children:
   - {fileID: 7008440490984991125}
@@ -1415,7 +1415,7 @@ GameObject:
   - component: {fileID: 625812355252614820}
   - component: {fileID: 2838249743723532723}
   m_Layer: 0
-  m_Name: PassengerTransfertB
+  m_Name: DockB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1860,7 +1860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5032467975007928990, guid: bfc06bf03309c074d9cbbc9afaddcb9a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.13
+      value: 11.49
       objectReference: {fileID: 0}
     - target: {fileID: 5032467975007928990, guid: bfc06bf03309c074d9cbbc9afaddcb9a, type: 3}
       propertyPath: m_LocalPosition.z
