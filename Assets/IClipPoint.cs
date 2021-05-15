@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IClipPoint : MonoBehaviour
 {
-    Vector3 ClipPoint;
+    public Vector3 ClipPoint { get; set; }
     void Start()
     {
         ClipPoint = this.transform.position;
