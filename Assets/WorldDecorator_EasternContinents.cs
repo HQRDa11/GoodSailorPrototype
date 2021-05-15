@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<List<GameObject>>
+public class WorldDecorator_EasternContinents : WorldDecorator, IWorldDecorator<List<GameObject>>
 {
-    public WesternContinents_Factory m_continent_factory;
-    public WorldDecorator_WesternContinent() : base()
+    public EasternContinents_Factory m_continent_factory;
+    public WorldDecorator_EasternContinents() : base()
     {
-        m_continent_factory = new WesternContinents_Factory();
+        m_continent_factory = new EasternContinents_Factory();
 
-        maxNbDecor = 30;
+        maxNbDecor = 20;
         m_timerMax = 36;
 
         Load_AreaEntry();
@@ -31,7 +31,7 @@ public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<L
                         newContinent.transform.position =
                             boat.transform.position
                             + Vector3.forward * 360
-                            + Vector3.left * Random.Range(80, -80);
+                            + Vector3.right* Random.Range(80, -80);
                         //newContinent.transform.position += Vector3.up * waterLevelAdjustment;
                         newContinent.transform.Rotate(Vector3.up, Random.Range(0, 180));
                         m_decors.Add(newContinent);
@@ -52,12 +52,11 @@ public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<L
 
     public void Load_AreaEntry()
     {
-        GameObject areaEntry = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/WesternContinent Entry"));
+        GameObject areaEntry = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Continents/EasternContinents/EasternContinents Entry"));
         areaEntry.transform.position =
             boat.transform.position
             + Vector3.forward * 180
-            + Vector3.left * 150;
+            + Vector3.right * 150;
         m_decors.Add(areaEntry);
     }
 }
-

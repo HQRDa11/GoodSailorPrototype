@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Logic : MonoBehaviour
 {
+
+    public WorldState startZone;
     public Boat boat;
     public GameObject wind;
     public GameObject goal;
@@ -42,7 +44,7 @@ public class Logic : MonoBehaviour
 
         navPoints = 0;
 
-        m_world = new World(WorldState.MIDDLE_ISLANDS);
+        m_world = new World(startZone);
         m_ui.Display_AreaName(m_world.GetAreaName());
     }
 

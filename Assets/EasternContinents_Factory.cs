@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EasternContinents_Factory : MonoBehaviour
+public class EasternContinents_Factory 
 {
     private GameObject m_beachModuleA;
     private GameObject m_beachModuleB;
@@ -16,7 +16,7 @@ public class EasternContinents_Factory : MonoBehaviour
 
     private int id_distributor;
     // Start is called before the first frame update
-    public EasternContinents_Factory()
+    public EasternContinents_Factory() 
     {
         id_distributor = 0;
         m_beachModuleA = Resources.Load<GameObject>("Prefabs/Continents/EasternContinents/Continent BeachModuleA");
@@ -65,7 +65,7 @@ public class EasternContinents_Factory : MonoBehaviour
         GameObject newModule = GameObject.Instantiate(RandomModule(), continent.transform);
         newModule.transform.localScale += RandomScale();
         //newModule.transform.position = Vector3.up * m_depth;
-        newModule.transform.position = RandomPositionAround(baseModule.transform.localPosition, 12 * newModule.transform.localScale.magnitude);
+        newModule.transform.position = RandomPositionAround(baseModule.transform.localPosition, 4* newModule.transform.localScale.magnitude);
         newModule.transform.Rotate(Vector2.up, Random.Range(-180, 180));
 
         switch (m_hasDock)

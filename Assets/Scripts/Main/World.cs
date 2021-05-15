@@ -29,7 +29,7 @@ public class World
         {
             case WorldState.WEST_CONTINENTS:
                 m_currentState = WorldState.WEST_CONTINENTS;
-                this.m_decorator = new WorldDecorator_WesternContinent();
+                this.m_decorator = new WorldDecorator_WesternContinents();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 
@@ -53,7 +53,7 @@ public class World
 
             case WorldState.EAST_CONTINENT:
                 m_currentState = WorldState.EAST_CONTINENT;
-                this.m_decorator = new WorldDecorator_MiddleIslands(); // !!!!!!!!!!!!
+                this.m_decorator = new WorldDecorator_EasternContinents();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
 
