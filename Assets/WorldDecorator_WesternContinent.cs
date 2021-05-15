@@ -10,7 +10,7 @@ public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<L
         m_continent_factory = new Continent_Factory();
 
         maxNbDecor = 200;
-        m_timerMax = 30;
+        m_timerMax = 36;
     }
     public void Update()
     {
@@ -27,7 +27,7 @@ public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<L
                         GameObject newContinent = m_continent_factory.Create_Continent();
                         newContinent.transform.position =
                             boat.transform.position
-                            + Vector3.forward * 290
+                            + Vector3.forward * 360
                             + Vector3.left * Random.Range(80, -80);
                         //newContinent.transform.position += Vector3.up * waterLevelAdjustment;
                         newContinent.transform.Rotate(Vector3.up, Random.Range(0, 180));
