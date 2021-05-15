@@ -148,9 +148,7 @@ public class PassengerCargo : MonoBehaviour
     }
     public void RemovePassenger(Passenger removed)
     {
-        Debug.Log("3");
         GameObject.Destroy(removed.gameObject);
-        Debug.Log("4");
         passengers.Remove(removed);
         audioSource.Play();
         SortPassenger();

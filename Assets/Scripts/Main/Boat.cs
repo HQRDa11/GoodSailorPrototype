@@ -227,7 +227,6 @@ public class Boat : MonoBehaviour
         if (other.transform.tag == "PickUp" )
         {
             other.gameObject.GetComponent<Pickup>().OnPickUp();
-            Debug.Log("here i need to put a timed bonus");
             passengerCargo.OnPassengerBonus(15);
             int diceRescue = Random.Range(0, 5);
             switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   

@@ -33,7 +33,6 @@ public class AreaName_Display : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(isInitialised);
         if (isInitialised)
         {
             flowTimer_current += Time.deltaTime;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WorldState { WEST_CONTINENTs = -2, WEST_OCEAN, MIDDLE_ISLANDS = 0 ,EAST_OCEAN, EAST_CONTINENT};
+public enum WorldState { WEST_CONTINENTS = -2, WEST_OCEAN, MIDDLE_ISLANDS = 0 ,EAST_OCEAN, EAST_CONTINENT};
 public class World 
 {
     private WorldState      m_currentState;
@@ -27,8 +27,8 @@ public class World
         List<GameObject> listOfDecors = this.m_decorator.GetDecorList();
         switch (newState)
         {
-            case WorldState.WEST_CONTINENTs:
-                m_currentState = WorldState.WEST_CONTINENTs;
+            case WorldState.WEST_CONTINENTS:
+                m_currentState = WorldState.WEST_CONTINENTS;
                 this.m_decorator = new WorldDecorator_WesternContinent();
                 m_decorator.SetDecorList(listOfDecors);
                 return;
@@ -67,7 +67,7 @@ public class World
     {
         switch (m_currentState)
         {
-            case WorldState.WEST_CONTINENTs:
+            case WorldState.WEST_CONTINENTS:
                 SwitchState(WorldState.WEST_OCEAN);
                 return;
             case WorldState.WEST_OCEAN:
@@ -88,11 +88,11 @@ public class World
     {
         switch (m_currentState)
         {
-            case WorldState.WEST_CONTINENTs:
+            case WorldState.WEST_CONTINENTS:
                 Debug.LogWarning("There is nothing beyond West Continent");
                 return;
             case WorldState.WEST_OCEAN:
-                SwitchState(WorldState.WEST_CONTINENTs);
+                SwitchState(WorldState.WEST_CONTINENTS);
                 return;
             case WorldState.MIDDLE_ISLANDS:
                 SwitchState(WorldState.WEST_OCEAN);
@@ -110,7 +110,7 @@ public class World
     {
         switch (m_currentState)
         {
-            case WorldState.WEST_CONTINENTs:
+            case WorldState.WEST_CONTINENTS:
                 return "Western Continents";
             case WorldState.WEST_OCEAN:
                 return "West Ocean";

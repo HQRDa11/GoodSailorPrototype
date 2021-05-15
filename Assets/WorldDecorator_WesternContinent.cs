@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<List<GameObject>>
 {
-    public Continent_Factory m_continent_factory;
+    public WesternContinents_Factory m_continent_factory;
     public WorldDecorator_WesternContinent() : base()
     {
-        m_continent_factory = new Continent_Factory();
+        m_continent_factory = new WesternContinents_Factory();
 
-        maxNbDecor = 200;
+        maxNbDecor = 30;
         m_timerMax = 36;
+
+        Load_AreaEntry();
+
     }
     public void Update()
     {
@@ -45,6 +48,16 @@ public class WorldDecorator_WesternContinent : WorldDecorator, IWorldDecorator<L
     public void SetDecorList(List<GameObject> decors)
     {
         m_decors = decors;
+    }
+
+    public void Load_AreaEntry()
+    {
+        GameObject areaEntry = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/WesternContinent Entry"));
+        areaEntry.transform.position =
+            boat.transform.position
+            + Vector3.forward * 180
+            + Vector3.left * 150;
+        m_decors.Add(areaEntry);
     }
 }
 

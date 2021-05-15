@@ -15,6 +15,7 @@ public class PassengerPickUp : MonoBehaviour
         pickup_Sound = Resources.Load<AudioClip>("AudioClips/Bells");
         picked = false;
         lifeLeft = 1.2f;
+
     }
 
     // Update is called once per frame

@@ -16,6 +16,8 @@ public class WorldDecorator
     public float m_timerMax;
     public float m_timerCurrent;
 
+    protected bool m_isEntryLoaded;
+
 
     public int maxNbDecor;
 
@@ -35,6 +37,8 @@ public class WorldDecorator
 
         m_decors = new List<GameObject>();
         maxNbDecor = 400;
+
+        m_isEntryLoaded = false;
     }
     public void DestroyFarDistanceObjects()
     {

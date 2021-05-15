@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Continent_Factory 
+public class WesternContinents_Factory 
 {
-
     private GameObject m_beachModuleA;
     private GameObject m_beachModuleB;
     private GameObject m_moduleA;
@@ -17,16 +16,16 @@ public class Continent_Factory
 
     private int id_distributor;
     // Start is called before the first frame update
-    public Continent_Factory()
+    public WesternContinents_Factory()
     {
         id_distributor  = 0;
-        m_beachModuleA  = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleA");
-        m_beachModuleB  = Resources.Load<GameObject>("Prefabs/Continents/Continent BeachModuleB");
+        m_beachModuleA  = Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/Continent BeachModuleA");
+        m_beachModuleB  = Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/Continent BeachModuleB");
 
-        m_moduleA       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleA");
-        m_moduleB       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleB");
-        m_moduleC       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleC");
-        m_moduleD       = Resources.Load<GameObject>("Prefabs/Continents/Continent ModuleD");
+        m_moduleA       = Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/Continent ModuleA");
+        m_moduleB       = Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/Continent ModuleB");
+        m_moduleC       = Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/Continent ModuleC");
+        m_moduleD       = Resources.Load<GameObject>("Prefabs/Continents/WesternContinents/Continent ModuleD");
 
         m_moduleDock    = Resources.Load<GameObject>("Prefabs/Stops/DockB");
     }   
@@ -38,7 +37,6 @@ public class Continent_Factory
         m_hasDock = false;
 
         GameObject continent = new GameObject("Continent" + id_distributor.ToString());
-        Debug.Log("continent:"+(continent));
         
         GameObject beachModuleA = GameObject.Instantiate(m_beachModuleA, continent.transform);
         beachModuleA.transform.localScale += Vector3.right * Random.Range(1, 3) + Vector3.forward * Random.Range(1, 3);
