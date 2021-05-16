@@ -24,43 +24,43 @@ public class World
 
     public void SwitchState(WorldState newState)
     {
-        List<GameObject> listOfDecors = this.m_decorator.GetDecorList();
+        List<GameObject> listOfDecors = this.m_decorator.GetTotalModulesList();
         switch (newState)
         {
             case WorldState.WEST_PENINSULA:
                 m_currentState = WorldState.WEST_PENINSULA;
                 this.m_decorator = new WorldDecorator_WestPeninsula();
-                m_decorator.SetDecorList(listOfDecors);
+                m_decorator.SetTotalModulesList(listOfDecors);
                 return;
 
             case WorldState.WEST_CONTINENTS:
                 m_currentState = WorldState.WEST_CONTINENTS;
                 this.m_decorator = new WorldDecorator_WesternContinents();
-                m_decorator.SetDecorList(listOfDecors);
+                m_decorator.SetTotalModulesList(listOfDecors);
                 return;
 
             case WorldState.WEST_OCEAN:
                 m_currentState = WorldState.WEST_OCEAN;
                 this.m_decorator = new WorldDecorator_Ocean();
-                m_decorator.SetDecorList(listOfDecors);
+                m_decorator.SetTotalModulesList(listOfDecors);
                 return;
 
             case WorldState.MIDDLE_ISLANDS:
                 m_currentState = WorldState.MIDDLE_ISLANDS;
                 this.m_decorator = new WorldDecorator_MiddleIslands();
-                m_decorator.SetDecorList(listOfDecors);
+                m_decorator.SetTotalModulesList(listOfDecors);
                 return;
 
             case WorldState.EAST_OCEAN:
                 m_currentState = WorldState.EAST_OCEAN;
                 this.m_decorator = new WorldDecorator_Ocean();
-                m_decorator.SetDecorList(listOfDecors);
+                m_decorator.SetTotalModulesList(listOfDecors);
                 return;
 
             case WorldState.EAST_CONTINENT:
                 m_currentState = WorldState.EAST_CONTINENT;
                 this.m_decorator = new WorldDecorator_EasternContinents();
-                m_decorator.SetDecorList(listOfDecors);
+                m_decorator.SetTotalModulesList(listOfDecors);
                 return;
 
             default:

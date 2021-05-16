@@ -9,7 +9,7 @@ public class WorldDecorator_WestPeninsula : WorldDecorator, IWorldDecorator<List
     {
         m_island_factory = new WestPeninsula_Island_Factory();
 
-        maxNbDecor = 20;
+        maxNbDecor = 200;
         m_timerMax = 40;
 
         //Load_AreaEntry();
@@ -27,25 +27,25 @@ public class WorldDecorator_WestPeninsula : WorldDecorator, IWorldDecorator<List
                 switch (m_decors.Count < maxNbDecor)
                 {
                     case true:
-                        GameObject newContinent = m_island_factory.CreateIsland(Random.Range(3,20));
-                        newContinent.transform.position =
+                        GameObject newIsland = m_island_factory.CreateIsland(Random.Range(0,100));
+                        newIsland.transform.position =
                             boat.transform.position
                             + Vector3.forward * 360
                             + Vector3.right * Random.Range(80, -80);
                         //newContinent.transform.position += Vector3.up * waterLevelAdjustment;
-                        newContinent.transform.Rotate(Vector3.up, Random.Range(0, 180));
-                        m_decors.Add(newContinent);
+                        newIsland.transform.Rotate(Vector3.up, Random.Range(0, 180));
+                        m_decors.Add(newIsland);
                         break;
                 }
                 m_timerCurrent = 0;
                 break;
         }
     }
-    public List<GameObject> GetDecorList()
+    public List<GameObject> GetTotalModulesList()
     {
         return m_decors;
     }
-    public void SetDecorList(List<GameObject> decors)
+    public void SetTotalModulesList(List<GameObject> decors)
     {
         m_decors = decors;
     }

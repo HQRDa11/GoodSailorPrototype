@@ -5,8 +5,8 @@ using UnityEngine;
 public interface IWorldDecorator<T>
 {
     public void Update();
-    public void SetDecorList(T listOfDecoratives);
-    public T GetDecorList();
+    public void SetTotalModulesList(T listOfDecoratives);
+    public T GetTotalModulesList();
 }
 
 public class WorldDecorator
@@ -88,11 +88,11 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
                 break;
         }
     }
-    public List<GameObject> GetDecorList()
+    public List<GameObject> GetTotalModulesList()
     {
         return m_decors;
     }    
-    public void SetDecorList(List<GameObject> decors)
+    public void SetTotalModulesList(List<GameObject> decors)
     {
         m_decors = decors;
     }
@@ -228,11 +228,11 @@ public class WorldDecorator_Ocean : WorldDecorator, IWorldDecorator<List<GameObj
                 break;
         }
     }
-    public List<GameObject>GetDecorList()
+    public List<GameObject>GetTotalModulesList()
     {
         return m_decors;
     }
-    public void SetDecorList(List<GameObject> decors)
+    public void SetTotalModulesList(List<GameObject> decors)
     {
         m_decors = decors;
     }

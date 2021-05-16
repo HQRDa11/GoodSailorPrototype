@@ -41,11 +41,11 @@ public class WorldDecorator_WesternContinents : WorldDecorator, IWorldDecorator<
                 break;
         }
     }
-    public List<GameObject> GetDecorList()
+    public List<GameObject> GetTotalModulesList()
     {
         return m_decors;
     }
-    public void SetDecorList(List<GameObject> decors)
+    public void SetTotalModulesList(List<GameObject> decors)
     {
         m_decors = decors;
     }
