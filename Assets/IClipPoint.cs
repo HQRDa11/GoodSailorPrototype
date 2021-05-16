@@ -4,9 +4,32 @@ using UnityEngine;
 
 public class IClipPoint : MonoBehaviour
 {
-    public Vector3 ClipPoint { get; set; }
-    void Start()
+    public bool isFree;
+    void Awake()
     {
-        ClipPoint = this.transform.position;
+        isFree = true;
+    }
+    public Vector3 Clip()
+    {
+        switch(isFree)
+        {
+            case true:
+                isFree = false;
+                return this.transform.position;
+        }
+        return Vector3.zero;
+    }
+    public bool Check()
+    {
+        return isFree;
+    }
+    public Vector3 Try()
+    {
+        switch (isFree)
+        {
+            case true:
+                return this.transform.position;
+        }
+        return Vector3.zero;
     }
 }

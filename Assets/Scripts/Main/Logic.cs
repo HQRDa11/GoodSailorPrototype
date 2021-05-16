@@ -46,6 +46,12 @@ public class Logic : MonoBehaviour
 
         m_world = new World(startZone);
         m_ui.Display_AreaName(m_world.GetAreaName());
+
+
+        Island_Factory island_Factory = new Island_Factory();
+        GameObject newIsland = island_Factory.CreateIsland(Random.Range(30, 50)) ;
+        newIsland.transform.position += Vector3.forward * 120;
+
     }
 
     // Update is called once per frame
