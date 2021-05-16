@@ -40,7 +40,7 @@ public class Island_Factory
     {
         m_modules = new List<IslandModule>();
         m_idDistrib++;
-        m_island  = Instantiate_IslandGameObject();
+        m_island  = Instantiate_IslandGameObject(level);
         m_island.transform.position = GameObject.Find("Boat").transform.position + Vector3.forward*320;
 
         ClearModuleList();
@@ -74,9 +74,9 @@ public class Island_Factory
         
         return m_island;
     }
-    public GameObject Instantiate_IslandGameObject()
+    public GameObject Instantiate_IslandGameObject(int level)
     {
-        GameObject islandGameObject = new GameObject("Island #" + m_idDistrib.ToString(),
+        GameObject islandGameObject = new GameObject("Island #" + m_idDistrib.ToString() +" lvl" + level.ToString(),
         typeof(Island),
         typeof(DestroyOnFarDistance));
         
