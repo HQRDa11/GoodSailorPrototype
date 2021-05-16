@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Island_Factory 
 {
-    private int m_oceanLevel;
-    private int m_idDistrib;
-    private GameObject m_baseA;
-    private GameObject m_blockA;
+    protected int m_oceanLevel;
+    protected int m_idDistrib;
+    protected GameObject m_baseA;
+    protected GameObject m_blockA;
 
-    private GameObject m_dock;
+    protected GameObject m_dock;
 
-    private List<IslandModule> m_modules;
-    private List<Collider> m_colliders;
-    List<GameObject> m_modulePrefabs;
-    List<GameObject> m_beachPrefabs;
-    private GameObject  m_island;
+    protected List<IslandModule> m_modules;
+    protected List<Collider> m_colliders;
+    protected List<GameObject> m_modulePrefabs;
+    protected List<GameObject> m_beachPrefabs;
+    protected GameObject  m_island;
     public Island_Factory()
     {
         m_oceanLevel = -3;

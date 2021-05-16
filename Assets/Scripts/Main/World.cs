@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WorldState { WEST_CONTINENTS = -2, WEST_OCEAN, MIDDLE_ISLANDS = 0 ,EAST_OCEAN, EAST_CONTINENT};
+public enum WorldState { WEST_PENINSULA = -3, WEST_CONTINENTS = -2, WEST_OCEAN, MIDDLE_ISLANDS = 0 ,EAST_OCEAN, EAST_CONTINENT};
 public class World 
 {
     private WorldState      m_currentState;
@@ -27,6 +27,12 @@ public class World
         List<GameObject> listOfDecors = this.m_decorator.GetDecorList();
         switch (newState)
         {
+            case WorldState.WEST_PENINSULA:
+                m_currentState = WorldState.WEST_PENINSULA;
+                this.m_decorator = new WorldDecorator_WestPeninsula();
+                m_decorator.SetDecorList(listOfDecors);
+                return;
+
             case WorldState.WEST_CONTINENTS:
                 m_currentState = WorldState.WEST_CONTINENTS;
                 this.m_decorator = new WorldDecorator_WesternContinents();
@@ -67,6 +73,9 @@ public class World
     {
         switch (m_currentState)
         {
+            case WorldState.WEST_PENINSULA:
+                SwitchState(WorldState.WEST_CONTINENTS);
+                return;
             case WorldState.WEST_CONTINENTS:
                 SwitchState(WorldState.WEST_OCEAN);
                 return;
@@ -80,7 +89,7 @@ public class World
                 SwitchState(WorldState.EAST_CONTINENT);
                 return;
             case WorldState.EAST_CONTINENT:
-                Debug.LogWarning("There is nothing beyond East Continent");
+                Debug.LogWarning("There is nothing beyond Eastern Continents");
                 return;
         }
     }
@@ -88,8 +97,11 @@ public class World
     {
         switch (m_currentState)
         {
+            case WorldState.WEST_PENINSULA:
+                Debug.LogWarning("There is nothing beyond West Peninsula");
+                return;
             case WorldState.WEST_CONTINENTS:
-                Debug.LogWarning("There is nothing beyond West Continent");
+                SwitchState(WorldState.WEST_PENINSULA);
                 return;
             case WorldState.WEST_OCEAN:
                 SwitchState(WorldState.WEST_CONTINENTS);
@@ -110,6 +122,8 @@ public class World
     {
         switch (m_currentState)
         {
+            case WorldState.WEST_PENINSULA:
+                return "West Peninsula";
             case WorldState.WEST_CONTINENTS:
                 return "Western Continents";
             case WorldState.WEST_OCEAN:
