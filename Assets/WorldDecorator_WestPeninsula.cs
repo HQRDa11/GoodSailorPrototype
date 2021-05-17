@@ -27,14 +27,14 @@ public class WorldDecorator_WestPeninsula : WorldDecorator, IWorldDecorator<List
                 switch (m_decors.Count < maxNbDecor)
                 {
                     case true:
-                        GameObject newIsland = m_island_factory.CreateIsland(Random.Range(0,100));
-                        newIsland.transform.position =
+                        GameObject newContinent = m_island_factory.CreateIsland(Random.Range(0,100));
+                        newContinent.transform.position =
                             boat.transform.position
-                            + Vector3.forward * 360
+                            + Vector3.forward * 720
                             + Vector3.right * Random.Range(80, -80);
                         //newContinent.transform.position += Vector3.up * waterLevelAdjustment;
-                        newIsland.transform.Rotate(Vector3.up, Random.Range(0, 180));
-                        m_decors.Add(newIsland);
+                        newContinent.transform.Rotate(Vector3.up, Random.Range(0, 180));
+                        m_decors.Add(newContinent);
                         break;
                 }
                 m_timerCurrent = 0;

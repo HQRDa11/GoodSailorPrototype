@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Island_Factory 
 {
-    protected int m_oceanLevel;
+    protected double m_oceanLevel;
     protected int m_idDistrib;
     protected GameObject m_baseA;
     protected GameObject m_blockA;
@@ -18,7 +18,7 @@ public class Island_Factory
     protected GameObject  m_island;
     public Island_Factory()
     {
-        m_oceanLevel = -3;
+        m_oceanLevel = -3.5f;
         m_idDistrib = 0;
         m_baseA = Resources.Load<GameObject>("Prefabs/Island/BaseA");
 
@@ -58,20 +58,20 @@ public class Island_Factory
         }
 
         List_AllColliders();
-        CreateDock();
+        GameObject newDock = CreateDock();
         int destroyed = 0;
         foreach (Collider collider in m_colliders)
         {
-                switch(m_dock.GetComponentInChildren<SphereCollider>().bounds.Intersects(collider.bounds))
+                switch(newDock.GetComponentInChildren<SphereCollider>().bounds.Intersects(collider.bounds))
                 { case true: GameObject.Destroy(collider.gameObject); destroyed++; break; }
         }
         Debug.Log("modules:" + m_modules.Count);
         Debug.Log("destroyed:"+destroyed);
         
-        TranslateToWaterLevel(m_island);
+       
         m_island.transform.Rotate(Vector3.up,Random.Range(0, 360));
         m_island.GetComponent<Island>().modules = m_modules;
-        
+        TranslateToWaterLevel(m_island);
         return m_island;
     }
     public GameObject Instantiate_IslandGameObject(int level)
@@ -79,12 +79,11 @@ public class Island_Factory
         GameObject islandGameObject = new GameObject("Island #" + m_idDistrib.ToString() +" lvl" + level.ToString(),
         typeof(Island),
         typeof(DestroyOnFarDistance));
-        
         return islandGameObject;
     }
     public void TranslateToWaterLevel(GameObject obj)
     {
-        obj.transform.position += Vector3.up * m_oceanLevel;
+        obj.transform.position += Vector3.up * (float)m_oceanLevel;
     }
     public GameObject CreateBaseModule(Transform parent)
     {
@@ -160,7 +159,7 @@ public class Island_Factory
         }
     }
 
-    public bool CreateDock()
+    public GameObject CreateDock()
     {
         foreach (IslandModule module in m_modules)
         {
@@ -168,13 +167,14 @@ public class Island_Factory
             {
                 if (clip.GetComponent<IClipPoint>().isFree == true)
                 {
-                    m_dock = GameObject.Instantiate(m_dock, module.transform, true);
-                    m_dock.transform.position = clip.Try();
-                    m_dock.transform.LookAt(m_island.gameObject.transform);
+                    GameObject newDock = new GameObject("dock" + m_idDistrib) ;
+                    newDock = GameObject.Instantiate(m_dock, module.transform, true);
+                    newDock.transform.position = clip.Try();
+                    newDock.transform.LookAt(m_island.gameObject.transform);
                     bool noCollisionOk= true;
                     foreach (Collider c in m_colliders)
                     {
-                        if (m_dock.GetComponentInChildren<PassengerPickUp>()
+                        if (newDock.GetComponentInChildren<PassengerPickUp>()
                                   .GetComponent<Collider>().
                                   bounds.Intersects(
                             c.bounds)
@@ -183,13 +183,16 @@ public class Island_Factory
                             noCollisionOk = false;
                         }
                     }
-                    switch (noCollisionOk) { 
-                        case true: clip.Clip(); return true; }
+                    switch (noCollisionOk)
+                    {
+                        case true: clip.Clip(); return newDock;
+                    
+                    }
                 }
             }
         }
-        Debug.Log("dock NO CLIP");
-        return false;
+        Debug.LogWarning("no dock?");
+        return new GameObject("dockError");
     }
 
     public void ClearModuleList()
