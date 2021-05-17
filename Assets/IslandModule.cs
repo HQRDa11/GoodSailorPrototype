@@ -33,7 +33,7 @@ public class IslandModule : MonoBehaviour
 
         for (int i = 0; i < clipPoints.Count; i++)
         {
-            bool dice = (Random.Range(1, 10) > 2) ? true : false;
+            bool dice = (Random.Range(1, 10) > 4) ? true : false;
             switch (dice)
             { case true: GameObject.Destroy(clipPoints[i]); break; }
         }
