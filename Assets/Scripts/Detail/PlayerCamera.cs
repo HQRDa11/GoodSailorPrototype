@@ -28,7 +28,6 @@ public class PlayerCamera : MonoBehaviour
         switch(state)
         {
             case CameraState.BOATfocus:
-                Debug.Log("boatState");
                 this.gameObject.transform.position = boat.transform.position + initialPos;
                 Camera.main.transform.position += Vector3.up * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed) * 5;
                 Camera.main.transform.position += Vector3.back * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed) * 3;
