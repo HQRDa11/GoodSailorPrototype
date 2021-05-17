@@ -231,12 +231,12 @@ public class Island_Factory
             ;
         for (int i = 0; i < randomPanel && removedModule == null ; i++)
         {
+            Collider newCollider = newModule.GetCollider();
             Collider randomTest = island.Modules[Random.Range(0, island.Modules.Count)].GetCollider();
-
-            switch (randomTest != null)
+            switch (randomTest != null && newCollider != null)
             {
                 case true:
-                    switch (newModule.GetCollider().bounds.Intersects(randomTest.bounds))
+                    switch (newCollider.bounds.Intersects(randomTest.bounds))
                     {
                         case true:
                             newModule.transform.localScale += randomTest.gameObject.transform.localScale * 1.1f;
