@@ -32,6 +32,7 @@ public class Island_Factory
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleC"));
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleD"));
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleE"));
+        m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleF"));
 
         m_dock = Resources.Load<GameObject>("Prefabs/Stops/DockB");
         m_modules = new List<IslandModule>();
