@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum NavigationState { SAILING = 0, DOCKED } // The player journey state
+public enum NavigationState { SAILING = 0, TRANSFERT, DOCKED } // The player journey state
 public enum SailsState {  CLOSE = 0, MID_OPEN, FULL_OPEN} // The boat's sails state
 
 public class Boat : MonoBehaviour
@@ -29,6 +29,7 @@ public class Boat : MonoBehaviour
 
     public float navPoints;
 
+    public PlayerCamera m_playerCamera;
 
     public AudioSource boatSpeed_AudioSource;
     public AudioClip speed1_Audio;
@@ -42,6 +43,8 @@ public class Boat : MonoBehaviour
     public NavigationState navigationState;
 
     float resistance;
+
+    public GameObject dockedAt;
 
     void Start()
     {
@@ -60,7 +63,6 @@ public class Boat : MonoBehaviour
         brakeForce = 10.2f;
         comparison = 0;
 
-
         boatSpeed_AudioSource = gameObject.GetComponent<AudioSource>();
         speed1_Audio = Resources.Load<AudioClip>("AudioClips/Speed1");
         speed2_Audio = Resources.Load<AudioClip>("AudioClips/Speed2");
@@ -76,6 +78,8 @@ public class Boat : MonoBehaviour
 
         playerMoney = 0;
         resistance = 10 * Time.deltaTime;
+
+        m_playerCamera = Camera.main.GetComponent<PlayerCamera>();
     }
 
     void FixedUpdate()
@@ -84,6 +88,20 @@ public class Boat : MonoBehaviour
     }
     private void Update()
     {
+        // SI LE JOUEUR EST A L ARRET RIEN LE BATEAU NE S UPDATE PAS
+        switch(navigationState)
+        {
+            case NavigationState.DOCKED:
+                if (m_playerCamera.state != CameraState.ISLANDfocus)
+                {
+                    m_playerCamera.request(CameraState.ISLANDfocus, dockedAt);
+                }
+                this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                navigationState = (Input.GetKeyDown(KeyCode.Space) == true) ? NavigationState.SAILING : navigationState;
+                m_playerCamera.state = (navigationState == NavigationState.SAILING) ? CameraState.BOATfocus : CameraState.ISLANDfocus;
+                return;
+        }
+        ///////////////////////////////////////////////////////////
         startingPosition = transform.position;
         SailsState sailState = Update_SailState();
 
@@ -237,6 +255,13 @@ public class Boat : MonoBehaviour
             //Debug.Log("here will come some passengers");
             passengerCargo.OnPassengerTransfer(other.gameObject.GetComponent<PassengerPickUp>().getEmbarkPoint());
         }
+        if (other.transform.tag == "IslandEntry" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
+        {
+            other.gameObject.GetComponent<IslandEntry>().OnPickUp();
+            //Debug.Log("here will come some passengers");
+            navigationState = NavigationState.DOCKED;
+            dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+        }
         if (other.transform.tag == "TriggerMaxSpeed")
         {
             Debug.Log("maxSpeed");
@@ -289,40 +314,4 @@ public class Boat : MonoBehaviour
           
         }
     }
-    //function OnMouseDown()
-    //{
-    //    aDefault = stickReference.transform.localEulerAngles;
-    //    aCurr = aDefault;
-    //}
-
-    //function OnMouseUp()
-    //{
-    //    //reset joystick to default Position
-    //    transform.localEulerAngles = aDefault;
-    //    aCurr = aDefault;
-    //}
-
-    //function OnMouseDrag()
-    //{
-    //    aDefault = stickReference.transform.localEulerAngles;
-    //    ray = Camera.mainCamera.ScreenPointToRay(Input.mousePosition);
-
-    //    //ray.origin -- the mouse position in world space at the near plane of the camera
-    //    //ray.direction -- the direction of the mouse in world Space
-    //    transform.LookAt(ray.origin);
-    //    aCurr = transform.localEulerAngles;
-    //}
-
-    //function FixedUpdate()
-    //{
-    //    //eulerAngles.y is related to accelleration; eulerAngles.x is related to direction
-    //    ship.rigidbody.AddRelativeForce(Vector3.forward * Mathf.Clamp(Mathf.Repeat((aCurr.x - aDefault.x) + 180, 360) - 180, -aMax, aMax) * speedScale * -1);// need to change [0,360] to [-180,180]
-    //    //stop drifting of the ship
-    //    if (ship.rigidbody.velocity.magnitude >= speedMax)
-    //    {
-    //        ship.rigidbody.velocity = ship.rigidbody.velocity.normalized * (speedMax - 0.1);
-    //    }
-    //    ship.rigidbody.AddRelativeTorque(Vector3.up * Mathf.Clamp(aCurr.y - aDefault.y, -aMax, aMax) * aScale);
-    //}
-
 }

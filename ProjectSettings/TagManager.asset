@@ -6,10 +6,10 @@ TagManager:
   tags:
   - PickUp
   - PassengerPickUp
-  - s
   - Seagulls
   - TriggerMaxSpeed
   - Obstacle
+  - IslandEntry
   layers:
   - Default
   - TransparentFX

@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 7895947840949950615}
   - component: {fileID: 8743220472926372630}
   - component: {fileID: 983730146243222228}
-  - component: {fileID: 1575823552204693796}
   - component: {fileID: 2442321200507199747}
   - component: {fileID: 5218596843133779493}
+  - component: {fileID: 5279170156761117900}
   m_Layer: 0
   m_Name: IslandEntry
-  m_TagString: PassengerPickUp
+  m_TagString: IslandEntry
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,20 +56,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.70294577
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1575823552204693796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7141249650850251033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11293090c61d83643b812bf08e2a4ac9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  pickup_Sound: {fileID: 0}
 --- !u!82 &2442321200507199747
 AudioSource:
   m_ObjectHideFlags: 0
@@ -207,3 +193,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5279170156761117900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7141249650850251033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29545f8b5b0ca1f47aa1a6653e5ff0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  pickup_Sound: {fileID: 0}

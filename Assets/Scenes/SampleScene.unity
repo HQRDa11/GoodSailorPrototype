@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &43814501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 43814503}
+  - component: {fileID: 43814502}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &43814502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43814501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd2e4d43331f884aa71f10c82c3c654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_state: 0
+--- !u!4 &43814503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43814501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 44.658123, y: 15.1842575, z: 98.77521}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &193643668
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +577,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048d6478520fb0d468bf02ac6dad1987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   boat: {fileID: 0}
+  m_target: {fileID: 0}
 --- !u!1 &963348318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,6 +1734,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5268604170257420061, guid: c3d5effc24768364d87d07c1b80807e7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1048
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268604170257420061, guid: c3d5effc24768364d87d07c1b80807e7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1048
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268604170257420061, guid: c3d5effc24768364d87d07c1b80807e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1989,8 +2043,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8582726952673269376, guid: 056b522bdd3bc944bab749cbf325d8c4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1048
+      objectReference: {fileID: 0}
+    - target: {fileID: 8582726952673269376, guid: 056b522bdd3bc944bab749cbf325d8c4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1024
+      value: 1048
       objectReference: {fileID: 0}
     - target: {fileID: 8582726952673269376, guid: 056b522bdd3bc944bab749cbf325d8c4, type: 3}
       propertyPath: m_LocalPosition.x
