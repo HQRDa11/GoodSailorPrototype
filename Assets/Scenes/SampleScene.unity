@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4896b5cd077f8174da2de088b7f0134d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startZone: -3
+  startZone: -1
   boat: {fileID: 0}
   wind: {fileID: 0}
   goal: {fileID: 0}
