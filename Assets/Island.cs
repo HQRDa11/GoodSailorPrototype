@@ -5,7 +5,7 @@ using UnityEngine;
 public class Island : MonoBehaviour
 {
     public List<IslandModule> modules;
-    private void Start()
+    private void Awake()
     {
         modules = new List<IslandModule>();
     }
