@@ -181,8 +181,7 @@ public class Island_Factory
                     {
                         if (newDock.GetComponentInChildren<PassengerPickUp>()
                                   .GetComponent<Collider>().
-                                  bounds.Intersects(
-                            c.bounds)
+                                  bounds.Intersects(c.bounds)
                                   )
                         {
                             noCollisionOk = false;
