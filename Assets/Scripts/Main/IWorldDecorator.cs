@@ -45,7 +45,7 @@ public class WorldDecorator
         List<GameObject> toRemove = new List<GameObject>();
         foreach (GameObject go in m_decors)
         {
-            switch (go == null || Vector3.Distance(go.transform.position, boat.transform.position) >= 512)
+            switch (go == null || Vector3.Distance(go.transform.position, boat.transform.position) >= 1048)
             {
                 case true:
                     toRemove.Add(go);

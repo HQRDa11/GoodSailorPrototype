@@ -15,7 +15,7 @@ public class DestroyOnFarDistance : MonoBehaviour
     {
         float distance = Vector3.Distance(gameObject.transform.position, Camera.main.transform.localPosition);
         //Debug.Log(distance);
-        if ( distance > 512)
+        if ( distance > 1048)
         {
             GameObject.Destroy(this.gameObject);
 
