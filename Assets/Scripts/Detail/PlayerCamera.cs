@@ -10,15 +10,16 @@ public class PlayerCamera : MonoBehaviour
 
     public GameObject m_target;
 
-    Vector3 initialPos;
+    Vector3 initialBoatOffset;
     //Quaternion initialRot;
 
     // Start is called before the first frame update
     void Start()
     {
         boat = GameObject.Find("Boat");
-        initialPos = this.gameObject.transform.position;
-        state = CameraState.BOATfocus;
+        this.gameObject.transform.position = boat.GetComponent<Boat>().cameraPoint.transform.position;
+        initialBoatOffset = this.gameObject.transform.position - boat.transform.position;
+        request(CameraState.BOATfocus,boat);
         //initialRot = this.gameObject.transform.rotation;
     }
 
@@ -28,7 +29,7 @@ public class PlayerCamera : MonoBehaviour
         switch(state)
         {
             case CameraState.BOATfocus:
-                this.gameObject.transform.position = boat.transform.position + initialPos;
+                this.gameObject.transform.position = boat.transform.position + initialBoatOffset;
                 Camera.main.transform.position += Vector3.up * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed) * 5;
                 Camera.main.transform.position += Vector3.back * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed) * 3;
                 return;
@@ -46,17 +47,28 @@ public class PlayerCamera : MonoBehaviour
         {
             case CameraState.BOATfocus:
                 state = CameraState.BOATfocus;
-                this.gameObject.transform.position = boat.transform.position + initialPos;
-                Camera.main.transform.position += Vector3.up * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed) * 5;
-                Camera.main.transform.position += Vector3.back * Mathf.Sqrt(boat.GetComponent<Boat>().currentSpeed) * 3;
+
+
+                Vector3 newDirection = Vector3.forward + Vector3.down/2 ;
+
+                // Draw a ray pointing at our target in
+                Debug.DrawRay(transform.position, newDirection, Color.red);
+
+                // Calculate a rotation a step closer to the target and applies rotation to this object
+                Camera.main.transform.transform.rotation = Quaternion.LookRotation(newDirection);
+
+
+                
+                Camera.main.transform.position = boat.transform.position + initialBoatOffset;
+
                 return;
 
             case CameraState.ISLANDfocus:
                 state = CameraState.ISLANDfocus;
                 m_target = target;
-                this.gameObject.transform.position = m_target.transform.position + initialPos;
-                Camera.main.transform.position += Vector3.up * 34;
-                Camera.main.transform.position += Vector3.back * 55;
+                this.gameObject.transform.position = m_target.transform.position ;
+                Camera.main.transform.position += Vector3.up * 50;
+                Camera.main.transform.position += Vector3.back * 80;
                 return;
         }
     }

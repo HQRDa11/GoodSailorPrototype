@@ -7,7 +7,9 @@ public enum SailsState {  CLOSE = 0, MID_OPEN, FULL_OPEN} // The boat's sails st
 
 public class Boat : MonoBehaviour
 {
-   // v
+    // v
+    public GameObject cameraPoint;
+
     public Text text;
     public float currentSpeed;
     private float maxSpeed;
@@ -80,6 +82,7 @@ public class Boat : MonoBehaviour
         resistance = 10 * Time.deltaTime;
 
         m_playerCamera = Camera.main.GetComponent<PlayerCamera>();
+        cameraPoint = GameObject.Find("BoatCameraPoint");
     }
 
     void FixedUpdate()
@@ -97,8 +100,16 @@ public class Boat : MonoBehaviour
                     m_playerCamera.request(CameraState.ISLANDfocus, dockedAt);
                 }
                 this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                navigationState = (Input.GetKeyDown(KeyCode.Space) == true) ? NavigationState.SAILING : navigationState;
-                m_playerCamera.state = (navigationState == NavigationState.SAILING) ? CameraState.BOATfocus : CameraState.ISLANDfocus;
+                
+                
+                switch ( Input.GetKeyDown(KeyCode.Space) )
+                {
+                    case true:
+                        navigationState = NavigationState.SAILING;
+                        m_playerCamera.request(CameraState.BOATfocus, this.gameObject);
+                        break;
+
+                }
                 return;
         }
         ///////////////////////////////////////////////////////////

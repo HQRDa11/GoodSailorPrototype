@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
                     this.islandTarget = boat.dockedAt.GetComponent<Island>();
                     if (Input.GetKeyDown(KeyCode.U))
                     {
-                        islandTarget.levelUp();
+                      //  islandTarget.levelUp();
                     }
                     break;
             }
