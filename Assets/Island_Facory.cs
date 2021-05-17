@@ -224,7 +224,28 @@ public class Island_Factory
 
     public void LevelUp(Island island)
     {
-        island.modules.Add(CreateModule(island).GetComponent<IslandModule>());
+        IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
+        IslandModule removedModule = null;
+        int randomPanel = (int)(Mathf.Sqrt(island.modules.Count) * 1.2f);
+            ;
+        for (int i = 0; i < randomPanel && removedModule == null ; i++)
+        {
+            Collider randomTest = island.modules[Random.Range(0, island.modules.Count)].GetCollider();
+            switch ( newModule.GetCollider().bounds.Intersects(randomTest.bounds))
+            {
+                case true:
+                    newModule.transform.localScale += randomTest.gameObject.transform.localScale*1.1f;
+                    break;
+            }
+        }
+        switch (removedModule != null)
+        {
+            case true:
+                island.modules.Remove(removedModule);
+                GameObject.Destroy(removedModule.gameObject);
+                break;
+        }
+        island.modules.Add(newModule);
         Debug.Log("LevelUp!");
 
 

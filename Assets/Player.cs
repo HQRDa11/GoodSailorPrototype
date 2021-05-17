@@ -25,9 +25,18 @@ public class Player : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.U))
                     {
                         new Island_Factory().LevelUp(islandTarget);
+                        Debug.Log("target Island modules:"+islandTarget.modules.Count);
+                    }
+                    if (Input.GetKeyDown(KeyCode.T))
+                    {
+                        Island_Factory f = new Island_Factory();
+                        for (int i = 0; i<3; i++)
+                        {
+                            f.LevelUp(islandTarget);
+                        }
                     }
                     break;
-            }
+                }
         }
     }
 }
