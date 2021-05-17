@@ -39,8 +39,10 @@ public class Island_Factory
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleF"));
         
 
-        m_dock = Resources.Load<GameObject>("Prefabs/Stops/DockB");
         m_islandEntry = Resources.Load<GameObject>("Prefabs/Island/IslandEntry");
+
+        m_dock = Resources.Load<GameObject>("Prefabs/Stops/DockB");
+
         m_modules = new List<IslandModule>();
     }
     public GameObject CreateIsland(int level)
@@ -73,6 +75,15 @@ public class Island_Factory
                 { case true: GameObject.Destroy(collider.gameObject); destroyed++; break; }
         }
         Debug.Log("modules:" + m_modules.Count);
+
+        GameObject newEntry = CreateEntry(level);
+
+        foreach (Collider collider in m_colliders)
+        {
+            switch (newEntry.GetComponentInChildren<SphereCollider>().bounds.Intersects(collider.bounds))
+            { case true: GameObject.Destroy(collider.transform.parent.gameObject); destroyed++; break; }
+        }
+
         Debug.Log("destroyed:"+destroyed);
         
        
@@ -201,7 +212,42 @@ public class Island_Factory
         Debug.LogWarning("no dock?");
         return new GameObject("dockError");
     }
+    public GameObject CreateEntry(int level)
+    {
+        foreach (IslandModule module in m_modules)
+        {
+            foreach (IClipPoint clip in module.ClipPoints())
+            {
+                if (clip.GetComponent<IClipPoint>().isFree == true)
+                {
+                    GameObject newEntry = new GameObject("Entry" + m_idDistrib);
+                    newEntry = GameObject.Instantiate(m_islandEntry, module.transform, true);
+                    newEntry.transform.position = clip.Try();
+                    newEntry.transform.position += level/5 * Vector3.back;
+                    newEntry.transform.LookAt(m_island.gameObject.transform);
+                    bool noCollisionOk = true;
+                    foreach (Collider c in m_colliders)
+                    {
+                        if (newEntry.GetComponentInChildren<PassengerPickUp>()
+                                  .GetComponent<Collider>().
+                                  bounds.Intersects(
+                            c.bounds)
+                                  )
+                        {
+                            noCollisionOk = false;
+                        }
+                    }
+                    switch (noCollisionOk)
+                    {
+                        case true: clip.Clip(); return newEntry;
 
+                    }
+                }
+            }
+        }
+        Debug.LogWarning("no newEntry?");
+        return new GameObject("newEntry Error");
+    }
     public void ClearModuleList()
     {
         List<IslandModule> toRemove = new List<IslandModule>();
