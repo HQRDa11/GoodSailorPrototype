@@ -9,6 +9,7 @@ public class Island_Factory
     protected GameObject m_baseA;
     protected GameObject m_blockA;
 
+    protected GameObject m_islandEntry;
     protected GameObject m_dock;
 
     protected List<IslandModule> m_modules;
@@ -18,9 +19,12 @@ public class Island_Factory
     protected GameObject  m_island;
     public Island_Factory()
     {
-        m_oceanLevel = -3.5f;
+        m_oceanLevel = -2.5f;
         m_idDistrib = 0;
+
         m_baseA = Resources.Load<GameObject>("Prefabs/Island/BaseA");
+
+        
 
         m_beachPrefabs = new List<GameObject>();
         m_beachPrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/BeachA"));
@@ -33,8 +37,10 @@ public class Island_Factory
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleD"));
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleE"));
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleF"));
+        
 
         m_dock = Resources.Load<GameObject>("Prefabs/Stops/DockB");
+        m_islandEntry = Resources.Load<GameObject>("Prefabs/Island/IslandEntry");
         m_modules = new List<IslandModule>();
     }
     public GameObject CreateIsland(int level)
