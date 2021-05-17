@@ -36,7 +36,8 @@ public class Island_Factory
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleD"));
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleE"));
         m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleF"));
-        
+        m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleG"));
+        m_modulePrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/ModuleH"));
 
 
         m_dock = Resources.Load<GameObject>("Prefabs/Stops/DockC");
@@ -75,7 +76,7 @@ public class Island_Factory
         Debug.Log("modules:" + m_modules.Count);
        
         m_island.transform.Rotate(Vector3.up,Random.Range(0, 360));
-        m_island.GetComponent<Island>().modules = m_modules;
+        m_island.GetComponent<Island>().Modules = m_modules;
         TranslateToWaterLevel(m_island);
         return m_island;
     }
@@ -96,7 +97,7 @@ public class Island_Factory
         newBase.transform.localScale = Tools.RandomScale(34, 55, 3, 5f, 34, 55);
         newBase.transform.position = parentIsland.transform.position;
         newBase.GetComponent<IslandModule>().CreateClips();
-        parentIsland.modules.Add(newBase.GetComponent<IslandModule>());
+        parentIsland.Modules.Add(newBase.GetComponent<IslandModule>());
         return newBase;
     }
 
@@ -107,7 +108,7 @@ public class Island_Factory
         newModule.transform.position = Find_FreeClipPoint(parentIsland);
         newModule.transform.localScale = Tools.RandomScale(8, 13, 3, 5, 8, 13);
         newModule.GetComponent<IslandModule>().CreateClips();
-        parentIsland.modules.Add(newModule.GetComponent<IslandModule>());
+        parentIsland.Modules.Add(newModule.GetComponent<IslandModule>());
         return newModule;
     }
 
@@ -140,10 +141,10 @@ public class Island_Factory
 
     public Vector3 Find_FreeClipPoint(Island island)
     {
-        switch(island.modules.Count!=0)
+        switch(island.Modules.Count!=0)
         {
             case true:
-                foreach (IslandModule module in island.modules)
+                foreach (IslandModule module in island.Modules)
                 {
                     foreach (IClipPoint clip in module.ClipPoints())
                     {
@@ -226,26 +227,41 @@ public class Island_Factory
     {
         IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
         IslandModule removedModule = null;
-        int randomPanel = (int)(Mathf.Sqrt(island.modules.Count) * 1.2f);
+        int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);
             ;
         for (int i = 0; i < randomPanel && removedModule == null ; i++)
         {
-            Collider randomTest = island.modules[Random.Range(0, island.modules.Count)].GetCollider();
-            switch ( newModule.GetCollider().bounds.Intersects(randomTest.bounds))
+            Collider randomTest = island.Modules[Random.Range(0, island.Modules.Count)].GetCollider();
+
+            switch (randomTest != null)
             {
                 case true:
-                    newModule.transform.localScale += randomTest.gameObject.transform.localScale*1.1f;
+                    switch (newModule.GetCollider().bounds.Intersects(randomTest.bounds))
+                    {
+                        case true:
+                            newModule.transform.localScale += randomTest.gameObject.transform.localScale * 1.1f;
+                            break;
+                    }
                     break;
             }
+
         }
         switch (removedModule != null)
         {
             case true:
-                island.modules.Remove(removedModule);
+                island.Modules.Remove(removedModule);
                 GameObject.Destroy(removedModule.gameObject);
                 break;
         }
-        island.modules.Add(newModule);
+        switch (Random.Range(0,3))
+        {
+            case 0:
+                GameObject randomRemove = island.Modules[Random.Range(0, island.Modules.Count)].gameObject;
+                island.Modules.Remove(randomRemove.GetComponent<IslandModule>());
+                GameObject.Destroy(randomRemove.gameObject);
+                break;
+        }
+        island.Modules.Add(newModule);
         Debug.Log("LevelUp!");
 
 
