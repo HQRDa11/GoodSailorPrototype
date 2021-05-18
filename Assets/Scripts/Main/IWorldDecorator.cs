@@ -67,6 +67,9 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
     }
     public void Update()
     {
+
+
+
         //Debug.Log("you are now in Middle");
 
         DestroyFarDistanceObjects();
@@ -74,6 +77,22 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
         switch (m_timerCurrent >= m_timerMax)
         {
             case true:
+                int isIsland = Random.Range(0, 11);
+                if (isIsland > 9)
+                {
+                    Island_Factory factory = new Island_Factory();
+                    GameObject newContinent = factory.CreateIsland(Random.Range(3, 200));
+                    newContinent.transform.position =
+                        boat.transform.position
+                        + Vector3.forward * 720
+                        + Vector3.right * Random.Range(80, -80);
+                    //newContinent.transform.position += Vector3.up * waterLevelAdjustment;
+                    newContinent.transform.Rotate(Vector3.up, Random.Range(0, 180));
+                    m_decors.Add(newContinent);
+                }
+
+
+
                 switch (m_decors.Count < maxNbDecor)
                 {
                     case true:
@@ -168,7 +187,7 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
     public void DecorNewPassengerTransfert()
     {
         //GameObject newSeagullPicKUp = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/SeagullsPickUp"), newLongObstacle.transform);
-        //newSeagullPicKUp.transform.position += Vector3.left*2 + Vector3.down* 0.1f;
+        //newSeagullPicKUp.transform.position += Vector3.left*2 + Vector3.down* 0.1f;s
 
         bool isNewPassengers = (Random.Range(0, 12) >= 10) ? true : false;
         switch (isNewPassengers)

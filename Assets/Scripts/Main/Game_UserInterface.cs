@@ -84,10 +84,10 @@ public class Game_UserInterface : MonoBehaviour
     }
     private void Update_SatisfactionDisplay()
     {
-        if (passengerCargo.CurrentSatisfaction!=0)
+        if (passengerCargo.CurrentSatisfactionDisplay!=0)
         {
             GameObject display = GameObject.Instantiate(satisfactionDisplay_prefab, this.transform);
-            display.GetComponent<Text>().text = passengerCargo.CurrentSatisfaction.ToString();
+            display.GetComponent<Text>().text = passengerCargo.CurrentSatisfactionDisplay.ToString();
         }
     }
 

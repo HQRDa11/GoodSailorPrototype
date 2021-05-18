@@ -111,6 +111,23 @@ public class Boat : MonoBehaviour
 
                 }
                 return;
+
+            case NavigationState.TRANSFERT:
+                if (m_playerCamera.state != CameraState.TRANSFERTfocus)
+                {
+                    m_playerCamera.request(CameraState.TRANSFERTfocus, this.gameObject);
+                }
+                this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                switch (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    case true:
+                        navigationState = NavigationState.SAILING;
+                        m_playerCamera.request(CameraState.BOATfocus, this.gameObject);
+                        break;
+
+                }
+                return;
         }
         ///////////////////////////////////////////////////////////
         startingPosition = transform.position;
@@ -257,13 +274,15 @@ public class Boat : MonoBehaviour
         {
             other.gameObject.GetComponent<Pickup>().OnPickUp();
             passengerCargo.OnPassengerBonus(15);
-            int diceRescue = Random.Range(0, 5);
+            int diceRescue = Random.Range(0, 3);
             switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   
         }
         if (other.transform.tag == "PassengerPickUp" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
         {
+            dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             //Debug.Log("here will come some passengers");
+                        navigationState = NavigationState.DOCKED;
             passengerCargo.OnPassengerTransfer(other.gameObject.GetComponent<PassengerPickUp>().getEmbarkPoint());
         }
         if (other.transform.tag == "IslandEntry" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
@@ -271,7 +290,7 @@ public class Boat : MonoBehaviour
             other.gameObject.GetComponent<IslandEntry>().OnPickUp();
             //Debug.Log("here will come some passengers");
             navigationState = NavigationState.DOCKED;
-            dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
         }
         if (other.transform.tag == "TriggerMaxSpeed")
         {

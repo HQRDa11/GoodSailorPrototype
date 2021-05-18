@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CameraState { BOATfocus = 0, ISLANDfocus}
+public enum CameraState { BOATfocus = 0, ISLANDfocus, TRANSFERTfocus}
 public class PlayerCamera : MonoBehaviour
 {
     public CameraState state;
@@ -38,6 +38,11 @@ public class PlayerCamera : MonoBehaviour
                 Camera.main.transform.LookAt(m_target.transform.position);
                 Camera.main.transform.RotateAround(m_target.transform.position, Vector3.up, 5*Time.deltaTime);
                 return;
+
+            case CameraState.TRANSFERTfocus:
+                Camera.main.transform.LookAt(m_target.transform.position);
+                Camera.main.transform.RotateAround(m_target.transform.position, Vector3.up, 5 * Time.deltaTime);
+                return;
         }
     }
 
@@ -69,6 +74,14 @@ public class PlayerCamera : MonoBehaviour
                 this.gameObject.transform.position = m_target.transform.position ;
                 Camera.main.transform.position += Vector3.up * 50;
                 Camera.main.transform.position += Vector3.back * 80;
+                return;
+
+            case CameraState.TRANSFERTfocus:
+                state = CameraState.TRANSFERTfocus;
+                m_target = target;
+                this.gameObject.transform.position = m_target.transform.position;
+                Camera.main.transform.position += Vector3.up * 12;
+                Camera.main.transform.position += Vector3.back * 12;
                 return;
         }
     }

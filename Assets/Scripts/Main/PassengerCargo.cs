@@ -5,7 +5,7 @@ using UnityEngine;
 public enum PassengerStatus { RED = 0, WHITE, GREEN }
 public class PassengerCargo : MonoBehaviour
 {
-
+    Boat boat;
     public List<Passenger> passengers;
     public GameObject passengerGo;
 
@@ -24,12 +24,13 @@ public class PassengerCargo : MonoBehaviour
     AudioClip passengerLevelUp_audioClip;
 
     Game_UserInterface UI;
-
-    public int CurrentSatisfaction { get; set; }
+    Player player;
+    public int CurrentSatisfactionDisplay { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
+        boat = GameObject.Find("Boat").GetComponent<Boat>();
         passengers = new List<Passenger>();
         passengerGo = Resources.Load<GameObject>("Prefabs/Passenger");
 
@@ -46,6 +47,8 @@ public class PassengerCargo : MonoBehaviour
         audioSource = gameObject.GetComponent<AudioSource>();
         passengerLevelUp_audioClip = Resources.Load<AudioClip>("AudioClips/Droplet");
         audioSource.clip = passengerLevelUp_audioClip;
+
+        player = GameObject.Find("Player").GetComponent<Player>();
 
         UI = GameObject.Find("UI").GetComponent<Game_UserInterface>();
     }
@@ -137,17 +140,27 @@ public class PassengerCargo : MonoBehaviour
                 return;
         }
     }
-    public void AddPassenger()
+    public Passenger AddPassenger()
     {
+
+        switch ( boat.navigationState != NavigationState.TRANSFERT && boat.currentSpeed<=10 )
+        {
+            case true:
+                boat.navigationState = NavigationState.TRANSFERT;
+                break;
+        }
+
         GameObject newPassenger = GameObject.Instantiate(passengerGo);
         newPassenger.transform.parent = this.transform;
         newPassenger.transform.position = this.transform.position + Vector3.right * Random.Range(-1.8f,1.8f);
         passengers.Add(newPassenger.GetComponent<Passenger>());
         audioSource.Play();
         SortPassenger();
+        return newPassenger.GetComponent<Passenger>();
     }
     public void RemovePassenger(Passenger removed)
     {
+        player.AddLevel();
         GameObject.Destroy(removed.gameObject);
         passengers.Remove(removed);
         audioSource.Play();
@@ -155,15 +168,16 @@ public class PassengerCargo : MonoBehaviour
     }
     public void OnPassengerTransfer(Vector3 embarkPoint)
     {
-        passengerIncoming = Random.Range(0,4);
+        passengerIncoming = Random.Range(1,6);
         embarkTarget = embarkPoint;
         transfertState = true;
     }
     public void OnPassengerBonus(float bonus)
     {
-        CurrentSatisfaction = (int)(bonus / Time.deltaTime) ;
+        int palier = 10;
+        CurrentSatisfactionDisplay = (int)(bonus / Time.deltaTime * 10);
 
-        bonus /= (passengers.Count/2)+1;
+        bonus /= (passengers.Count/2) +1;
         foreach (Passenger passenger in passengers)
         {
             passenger.satisfaction += bonus;
@@ -180,7 +194,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.WHITE:
-                    switch (passenger.satisfaction > 70)
+                    switch (passenger.satisfaction > palier+palier)
                     {
                         case true:
                             passenger.status = PassengerStatus.GREEN;
@@ -188,7 +202,7 @@ public class PassengerCargo : MonoBehaviour
                             audioSource.Play();
                             break;
                     }
-                    switch (passenger.satisfaction < -5)
+                    switch (passenger.satisfaction < 0-palier)
                     {
                         case true:
                             Debug.Log("11");
@@ -200,7 +214,7 @@ public class PassengerCargo : MonoBehaviour
                     break;
 
                 case PassengerStatus.GREEN:
-                    switch (passenger.satisfaction < 30 )
+                    switch (passenger.satisfaction < palier+palier )
                     {
                         case true:
                             Debug.Log("12");

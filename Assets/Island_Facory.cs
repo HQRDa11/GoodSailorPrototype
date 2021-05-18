@@ -74,8 +74,19 @@ public class Island_Factory
                 { case true: GameObject.Destroy(collider.gameObject); destroyed++; break; }
         }
         Debug.Log("modules:" + m_modules.Count);
+
+        m_island.transform.Rotate(Vector3.up, Random.Range(0, 360));
+
+        // rotate island to dowk face south
+        switch (newDock.transform.position.z > m_island.transform.position.z)
+        {
+            case true:
+                Debug.Log("rotating island");
+                m_island.transform.Rotate(Vector3.up * 180);
+                Debug.Log(m_island.transform.position);
+                break;
+        }
        
-        m_island.transform.Rotate(Vector3.up,Random.Range(0, 360));
         m_island.GetComponent<Island>().Modules = m_modules;
         TranslateToWaterLevel(m_island);
         return m_island;
@@ -114,14 +125,16 @@ public class Island_Factory
 
     public GameObject CreateModule(Island island)
     {
-        GameObject dicedPrefab = m_modulePrefabs[Random.Range(0, m_modulePrefabs.Count)];
-        GameObject newModule = GameObject.Instantiate(dicedPrefab, island.transform);
-        newModule.transform.position = Find_FreeClipPoint(island) + Vector3.back ;
-        newModule.transform.localScale = Tools.RandomScale(8, 13, 5, 8, 8, 13);
-        newModule.transform.Rotate(Vector3.up, Random.Range(0, 360));
-        newModule.GetComponent<IslandModule>().CreateClips();
-        m_modules.Add(newModule.GetComponent<IslandModule>());
-        return newModule;
+                Debug.Log(island);
+                GameObject dicedPrefab = m_modulePrefabs[Random.Range(0, m_modulePrefabs.Count)];
+                if (!dicedPrefab) { Debug.LogError("no prefab"); }
+                GameObject newModule = GameObject.Instantiate(dicedPrefab, island.transform);
+                newModule.transform.position = Find_FreeClipPoint(island) + Vector3.back;
+                newModule.transform.localScale = Tools.RandomScale(8, 13, 5, 8, 8, 13);
+                newModule.transform.Rotate(Vector3.up, Random.Range(0, 360));
+                newModule.GetComponent<IslandModule>().CreateClips();
+                m_modules.Add(newModule.GetComponent<IslandModule>());
+                return newModule;
     }
     public Vector3 FindRandom_FreeClipPoint()
     {
@@ -184,6 +197,7 @@ public class Island_Factory
                     newDock = GameObject.Instantiate(m_dock, module.gameObject.transform, true);
                     newDock.transform.position = clip.Try();
                     newDock.transform.LookAt(m_island.gameObject.transform);
+                    newDock.transform.parent = m_island.gameObject.transform;
                     bool noCollisionOk= true;
                     foreach (Collider c in m_colliders)
                     {

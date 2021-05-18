@@ -38,5 +38,24 @@ public class Player : MonoBehaviour
                     break;
                 }
         }
+
+    }
+
+    public void AddLevel()
+    {
+        this.islandTarget = boat.dockedAt.GetComponent<Island>();
+
+        switch (this.islandTarget != null)
+        {
+            case true:
+                Island_Factory f = new Island_Factory();
+                for (int i = 0; i < 8; i++)
+                {     
+                    f.LevelUp(islandTarget);
+                }
+                break;
+        }
+
     }
 }
+
