@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
 {
     public PlayerState m_state;
     public Boat boat;
+    public Logic logic;
     public Island islandTarget;
     // Start is called before the first frame update
     void Start()
     {
         boat = GameObject.Find("Boat").GetComponent<Boat>();
+        logic = GameObject.Find("Logic").GetComponent<Logic>();
     }
 
     // Update is called once per frame
@@ -24,15 +26,14 @@ public class Player : MonoBehaviour
                     this.islandTarget = boat.dockedAt.GetComponent<Island>();
                     if (Input.GetKeyDown(KeyCode.U))
                     {
-                        new Island_Factory().LevelUp(islandTarget);
+                        logic.WestPeninsulaFactory.LevelUp(islandTarget);
                         Debug.Log("target Island modules:" + islandTarget.Modules.Count);
                     }
                     if (Input.GetKeyDown(KeyCode.T))
                     {
-                        Island_Factory f = new Island_Factory();
                         for (int i = 0; i<8; i++)
                         {
-                            f.LevelUp(islandTarget);
+                            logic.WestPeninsulaFactory.LevelUp(islandTarget);
                         }
                     }
                     break;
@@ -48,10 +49,9 @@ public class Player : MonoBehaviour
         switch (this.islandTarget != null)
         {
             case true:
-                Island_Factory f = new Island_Factory();
                 for (int i = 0; i < 8; i++)
-                {     
-                    f.LevelUp(islandTarget);
+                {
+                    logic.WestPeninsulaFactory.LevelUp(islandTarget);
                 }
                 break;
         }
