@@ -23,8 +23,6 @@ public class Logic : MonoBehaviour
 
     public float m_sideMovement;
 
-    public WestPeninsula_Island_Factory WestPeninsulaFactory; 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -50,8 +48,8 @@ public class Logic : MonoBehaviour
         m_ui.Display_AreaName(m_world.GetAreaName());
 
 
-        WestPeninsulaFactory = new WestPeninsula_Island_Factory(Library.Get_WesternPeninsula_modulePredabs());
-        GameObject newIsland = WestPeninsulaFactory.CreateIsland(Random.Range(30, 50)) ;
+        Island_Factory island_Factory = new Island_Factory();
+        GameObject newIsland = island_Factory.CreateIsland(Random.Range(30, 50)) ;
         newIsland.transform.position += Vector3.forward * 120;
 
     }

@@ -63,7 +63,7 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
 {
     public WorldDecorator_MiddleIslands() : base()
     {
-
+        
     }
     public void Update()
     {
@@ -80,7 +80,7 @@ public class WorldDecorator_MiddleIslands : WorldDecorator, IWorldDecorator<List
                 int isIsland = Random.Range(0, 11);
                 if (isIsland > 9)
                 {
-                    WestPeninsula_Island_Factory factory = new WestPeninsula_Island_Factory(Library.Get_WesternPeninsula_modulePredabs());
+                    Island_Factory factory = new Island_Factory();
                     GameObject newContinent = factory.CreateIsland(Random.Range(3, 200));
                     newContinent.transform.position =
                         boat.transform.position

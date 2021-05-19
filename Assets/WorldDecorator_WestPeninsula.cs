@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class WorldDecorator_WestPeninsula : WorldDecorator, IWorldDecorator<List<GameObject>>
 {
-    public WestPeninsula_Island_Factory m_island_factory;
+    public Island_Factory m_island_factory;
     public WorldDecorator_WestPeninsula() : base()
     {
-        m_island_factory = new WestPeninsula_Island_Factory(Library.Get_WesternPeninsula_modulePredabs());
+        m_island_factory = new WestPeninsula_Island_Factory();
 
         maxNbDecor = 200;
         m_timerMax = 40;
