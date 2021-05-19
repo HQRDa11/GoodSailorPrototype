@@ -15,15 +15,12 @@ public class Island_Factory
     protected List<Collider> m_colliders;
     protected List<GameObject> m_modulePrefabs;
     protected List<GameObject> m_beachPrefabs;
-    protected GameObject  m_island;
     public Island_Factory()
     {
         m_oceanLevel = -2.5f;
         m_idDistrib = 0;
 
         m_baseA = Resources.Load<GameObject>("Prefabs/Island/BaseA");
-
-        
 
         m_beachPrefabs = new List<GameObject>();
         m_beachPrefabs.Add(Resources.Load<GameObject>("Prefabs/Island/BeachA"));
@@ -48,25 +45,25 @@ public class Island_Factory
     {
         m_modules = new List<IslandModule>();
         m_idDistrib++;
-        m_island  = Instantiate_IslandGameObject(level);
-        m_island.transform.position = GameObject.Find("Boat").transform.position + Vector3.forward*320;
+        Island island = Instantiate_IslandGameObject(level).GetComponent<Island>(); //!!!
+        island.transform.position = GameObject.Find("Boat").transform.position + Vector3.forward*320;
 
         ClearModuleList();
-        GameObject baseModule = CreateBaseModule(m_island.GetComponent<Island>());
+        GameObject baseModule = CreateBaseModule(island.GetComponent<Island>());
 
         for (int i = 0; i < level / 3; i++)
         {
             ClearModuleList();
-            CreateBeachModule(m_island.GetComponent<Island>());
+            CreateBeachModule(island.GetComponent<Island>());
         }
         for (int i = 0; i < level; i++)
         {
             ClearModuleList();
-            CreateModule(m_island.GetComponent<Island>());
+            CreateModule(island.GetComponent<Island>());
         }
 
         List_AllColliders();
-        GameObject newDock = CreateDock();
+        GameObject newDock = CreateDock(island);
         int destroyed = 0;
         foreach (Collider collider in m_colliders)
         {
@@ -75,21 +72,19 @@ public class Island_Factory
         }
         Debug.Log("modules:" + m_modules.Count);
 
-        m_island.transform.Rotate(Vector3.up, Random.Range(0, 360));
+        island.transform.Rotate(Vector3.up, Random.Range(0, 360));
 
         // rotate island to dowk face south
-        switch (newDock.transform.position.z > m_island.transform.position.z)
+        switch (newDock.transform.position.z > island.transform.position.z)
         {
             case true:
-                Debug.Log("rotating island");
-                m_island.transform.Rotate(Vector3.up * 180);
-                Debug.Log(m_island.transform.position);
+                island.transform.Rotate(Vector3.up * 180);
                 break;
         }
        
-        m_island.GetComponent<Island>().Modules = m_modules;
-        TranslateToWaterLevel(m_island);
-        return m_island;
+        island.Modules = m_modules;
+        TranslateToWaterLevel(island.gameObject);
+        return island.gameObject;
     }
     public GameObject Instantiate_IslandGameObject(int level)
     {
@@ -125,11 +120,11 @@ public class Island_Factory
 
     public GameObject CreateModule(Island island)
     {
-                Debug.Log(island);
+
                 GameObject dicedPrefab = m_modulePrefabs[Random.Range(0, m_modulePrefabs.Count)];
-                if (!dicedPrefab) { Debug.LogError("no prefab"); }
+                if (!island) { Debug.LogError("no island"); }
                 GameObject newModule = GameObject.Instantiate(dicedPrefab, island.transform);
-                newModule.transform.position = Find_FreeClipPoint(island) + Vector3.back;
+                newModule.transform.position = Find_FreeClipPoint(island); // System a refaire
                 newModule.transform.localScale = Tools.RandomScale(8, 13, 5, 8, 8, 13);
                 newModule.transform.Rotate(Vector3.up, Random.Range(0, 360));
                 newModule.GetComponent<IslandModule>().CreateClips();
@@ -185,7 +180,7 @@ public class Island_Factory
         }
     }
 
-    public GameObject CreateDock()
+    public GameObject CreateDock(Island island)
     {
         foreach (IslandModule module in m_modules)
         {
@@ -196,8 +191,8 @@ public class Island_Factory
                     GameObject newDock = new GameObject("dock" + m_idDistrib) ;
                     newDock = GameObject.Instantiate(m_dock, module.gameObject.transform, true);
                     newDock.transform.position = clip.Try();
-                    newDock.transform.LookAt(m_island.gameObject.transform);
-                    newDock.transform.parent = m_island.gameObject.transform;
+                    newDock.transform.LookAt(island.gameObject.transform);
+                    newDock.transform.parent = island.gameObject.transform;
                     bool noCollisionOk= true;
                     foreach (Collider c in m_colliders)
                     {
@@ -239,6 +234,7 @@ public class Island_Factory
 
     public void LevelUp(Island island)
     {
+        if (!island) { Debug.LogError("no island here"); };
         IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
         IslandModule removedModule = null;
         int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);

@@ -282,7 +282,7 @@ public class Boat : MonoBehaviour
             dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
             //Debug.Log("here will come some passengers");
-                        navigationState = NavigationState.DOCKED;
+            navigationState = NavigationState.DOCKED;
             passengerCargo.OnPassengerTransfer(other.gameObject.GetComponent<PassengerPickUp>().getEmbarkPoint());
         }
         if (other.transform.tag == "IslandEntry" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
@@ -290,7 +290,8 @@ public class Boat : MonoBehaviour
             other.gameObject.GetComponent<IslandEntry>().OnPickUp();
             //Debug.Log("here will come some passengers");
             navigationState = NavigationState.DOCKED;
-            dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            Debug.Log("parent parent :"+ other.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject);
         }
         if (other.transform.tag == "TriggerMaxSpeed")
         {
