@@ -234,7 +234,7 @@ public class Island_Factory
 
     public void LevelUp(Island island)
     {
-        if (!island) { Debug.LogError("no island here"); };
+        //if (!island) { Debug.LogError("no island here"); };
         IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
         IslandModule removedModule = null;
         int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);
