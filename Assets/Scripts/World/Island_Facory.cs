@@ -168,42 +168,48 @@ public class Island_Factory
     { 
         IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
         
-        int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);
-        IslandModule removedModule = null;
-        for (int i = 0; i < randomPanel && removedModule == null; i++)
+        int randomPanel = island.Modules.Count;
+        List<IslandModule> removedModules = new List<IslandModule>();
+        int highestLevel = 1;
+        for (int i = 0; i < randomPanel; i++)
         {
             Collider newCollider = newModule.GetCollider();
             Collider randomTest = island.Modules[Random.Range(0, island.Modules.Count)].GetCollider();
-            switch (randomTest != null && newCollider != null)
+
+            switch (randomTest != null && newCollider != null && randomTest.gameObject.GetComponent<IslandModule>())
             {
                 case true:
-                    switch (newCollider.bounds.Intersects(randomTest.bounds))
+                    Debug.Log("Colliding: "+ randomTest.gameObject.name);
+                    switch (randomTest.gameObject.GetComponent<IslandModule>().isMainModule == false 
+                        && newCollider.bounds.Intersects(randomTest.bounds) 
+                        && newModule.Level >= randomTest.gameObject.GetComponent<IslandModule>().Level)
                     {
                         case true:
-                            newModule.transform.localScale = randomTest.gameObject.transform.localScale * 0.3f;
+                            IslandModule testmodule = randomTest.gameObject.GetComponent<IslandModule>();
+                            highestLevel = (testmodule.Level > highestLevel)? testmodule.Level : highestLevel ;
+                            removedModules.Add(testmodule);
                             break;
                     }
                     break;
             }
 
         }
-        switch (removedModule != null)
+        switch (removedModules.Count != 0)
         {
             case true:
-                island.Modules.Remove(removedModule);
-                GameObject.Destroy(removedModule.gameObject);
+                newModule.Level = highestLevel+1;
+                newModule.transform.localScale = Vector3.one * Mathf.Sqrt(newModule.Level);
+
+                while (removedModules.Count != 0)
+                {
+                    island.Modules.Remove(removedModules[0]);
+                    GameObject.Destroy(removedModules[0].gameObject);
+                    removedModules.RemoveAt(0);
+                }
+
                 break;
         }
-        //switch (Random.Range(0, 3))
-        //{
-        //    case 0:
-        //        GameObject randomRemove = island.Modules[Random.Range(0, island.Modules.Count)].gameObject;
-        //        island.Modules.Remove(randomRemove.GetComponent<IslandModule>());
-        //        GameObject.Destroy(randomRemove.gameObject);
-        //        break;
-        //}
         island.Modules.Add(newModule);
-        Debug.Log("LevelUp!");
     }
 
     public GameObject CreateBaseModule(Island parentIsland)
@@ -215,49 +221,6 @@ public class Island_Factory
         newBase.GetComponent<IslandModule>().isMainModule = true;
         parentIsland.Modules.Add(newBase.GetComponent<IslandModule>());
         return newBase;
-    }
-
-    public void OLDLevelUp(Island parentIsland)
-    {
-        //if (!island) { Debug.LogError("no island here"); };
-        IslandModule newModule = CreateModule(parentIsland).GetComponent<IslandModule>();
-        IslandModule removedModule = null;
-        int randomPanel = (int)(Mathf.Sqrt(parentIsland.Modules.Count) * 1.8f);
-            
-        for (int i = 0; i < randomPanel && removedModule == null ; i++)
-        {
-            Collider newCollider = newModule.GetCollider();
-            Collider randomTest = parentIsland.Modules[Random.Range(0, parentIsland.Modules.Count)].GetCollider();
-            switch (randomTest != null && newCollider != null)
-            {
-                case true:
-                    switch (newCollider.bounds.Intersects(randomTest.bounds))
-                    {
-                        case true:
-                            newModule.transform.localScale = randomTest.gameObject.transform.localScale * 0.3f;
-                            break;
-                    }
-                    break;
-            }
-
-        }
-        switch (removedModule != null)
-        {
-            case true:
-                parentIsland.Modules.Remove(removedModule);
-                GameObject.Destroy(removedModule.gameObject);
-                break;
-        }
-        switch (Random.Range(0,3))
-        {
-            case 0:
-                GameObject randomRemove = parentIsland.Modules[Random.Range(0, parentIsland.Modules.Count)].gameObject;
-                parentIsland.Modules.Remove(randomRemove.GetComponent<IslandModule>());
-                GameObject.Destroy(randomRemove.gameObject);
-                break;
-        }
-        parentIsland.Modules.Add(newModule);
-        Debug.Log("LevelUp!");
     }
 
     public Vector3 Find_FreeClipPoint(Island island)

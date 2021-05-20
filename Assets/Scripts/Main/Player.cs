@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    Debug.Log("targetIsland: " + islandTarget);
                     for (int i = 0; i<8; i++)
                     {
                         if (!islandTarget) { Debug.LogError("no island here2"); };
