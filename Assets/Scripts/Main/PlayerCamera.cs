@@ -37,6 +37,7 @@ public class PlayerCamera : MonoBehaviour
             case CameraState.ISLANDfocus:
                 Camera.main.transform.LookAt(m_target.transform.position);
                 Camera.main.transform.RotateAround(m_target.transform.position, Vector3.up, 5*Time.deltaTime);
+                if (Input.GetAxis("Mouse ScrollWheel") != 0) { UpdateZoom(Input.GetAxis("Mouse ScrollWheel") *20 ); } ;
                 return;
 
             case CameraState.TRANSFERTfocus:
@@ -84,5 +85,11 @@ public class PlayerCamera : MonoBehaviour
                 Camera.main.transform.position += Vector3.back * 12;
                 return;
         }
+    }
+
+    public void UpdateZoom(float zoomModifier)
+    {
+        Debug.Log("Zoom: "+zoomModifier);
+        Camera.main.transform.position += Vector3.down * zoomModifier + Vector3.forward * zoomModifier;
     }
 }

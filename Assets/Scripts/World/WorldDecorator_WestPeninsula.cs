@@ -27,7 +27,7 @@ public class WorldDecorator_WestPeninsula : WorldDecorator, IWorldDecorator<List
                 switch (m_decors.Count < maxNbDecor)
                 {
                     case true:
-                        GameObject newContinent = m_island_factory.CreateIsland(Random.Range(3,200));
+                        GameObject newContinent = m_island_factory.CreateIsland(Random.Range(20,100));
                         newContinent.transform.position =
                             boat.transform.position
                             + Vector3.forward * 720
