@@ -277,7 +277,7 @@ public class Boat : MonoBehaviour
             int diceRescue = Random.Range(0, 3);
             switch (diceRescue) { case 0: passengerCargo.AddPassenger(); break; }   
         }
-        if (other.transform.tag == "PassengerPickUp" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
+        if (other.transform.tag == "PassengerPickUp" && currentSpeed < 20 && sailState != SailsState.FULL_OPEN)
         {
             dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
             other.gameObject.GetComponent<PassengerPickUp>().OnPickUp();
@@ -285,7 +285,7 @@ public class Boat : MonoBehaviour
             navigationState = NavigationState.DOCKED;
             passengerCargo.OnPassengerTransfer(other.gameObject.GetComponent<PassengerPickUp>().getEmbarkPoint());
         }
-        if (other.transform.tag == "IslandEntry" && currentSpeed < 16 && sailState != SailsState.FULL_OPEN)
+        if (other.transform.tag == "IslandEntry" && currentSpeed < 20 && sailState != SailsState.FULL_OPEN)
         {
             other.gameObject.GetComponent<IslandEntry>().OnPickUp();
             //Debug.Log("here will come some passengers");

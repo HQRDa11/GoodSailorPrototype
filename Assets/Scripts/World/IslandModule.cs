@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class IslandModule : MonoBehaviour
 {
+    public int Level;
+    public bool isMainModule;
+    private Island m_islandParent;
+    public int LayerMask = 6;
+    public void Start()
+    {
+        Level = 1;
+        this.gameObject.layer = LayerMask;
+        if (isMainModule)
+        {
+            LayerMask = 0;
+        }
+        foreach (Transform transform in this.gameObject.GetComponentsInChildren<Transform>())
+        {
+            transform.gameObject.layer = LayerMask;
+        }
+    }
     public enum Coordinates
     {
         N = 180,
@@ -53,5 +70,29 @@ public class IslandModule : MonoBehaviour
     public Collider GetCollider()
     {
         return gameObject.GetComponentInChildren<Collider>();
+    }
+
+    public Island GetIsland()
+    {
+        switch (m_islandParent != null)
+        {
+            case true:
+                return m_islandParent;
+
+            case false:
+                m_islandParent = gameObject.transform.parent.gameObject.GetComponent<Island>();
+                switch (m_islandParent != null)
+                {
+                    case true:
+                        Debug.Log("island parent: " + m_islandParent);
+                        return m_islandParent;
+
+                    case false:
+                        Debug.LogWarning("Error island not set to " + this.gameObject.name);
+                        Island error = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Error Irem"), this.gameObject.transform).AddComponent<Island>();
+                        error.transform.position = this.gameObject.transform.position;
+                        return error;
+                }
+        }
     }
 }

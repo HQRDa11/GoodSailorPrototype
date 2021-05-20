@@ -103,6 +103,7 @@ public class Island_Factory
         newBase.transform.localScale = Tools.RandomScale(34, 55, 3, 5f, 34, 55);
         newBase.transform.position = parentIsland.transform.position;
         newBase.GetComponent<IslandModule>().CreateClips();
+        newBase.GetComponent<IslandModule>().isMainModule = true;
         parentIsland.Modules.Add(newBase.GetComponent<IslandModule>());
         return newBase;
     }
@@ -120,16 +121,54 @@ public class Island_Factory
 
     public GameObject CreateModule(Island island)
     {
+        GameObject dicedPrefab = m_modulePrefabs[Random.Range(0, m_modulePrefabs.Count)];
+        if (!island) { Debug.LogError("no island"); }
+        GameObject newModule = GameObject.Instantiate(dicedPrefab, island.transform);
+        newModule.transform.position = Find_FreeClipPoint(island); // System a refaire
+        newModule.transform.localScale = Tools.RandomScale(8, 13, 5, 8, 8, 13);
+        newModule.transform.Rotate(Vector3.up, Random.Range(0, 360));
+        newModule.GetComponent<IslandModule>().CreateClips();
+        newModule.GetComponent<IslandModule>().isMainModule = false;
+        m_modules.Add(newModule.GetComponent<IslandModule>());
+        return newModule;
+    }
+    public GameObject CreateDock(Island island)
+    {
+        foreach (IslandModule module in m_modules)
+        {
+            foreach (IClipPoint clip in module.ClipPoints())
+            {
+                if (clip.GetComponent<IClipPoint>().isFree == true)
+                {
+                    GameObject newDock = new GameObject("dock" + m_idDistrib) ;
+                    newDock = GameObject.Instantiate(m_dock, module.gameObject.transform, true);
+                    if (!newDock.gameObject.GetComponent<IslandModule>()) { newDock.gameObject.AddComponent<IslandModule>(); }
+                    newDock.GetComponent<IslandModule>().isMainModule = true;
+                    newDock.transform.position = clip.Try();
+                    newDock.transform.LookAt(island.gameObject.transform);
+                    newDock.transform.parent = island.gameObject.transform;
 
-                GameObject dicedPrefab = m_modulePrefabs[Random.Range(0, m_modulePrefabs.Count)];
-                if (!island) { Debug.LogError("no island"); }
-                GameObject newModule = GameObject.Instantiate(dicedPrefab, island.transform);
-                newModule.transform.position = Find_FreeClipPoint(island); // System a refaire
-                newModule.transform.localScale = Tools.RandomScale(8, 13, 5, 8, 8, 13);
-                newModule.transform.Rotate(Vector3.up, Random.Range(0, 360));
-                newModule.GetComponent<IslandModule>().CreateClips();
-                m_modules.Add(newModule.GetComponent<IslandModule>());
-                return newModule;
+                    bool noCollisionOk= true;
+                    foreach (Collider c in m_colliders)
+                    {
+                        if (newDock.GetComponentInChildren<PassengerPickUp>()
+                                  .GetComponent<Collider>().
+                                  bounds.Intersects(c.bounds)
+                                  )
+                        {
+                            noCollisionOk = false;
+                        }
+                    }
+                    switch (noCollisionOk)
+                    {
+                        case true: clip.Clip(); return newDock;
+                    
+                    }
+                }
+            }
+        }
+        Debug.LogWarning("no dock?");
+        return new GameObject("dockError");
     }
     public Vector3 FindRandom_FreeClipPoint()
     {
@@ -180,41 +219,6 @@ public class Island_Factory
         }
     }
 
-    public GameObject CreateDock(Island island)
-    {
-        foreach (IslandModule module in m_modules)
-        {
-            foreach (IClipPoint clip in module.ClipPoints())
-            {
-                if (clip.GetComponent<IClipPoint>().isFree == true)
-                {
-                    GameObject newDock = new GameObject("dock" + m_idDistrib) ;
-                    newDock = GameObject.Instantiate(m_dock, module.gameObject.transform, true);
-                    newDock.transform.position = clip.Try();
-                    newDock.transform.LookAt(island.gameObject.transform);
-                    newDock.transform.parent = island.gameObject.transform;
-                    bool noCollisionOk= true;
-                    foreach (Collider c in m_colliders)
-                    {
-                        if (newDock.GetComponentInChildren<PassengerPickUp>()
-                                  .GetComponent<Collider>().
-                                  bounds.Intersects(c.bounds)
-                                  )
-                        {
-                            noCollisionOk = false;
-                        }
-                    }
-                    switch (noCollisionOk)
-                    {
-                        case true: clip.Clip(); return newDock;
-                    
-                    }
-                }
-            }
-        }
-        Debug.LogWarning("no dock?");
-        return new GameObject("dockError");
-    }
 
     public void ClearModuleList()
     {

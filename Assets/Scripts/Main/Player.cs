@@ -8,11 +8,16 @@ public class Player : MonoBehaviour
     public PlayerState m_state;
     public Boat boat;
     public Island islandTarget;
-    Island_Factory testFactory;
+    public Island_Factory testFactory;
+
+    float m_modulesFound;
+    public IslandModule targetModule;
 
     // Start is called before the first frame update
     void Start()
     {
+        targetModule = Resources.Load<GameObject>("Prefabs/Error Item").GetComponent<IslandModule>();
+        m_modulesFound = 0;
         m_state = new PlayerState();
         boat = GameObject.Find("Boat").GetComponent<Boat>();
         testFactory = new Island_Factory();
@@ -25,25 +30,37 @@ public class Player : MonoBehaviour
         {
             case (NavigationState.DOCKED):
             {
-                    if (!boat) { Debug.LogError("no boat"); };
-                    islandTarget = boat.dockedAt.GetComponent<Island>();
-                    if (Input.GetKeyDown(KeyCode.U))
-                    {
-                        if (!islandTarget) { Debug.LogError("no island here1"); };
-                        testFactory.LevelUp(islandTarget);
-                        Debug.Log("target Island modules:" + islandTarget.Modules.Count);
-                    }
-                    if (Input.GetKeyDown(KeyCode.T))
-                    {
-                        Debug.Log("targetIsland: " + islandTarget);
-                        for (int i = 0; i<8; i++)
-                        {
-                            if (!islandTarget) { Debug.LogError("no island here2"); };
-                            testFactory.LevelUp(islandTarget);
-                        }
-                    }
-                    break;
+                if (!boat) { Debug.LogError("no boat"); };
+                islandTarget = boat.dockedAt.GetComponent<Island>();
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    if (!islandTarget) { Debug.LogError("no island here1"); };
+                    testFactory.LevelUp(islandTarget);
+                    Debug.Log("target Island modules:" + islandTarget.Modules.Count);
                 }
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    Debug.Log("targetIsland: " + islandTarget);
+                    for (int i = 0; i<8; i++)
+                    {
+                        if (!islandTarget) { Debug.LogError("no island here2"); };
+                        testFactory.LevelUp(islandTarget);
+                    }
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    if (IsModuleAtClickPoint())
+                    {
+                        if(targetModule.GetComponent<IslandModule>().isMainModule == false)
+                        {
+                            Debug.Log(targetModule.name);
+                            Refound(targetModule.GetComponent<IslandModule>());
+                        }
+                            
+                    }
+                }
+                break;
+            }
         }
 
     }
@@ -63,6 +80,35 @@ public class Player : MonoBehaviour
                 break;
         }
 
+    }
+    public bool IsModuleAtClickPoint()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        LayerMask islandMask = LayerMask.GetMask("Island");
+        switch (Physics.Raycast(ray,out hit,Mathf.Infinity, 1<<6)
+            && hit.transform.parent.gameObject.GetComponent<IslandModule>())
+        {
+            case true:
+                Debug.Log(true);
+                targetModule = hit.transform.parent.gameObject.GetComponent<IslandModule>();
+                return true;
+            case false:
+                Debug.Log("hit mismatch");
+                Debug.Log(hit.transform.gameObject);
+                //if (hit.transform.gameObject != null) { Debug.Log("name:"+ hit.transform.gameObject.name); }
+                return false;
+        }
+    }
+
+        
+    public void Refound(IslandModule module)
+    {
+        m_modulesFound += module.Level; 
+        Debug.Log("Founds=" + m_modulesFound);
+        Island parent = module.GetIsland();
+        parent.Modules.Remove(module);
+        GameObject.Destroy(module.gameObject);
     }
 }
 
