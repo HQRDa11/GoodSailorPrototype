@@ -165,12 +165,11 @@ public class Island_Factory
     }
 
     public void LevelUp(Island island)
-    {
-        //if (!island) { Debug.LogError("no island here"); };
+    { 
         IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
-        IslandModule removedModule = null;
+        
         int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);
-
+        IslandModule removedModule = null;
         for (int i = 0; i < randomPanel && removedModule == null; i++)
         {
             Collider newCollider = newModule.GetCollider();
@@ -195,14 +194,14 @@ public class Island_Factory
                 GameObject.Destroy(removedModule.gameObject);
                 break;
         }
-        switch (Random.Range(0, 3))
-        {
-            case 0:
-                GameObject randomRemove = island.Modules[Random.Range(0, island.Modules.Count)].gameObject;
-                island.Modules.Remove(randomRemove.GetComponent<IslandModule>());
-                GameObject.Destroy(randomRemove.gameObject);
-                break;
-        }
+        //switch (Random.Range(0, 3))
+        //{
+        //    case 0:
+        //        GameObject randomRemove = island.Modules[Random.Range(0, island.Modules.Count)].gameObject;
+        //        island.Modules.Remove(randomRemove.GetComponent<IslandModule>());
+        //        GameObject.Destroy(randomRemove.gameObject);
+        //        break;
+        //}
         island.Modules.Add(newModule);
         Debug.Log("LevelUp!");
     }
