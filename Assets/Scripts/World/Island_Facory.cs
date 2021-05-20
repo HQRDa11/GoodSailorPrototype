@@ -86,6 +86,7 @@ public class Island_Factory
         TranslateToWaterLevel(island.gameObject);
         return island.gameObject;
     }
+
     public GameObject Instantiate_IslandGameObject(int level)
     {
         GameObject islandGameObject = new GameObject("Island #" + m_idDistrib.ToString() +" lvl" + level.ToString(),
@@ -93,19 +94,10 @@ public class Island_Factory
         typeof(DestroyOnFarDistance));
         return islandGameObject;
     }
+
     public void TranslateToWaterLevel(GameObject obj)
     {
         obj.transform.position += Vector3.up * (float)m_oceanLevel;
-    }
-    public GameObject CreateBaseModule(Island parentIsland)
-    {
-        GameObject newBase = GameObject.Instantiate(m_baseA, parentIsland.transform, true);
-        newBase.transform.localScale = Tools.RandomScale(34, 55, 3, 5f, 34, 55);
-        newBase.transform.position = parentIsland.transform.position;
-        newBase.GetComponent<IslandModule>().CreateClips();
-        newBase.GetComponent<IslandModule>().isMainModule = true;
-        parentIsland.Modules.Add(newBase.GetComponent<IslandModule>());
-        return newBase;
     }
 
     public GameObject CreateBeachModule(Island parentIsland)
@@ -132,6 +124,7 @@ public class Island_Factory
         m_modules.Add(newModule.GetComponent<IslandModule>());
         return newModule;
     }
+
     public GameObject CreateDock(Island island)
     {
         foreach (IslandModule module in m_modules)
@@ -170,25 +163,107 @@ public class Island_Factory
         Debug.LogWarning("no dock?");
         return new GameObject("dockError");
     }
-    public Vector3 FindRandom_FreeClipPoint()
+
+    public void LevelUp(Island island)
     {
-        foreach (IslandModule module in m_modules)
+        //if (!island) { Debug.LogError("no island here"); };
+        IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
+        IslandModule removedModule = null;
+        int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);
+
+        for (int i = 0; i < randomPanel && removedModule == null; i++)
         {
-            foreach (IClipPoint clip in module.ClipPoints())
+            Collider newCollider = newModule.GetCollider();
+            Collider randomTest = island.Modules[Random.Range(0, island.Modules.Count)].GetCollider();
+            switch (randomTest != null && newCollider != null)
             {
-                int random = Random.Range(0, module.ClipPoints().Length);
-                if (module.ClipPoints()[random].isFree == true)
-                {
-                    return clip.Clip();
-                }
+                case true:
+                    switch (newCollider.bounds.Intersects(randomTest.bounds))
+                    {
+                        case true:
+                            newModule.transform.localScale = randomTest.gameObject.transform.localScale * 0.3f;
+                            break;
+                    }
+                    break;
             }
+
         }
-        return Vector3.zero;
+        switch (removedModule != null)
+        {
+            case true:
+                island.Modules.Remove(removedModule);
+                GameObject.Destroy(removedModule.gameObject);
+                break;
+        }
+        switch (Random.Range(0, 3))
+        {
+            case 0:
+                GameObject randomRemove = island.Modules[Random.Range(0, island.Modules.Count)].gameObject;
+                island.Modules.Remove(randomRemove.GetComponent<IslandModule>());
+                GameObject.Destroy(randomRemove.gameObject);
+                break;
+        }
+        island.Modules.Add(newModule);
+        Debug.Log("LevelUp!");
+    }
+
+    public GameObject CreateBaseModule(Island parentIsland)
+    {
+        GameObject newBase = GameObject.Instantiate(m_baseA, parentIsland.transform, true);
+        newBase.transform.localScale = Tools.RandomScale(34, 55, 3, 5f, 34, 55);
+        newBase.transform.position = parentIsland.transform.position;
+        newBase.GetComponent<IslandModule>().CreateClips();
+        newBase.GetComponent<IslandModule>().isMainModule = true;
+        parentIsland.Modules.Add(newBase.GetComponent<IslandModule>());
+        return newBase;
+    }
+
+    public void OLDLevelUp(Island parentIsland)
+    {
+        //if (!island) { Debug.LogError("no island here"); };
+        IslandModule newModule = CreateModule(parentIsland).GetComponent<IslandModule>();
+        IslandModule removedModule = null;
+        int randomPanel = (int)(Mathf.Sqrt(parentIsland.Modules.Count) * 1.8f);
+            
+        for (int i = 0; i < randomPanel && removedModule == null ; i++)
+        {
+            Collider newCollider = newModule.GetCollider();
+            Collider randomTest = parentIsland.Modules[Random.Range(0, parentIsland.Modules.Count)].GetCollider();
+            switch (randomTest != null && newCollider != null)
+            {
+                case true:
+                    switch (newCollider.bounds.Intersects(randomTest.bounds))
+                    {
+                        case true:
+                            newModule.transform.localScale = randomTest.gameObject.transform.localScale * 0.3f;
+                            break;
+                    }
+                    break;
+            }
+
+        }
+        switch (removedModule != null)
+        {
+            case true:
+                parentIsland.Modules.Remove(removedModule);
+                GameObject.Destroy(removedModule.gameObject);
+                break;
+        }
+        switch (Random.Range(0,3))
+        {
+            case 0:
+                GameObject randomRemove = parentIsland.Modules[Random.Range(0, parentIsland.Modules.Count)].gameObject;
+                parentIsland.Modules.Remove(randomRemove.GetComponent<IslandModule>());
+                GameObject.Destroy(randomRemove.gameObject);
+                break;
+        }
+        parentIsland.Modules.Add(newModule);
+        Debug.Log("LevelUp!");
     }
 
     public Vector3 Find_FreeClipPoint(Island island)
     {
-        switch(island.Modules.Count!=0)
+        switch (island.Modules.Count != 0)
         {
             case true:
                 foreach (IslandModule module in island.Modules)
@@ -207,6 +282,23 @@ public class Island_Factory
 
         return Vector3.zero;
     }
+
+    public Vector3 FindRandom_FreeClipPoint()
+    {
+        foreach (IslandModule module in m_modules)
+        {
+            foreach (IClipPoint clip in module.ClipPoints())
+            {
+                int random = Random.Range(0, module.ClipPoints().Length);
+                if (module.ClipPoints()[random].isFree == true)
+                {
+                    return clip.Clip();
+                }
+            }
+        }
+        return Vector3.zero;
+    }
+
     public void List_AllColliders()
     {
         m_colliders = new List<Collider>();
@@ -219,7 +311,6 @@ public class Island_Factory
         }
     }
 
-
     public void ClearModuleList()
     {
         List<IslandModule> toRemove = new List<IslandModule>();
@@ -230,84 +321,9 @@ public class Island_Factory
                 case true: toRemove.Add(module); break;
             }
         }
-        foreach(IslandModule module in toRemove)
+        foreach (IslandModule module in toRemove)
         {
             m_modules.Remove(module);
         }
-    }
-
-    public void LevelUp(Island island)
-    {
-        //if (!island) { Debug.LogError("no island here"); };
-        IslandModule newModule = CreateModule(island).GetComponent<IslandModule>();
-        IslandModule removedModule = null;
-        int randomPanel = (int)(Mathf.Sqrt(island.Modules.Count) * 1.8f);
-            ;
-        for (int i = 0; i < randomPanel && removedModule == null ; i++)
-        {
-            Collider newCollider = newModule.GetCollider();
-            Collider randomTest = island.Modules[Random.Range(0, island.Modules.Count)].GetCollider();
-            switch (randomTest != null && newCollider != null)
-            {
-                case true:
-                    switch (newCollider.bounds.Intersects(randomTest.bounds))
-                    {
-                        case true:
-                            newModule.transform.localScale += randomTest.gameObject.transform.localScale * 1.1f;
-                            break;
-                    }
-                    break;
-            }
-
-        }
-        switch (removedModule != null)
-        {
-            case true:
-                island.Modules.Remove(removedModule);
-                GameObject.Destroy(removedModule.gameObject);
-                break;
-        }
-        switch (Random.Range(0,3))
-        {
-            case 0:
-                GameObject randomRemove = island.Modules[Random.Range(0, island.Modules.Count)].gameObject;
-                island.Modules.Remove(randomRemove.GetComponent<IslandModule>());
-                GameObject.Destroy(randomRemove.gameObject);
-                break;
-        }
-        island.Modules.Add(newModule);
-        Debug.Log("LevelUp!");
-
-
-        //    IslandModule a = null;
-        //    IslandModule b = null;
-        //    List<Collider> colliders = new List<Collider>();
-        //    foreach (IslandModule i in island.modules)
-        //    {
-        //        foreach(Collider c in i.GetAllColliders())
-        //        {
-        //            colliders.Add(i);
-        //        }
-        //    }
-        //    for (int i = 0; i<island.modules.Count && b!=null;i++)
-        //    {
-        //        IslandModule tested = island.modules[Random.Range(0, island.modules.Count)];
-        //        switch (tested.GetAllColliders()[0].bounds.Intersects(colliders[i].bounds))
-        //        {
-        //            case true:
-        //                a = tested;
-        //                b = colliders[i].gameObject.GetComponent<IslandModule>();
-        //                break;
-        //        }
-        //    }
-        //    switch (b!=null)
-        //    {
-        //        case true:
-        //            MergeModuls(a, b);
-        //            break;
-        //    }
-        //}
-
-        //public GameObject
     }
 }
