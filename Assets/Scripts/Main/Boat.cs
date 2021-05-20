@@ -298,13 +298,6 @@ public class Boat : MonoBehaviour
             Debug.Log("maxSpeed");
             this.maxSpeedBonus = 8;
         }
-        if (other.transform.tag == "Seagulls")
-        {
-            other.gameObject.GetComponent<SeagullPickUp>().OnPickUp();
-            Debug.Log("Bonus happyness fot passengers");
-
-        }
-
     }
 
     private void OnCollisionEnter(Collision collision)
