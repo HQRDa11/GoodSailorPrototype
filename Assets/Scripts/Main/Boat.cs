@@ -291,7 +291,6 @@ public class Boat : MonoBehaviour
             //Debug.Log("here will come some passengers");
             navigationState = NavigationState.DOCKED;
             dockedAt = other.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-            Debug.Log("parent parent :"+ other.gameObject.transform.parent.gameObject.transform.parent.gameObject);
         }
         if (other.transform.tag == "TriggerMaxSpeed")
         {

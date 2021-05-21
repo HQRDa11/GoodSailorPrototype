@@ -52,7 +52,6 @@ public class Player : MonoBehaviour
                     {
                         if(targetModule.GetComponent<IslandModule>().isMainModule == false)
                         {
-                            Debug.Log(targetModule.name);
                             Refound(targetModule.GetComponent<IslandModule>());
                         }
                             
@@ -89,7 +88,6 @@ public class Player : MonoBehaviour
             && hit.transform.parent.gameObject.GetComponent<IslandModule>())
         {
             case true:
-                Debug.Log(true);
                 targetModule = hit.transform.parent.gameObject.GetComponent<IslandModule>();
                 return true;
             case false:
@@ -104,7 +102,6 @@ public class Player : MonoBehaviour
     public void Refound(IslandModule module)
     {
         m_modulesFound += module.Level; 
-        Debug.Log("Founds=" + m_modulesFound);
         Island parent = module.GetIsland();
         parent.Modules.Remove(module);
         GameObject.Destroy(module.gameObject);
