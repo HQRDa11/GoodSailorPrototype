@@ -133,8 +133,7 @@ public class Island_Factory
             {
                 if (clip.GetComponent<IClipPoint>().isFree == true)
                 {
-                    GameObject newDock = new GameObject("dock" + m_idDistrib) ;
-                    newDock = GameObject.Instantiate(m_dock, module.gameObject.transform, true);
+                    GameObject newDock = GameObject.Instantiate(m_dock, module.gameObject.transform, true);
                     if (!newDock.gameObject.GetComponent<IslandModule>()) { newDock.gameObject.AddComponent<IslandModule>(); }
                     newDock.GetComponent<IslandModule>().isMainModule = true;
                     newDock.transform.position = clip.Try();
