@@ -230,6 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3900983068063393505}
   - component: {fileID: 3146429439048514827}
+  - component: {fileID: -3665371985126099243}
   m_Layer: 0
   m_Name: BaseA
   m_TagString: Untagged
@@ -266,3 +267,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96fbdb089855984aaa928aa7a3667ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 0
+  isMainModule: 0
+  LayerMask: 6
+--- !u!135 &-3665371985126099243
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445653853162199116}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.42976332
+  m_Center: {x: 0, y: -0.07023668, z: 0}
