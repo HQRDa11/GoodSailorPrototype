@@ -49,7 +49,7 @@ public class Logic : MonoBehaviour
 
 
         Island_Factory island_Factory = new Island_Factory();
-        GameObject newIsland = island_Factory.CreateIsland(Random.Range(30, 50)) ;
+        GameObject newIsland = island_Factory.CreateIsland(Random.Range(3,5)) ;
         newIsland.transform.position += Vector3.forward * 120;
 
     }
