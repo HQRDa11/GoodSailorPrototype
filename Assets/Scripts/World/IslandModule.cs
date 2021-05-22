@@ -59,7 +59,7 @@ public class IslandModule : MonoBehaviour
 
     public Collider GetCollider()
     {
-        return gameObject.GetComponentInChildren<Collider>();
+        return gameObject.GetComponent<Collider>();
     }
 
     public Vector3 CreateClip()
@@ -103,4 +103,11 @@ public class IslandModule : MonoBehaviour
             clip.isFree = true;
         }
     }
+
+
+    public IClipPoint[] ClipPoints()
+    {
+        return gameObject.GetComponentsInChildren<IClipPoint>();
+    }
+
 }
