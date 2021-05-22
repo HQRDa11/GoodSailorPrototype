@@ -10,6 +10,7 @@ TagManager:
   - TriggerMaxSpeed
   - Obstacle
   - IslandEntry
+  - SpeedBuffer
   layers:
   - Default
   - TransparentFX

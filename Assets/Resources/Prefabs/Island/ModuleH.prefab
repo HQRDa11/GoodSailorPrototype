@@ -227,6 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8518654097755717174}
   - component: {fileID: 4907055093842898827}
+  - component: {fileID: 9046936417016140568}
   m_Layer: 6
   m_Name: ModuleH
   m_TagString: Untagged
@@ -262,4 +263,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: 0
+  isMainModule: 0
   LayerMask: 6
+--- !u!65 &9046936417016140568
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8392244330951957882}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5352824, y: 0.946471, z: 0.5352824}
+  m_Center: {x: -0.008208394, y: 0.20559411, z: 0}

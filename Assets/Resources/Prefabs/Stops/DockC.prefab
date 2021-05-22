@@ -904,6 +904,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9097310433776939591}
   - component: {fileID: 5876084515963098448}
+  - component: {fileID: 4618526095527670732}
   m_Layer: 0
   m_Name: DockC
   m_TagString: Untagged
@@ -940,6 +941,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c083b99e00796ad4e85061b877be9aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &4618526095527670732
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3072725531744577736}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 32.720016, y: 10.304665, z: 32.60517}
+  m_Center: {x: -4.0539837, y: 0, z: -9.799709}
 --- !u!1 &3501946396601900681
 GameObject:
   m_ObjectHideFlags: 0

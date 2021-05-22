@@ -679,6 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2088373557518464170}
   - component: {fileID: 3032072523788059995}
+  - component: {fileID: -62607394559722520}
   m_Layer: 0
   m_Name: ModuleF
   m_TagString: Untagged
@@ -714,3 +715,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96fbdb089855984aaa928aa7a3667ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Level: 0
+  isMainModule: 0
+  LayerMask: 6
+--- !u!65 &-62607394559722520
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6860880859369806822}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

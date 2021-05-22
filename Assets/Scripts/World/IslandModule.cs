@@ -96,4 +96,11 @@ public class IslandModule : MonoBehaviour
                 }
         }
     }
+    public void SetClips(bool value)
+    {
+        foreach(IClipPoint clip in gameObject.GetComponentsInChildren<IClipPoint>())
+        {
+            clip.isFree = true;
+        }
+    }
 }
