@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    for (int i = 0; i<8; i++)
+                    for (int i = 0; i<5; i++)
                     {
                         if (!islandTarget) { Debug.LogError("no island here2"); };
                         testFactory.LevelUp(islandTarget);
