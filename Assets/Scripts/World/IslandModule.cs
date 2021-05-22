@@ -56,21 +56,21 @@ public class IslandModule : MonoBehaviour
             { case true: GameObject.Destroy(clipPoints[i]); break; }
         }
     }
-    public IClipPoint ClipPoint()
-    {
-        return gameObject.GetComponentInChildren<IClipPoint>();
-    }
-    public IClipPoint[] ClipPoints()
-    {
-        return gameObject.GetComponentsInChildren<IClipPoint>();
-    }
-    public Collider[] GetAllColliders()
-    {
-        return gameObject.GetComponentsInChildren<Collider>();
-    }
+
     public Collider GetCollider()
     {
         return gameObject.GetComponentInChildren<Collider>();
+    }
+
+    public Vector3 CreateClip()
+    {
+        int random = Random.Range(1, 9);
+        GameObject clip = new GameObject("Clip", typeof(IClipPoint));
+        clip.transform.parent = this.gameObject.transform;
+        clip.transform.position = this.gameObject.transform.position +
+                   Vector3.back * this.gameObject.transform.localScale.z / 2;
+        clip.transform.RotateAround(this.gameObject.transform.position, Vector3.up, 45*random);
+        return clip.transform.position;
     }
 
     public Island GetIsland()
