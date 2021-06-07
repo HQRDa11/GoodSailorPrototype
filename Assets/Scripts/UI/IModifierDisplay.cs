@@ -17,6 +17,5 @@ public class IModifierDisplay : MonoBehaviour
         if (lifeTime < 0) { GameObject.Destroy(this.gameObject); return; }
         lifeTime -= Time.deltaTime;
         this.gameObject.transform.position += Vector3.up* Mathf.Lerp(3,1,lifeTime) /3;
-
     }
 }
